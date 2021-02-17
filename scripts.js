@@ -39,7 +39,7 @@ function authenticateLogin(validate){
         window.location.href = "admin_index.html";
     }
     
-    else{  //throws error if there is an invalid 
+    if(validate > 3){  //throws error if there is an invalid 
         document.getElementById("authenticationErrors").innerHTML = "Invalid Authorization Code: " + validate;
     }
 }
