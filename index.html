@@ -9,23 +9,53 @@
         <p id="cred">Please enter your credentials:</p>
         <form>
             <fieldset>
-                <input type="text"><br>
-                <input type="password"><br> 
+                <label for="username">Username:</label>
+                <input type="text" id="username"><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password"><br> 
             </fieldset>
         </form>
         <button onclick="authenticateLogin(0)">Login as Provider</button>
         <button onclick="authenticateLogin(1)">Login as Patient</button>
-        <p id="validate"></p>
-        <p id="1"></p>
+        <button onclick="authenticateLogin(2)">Login as Admin</button>
+        <p id="authenticationErrors"></p>
         <script>
+            var providerUsername = "Username";
+            var providerPassword = "password";  //Feel free to change username/password
+            var patientUsername = "Username";   //for each user at will
+            var patientPassword = "password";
             function authenticateLogin(validate){
-                document.getElementById("validate").innerHTML = "Sucessful Login!";
-                var i = Math.random()*10;
-                if(i>5){
-                    window.location.href = "patient/patient_lander.html";
+                var username, password;
+                username = document.getElementById("username").value;
+                password = document.getElementById("password").value;
+                if(validate == 0){ //validation for provider credentials
+                    if(username == providerUsername){
+                        if(password == providerPassword){
+                            window.location.href = "patient/patient_lander.html";
+                        }
+                        else{
+                            document.getElementById("authenticationErrors").innerHTML = "password is incorrect";
+                        }
+                    }
+                    else{
+                        document.getElementById("authenticationErrors").innerHTML = "Username is incorrect";
+                    }
                 }
-                if(i<6){
-                    window.location.href = "provider/provider_lander.html";
+                if(validate == 1){ //validation for patient credentials
+                    if(username == patientUsername){
+                        if(password == patientPassword){
+                            window.location.href = "patient/patient_lander.html";
+                        }
+                        else{
+                            document.getElementById("authenticationErrors").innerHTML = "password is incorrect";
+                        }
+                    }
+                    else{
+                        document.getElementById("authenticationErrors").innerHTML = "Username is incorrect";
+                    }
+                }
+                else{
+                    document.getElementById("authenticationErrors").innerHTML = "Invalid Authentication";
                 }
             }
         </script>
