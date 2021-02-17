@@ -15,9 +15,9 @@
                 <input type="password" id="password"><br> 
             </fieldset>
         </form>
-        <button onclick="authenticateLogin(0)">Login as Provider</button>
-        <button onclick="authenticateLogin(1)">Login as Patient</button>
-        <button onclick="authenticateLogin(2)">Login as Admin</button>
+        <button onclick="authenticateLogin(1)">Login as Provider</button>
+        <button onclick="authenticateLogin(2)">Login as Patient</button>
+        <button onclick="authenticateLogin(3)">Login as Admin</button>
         <p id="authenticationErrors"></p>
         <script>
             var providerUsername = "Username";
@@ -28,7 +28,7 @@
                 var username, password;
                 username = document.getElementById("username").value;
                 password = document.getElementById("password").value;
-                if(validate == 0){ //validation for provider credentials
+                if(validate == 1){ //validation for provider credentials
                     if(username == providerUsername){
                         if(password == providerPassword){
                             window.location.href = "provider/provider_lander.html";
@@ -41,7 +41,7 @@
                         document.getElementById("authenticationErrors").innerHTML = "Username is incorrect";
                     }
                 }
-                if(validate == 1){ //validation for patient credentials
+                if(validate == 2){ //validation for patient credentials
                     if(username == patientUsername){
                         if(password == patientPassword){
                             window.location.href = "patient/patient_lander.html";
@@ -54,7 +54,7 @@
                         document.getElementById("authenticationErrors").innerHTML = "Username is incorrect";
                     }
                 }
-                else{
+                if(validate == 3){
                     document.getElementById("authenticationErrors").innerHTML = "Invalid Authentication";
                 }
             }
