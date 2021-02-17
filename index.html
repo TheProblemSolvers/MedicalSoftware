@@ -6,8 +6,20 @@
     </head>
     <body>
         <h1>Welcome!</h1>
-        <p>Select user type below:</p>
-        <button onclick="document.location='C:\Development\MedicalSoftware\patient\patient_login.html'">Patient</button>
-        <button onclick="document.location='C:\Development\MedicalSoftware\provider\provider_login.html'">Provider</button>
+        <p id="cred">Please enter your credentials:</p>
+        <form>
+            <fieldset>
+                <input type="text"><br>
+                <input type="password"><br> 
+            </fieldset>
+        </form>
+        <button onclick="authenticateLogin()">Login as Provider</button>
+        <button onclick="authenticateLogin()">Login as Patient</button>
+        <p id="validate"></p>
+        <script>
+            function authenticateLogin(){
+                document.getElementById("validate").innerHTML = "Sucessful Login!";
+            }
+        </script>
     </body>
 </html>
