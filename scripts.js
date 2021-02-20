@@ -75,7 +75,3 @@ function displayPatientRecord(){
     txt = txt + "</tr>"
     document.getElementById("patientDatabase").innerHTML = txt;
 }
-
-function displayError(errorCode){
-    
-}
