@@ -7,7 +7,7 @@
     <body>
         <h1>Welcome, New User!</h1>
         <p>Make a new account below:</p>
-        <form>
+        <form> <!--Collects user data, can be accessed later on using php/Java script-->
             <label for="firstName">First Name</label>
             <input type="text" id="firstName"><br>
             <label for="lastName">Last Name</label>
@@ -18,7 +18,8 @@
             <input type="password" id="newPassword"><br>
             <label for="newPassword2">Re-enter Password:</label>
             <input type="password" id="newPassword2"><br>
-            <button onclick="//insert javascript function here">Create New User</button>
         </form>
+        <button onclick="location.href='../index.html'">Create New User</button> <!--sends user back to login screen, 
+            eventually will collect user data as well-->
     </body>
 </html>

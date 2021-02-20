@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Medical Software</title>
+        <style>
+            th, td{
+                border:1px black;
+            }
+        </style>
+        <script src="../scripts.js"></script>
+    </head>
+    <body onload="displayPatientRecord()">
+        <h1>Patient Records</h1>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Sex</th>
+                <th>Age</th>
+                <th>Height</th>
+                <th>Weight</th>
+            </tr>
+            <div id="patientDatabase"></div> <!--JavaScript fills this division w patient data-->
+        </table>
+        <button onclick="document.location='provider_lander.html'">Back to Lander</button>
+    </body>
+</html>
