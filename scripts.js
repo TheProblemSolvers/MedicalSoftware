@@ -7,19 +7,8 @@ function authenticateLogin(validate){
     username = document.getElementById("username").value;
     password = document.getElementById("password").value;
 
-    if(validate == 1){ //validation for provider credentials
-        if(username == providerUsername){
-            if(password == providerPassword){ //if credentials match, go to linked page
-                window.location.href = "provider/provider_lander.html";
-            }
-            else{ //displays error message if password is incorrect
-                document.getElementById("authenticationErrors").innerHTML = "password is incorrect";
-            }
-        }
-        else{  //displays error message if username is incorrect
-            document.getElementById("authenticationErrors").innerHTML = "Username is incorrect";
-        }
-    }
+    validate == 1 ? username == providerUsername && password == providerPassword ? 
+    window.location.href = "provider/provider_lander.html" : document.getElementById("authenticationErrors").innerHTML = "Username or password is incorrect." : window.location.href = "provider/provider_lander.html"
 
     if(validate == 2){ //validation for patient credentials
         if(username == patientUsername){
