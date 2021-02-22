@@ -7,17 +7,17 @@ function authenticateLogin(validate){
     username = document.getElementById("username").value;
     password = document.getElementById("password").value;
 
-    validate == 1 ? 
+    validate == 1 ? //provider login parsing code
         username == providerUsername && password == providerPassword ? 
             window.location.href = "provider/provider_lander.html" : 
                 document.getElementById("authenticationErrors").innerHTML = "Username or password is incorrect." : 
 
-    validate == 2 ?
-        username == providerUsername && password == providerPassword ? 
+    validate == 2 ? //patient login parsing code
+        username == patientUsername && password == patientPassword ? 
             window.location.href = "provider/provider_lander.html" : 
                 document.getElementById("authenticationErrors").innerHTML = "Username or password is incorrect." :
 
-    validate == 3 ?
+    validate == 3 ? //admin login code
             window.location.href = "provider/provider_lander.html" :
 
     document.getElementById("authenticationErrors").innerHTML = "Invalid Authorization Code: " + validate;
