@@ -7,30 +7,21 @@ function authenticateLogin(validate){
     username = document.getElementById("username").value;
     password = document.getElementById("password").value;
 
-    validate == 1 ? username == providerUsername && password == providerPassword ? 
-    window.location.href = "provider/provider_lander.html" : document.getElementById("authenticationErrors").innerHTML = "Username or password is incorrect." : window.location.href = "provider/provider_lander.html"
+    validate == 1 ? 
+        username == providerUsername && password == providerPassword ? 
+            window.location.href = "provider/provider_lander.html" : 
+                document.getElementById("authenticationErrors").innerHTML = "Username or password is incorrect." : 
 
-    if(validate == 2){ //validation for patient credentials
-        if(username == patientUsername){
-            if(password == patientPassword){ //if credentials match, go to linked page
-                window.location.href = "patient/patient_lander.html";
-            }
-            else{ //displays error message if password is incorrect
-                document.getElementById("authenticationErrors").innerHTML = "password is incorrect";
-            }
-        }
-        else{ //displays error message if username is incorrect
-            document.getElementById("authenticationErrors").innerHTML = "Username is incorrect";
-        }
-    }
+    validate == 2 ?
+        username == providerUsername && password == providerPassword ? 
+            window.location.href = "provider/provider_lander.html" : 
+                document.getElementById("authenticationErrors").innerHTML = "Username or password is incorrect." :
 
-    if(validate == 3){  //jumps to admin index to allow for easy debugging, avoids password jawns
-        window.location.href = "admin_index.html";
-    }
-    
-    if(validate > 3){  //throws error if there is an invalid 
-        document.getElementById("authenticationErrors").innerHTML = "Invalid Authorization Code: " + validate;
-    }
+    validate == 3 ?
+            window.location.href = "provider/provider_lander.html" :
+
+    document.getElementById("authenticationErrors").innerHTML = "Invalid Authorization Code: " + validate;
+
 }
 
 //incomplete function, once Mike learns php he will complete this function and it will replace above authenticateLogin function
