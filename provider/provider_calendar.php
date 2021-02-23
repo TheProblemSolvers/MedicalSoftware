@@ -45,7 +45,7 @@
             <tbody>
                 <tr>
                     <td>
-                        <a href="../index.html">31</a>
+                        <a href="../index.php">31</a>
                         <br>
                         <ul>
                             <li>

@@ -19,7 +19,7 @@
             <label for="newPassword2">Re-enter Password:</label>
             <input type="password" id="newPassword2"><br>
         </form>
-        <button onclick="location.href='../index.html'">Create New User</button> <!--sends user back to login screen, 
+        <button onclick="location.href='../index.php'">Create New User</button> <!--sends user back to login screen, 
             eventually will collect user data as well-->
     </body>
 </html>

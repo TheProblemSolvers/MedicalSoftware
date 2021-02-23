@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
     <!-- Home Page button -->
-    <a href="../index.html">
+    <a href="../index.php">
         <button>Home Page</button>
     </a>
     <!-- Home Page button -->
@@ -38,7 +38,7 @@
         <tbody>
             <tr>
                 <!-- gotta replace all the onclick events with the proper directory links (they're just placeholders) -->
-                <td><a href="provider_calendar.html">Calendar</a></td>
+                <td><a href="provider_calendar.php">Calendar</a></td>
                 <td><a onclick="alert('This feature does not yet exist.')" href="#">Log</a></td>
             </tr>
             <tr>

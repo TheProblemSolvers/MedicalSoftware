@@ -59,10 +59,10 @@
 									<br>
 										<ul>
 						<p>
-								<a href="Patient_Status.html">Ready</a>
+								<a href="Patient_Status.php">Ready</a>
                              </p>
 						<p>
-						    								<a href="Patient_Status.html"> Not Ready</a>
+						    								<a href="Patient_Status.php"> Not Ready</a>
                             </p>
 										</ul>
 									</tbody>

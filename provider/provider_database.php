@@ -6,7 +6,7 @@
         <script src="../scripts.js"></script>
     </head>
     <body onload="displayPatientRecord(1)">
-        <button onclick="document.location='provider_lander.html'">Back to Lander</button>
+        <button onclick="document.location='provider_lander.php'">Back to Lander</button>
         <style>
         table, th, td {
             border: 1px solid black;
