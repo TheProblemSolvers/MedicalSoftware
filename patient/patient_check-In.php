@@ -58,7 +58,6 @@
 					<td>
 						<br>
 						<p>
-<<<<<<< HEAD:patient/patient_check-In.php
 								<a href="Patient_Status.php">Ready</a>
                              </p>
 						<p>
@@ -70,15 +69,3 @@
 						
 							</body>
 						</html>
-=======
-							<a href="Patient_Status.html">Ready</a>
-                        </p>
-
-						<p>
-						    <a href="Patient_Status.html"> Not Ready</a>
-                        </p>
-			</tbody>
-		</table>
-	</body>
-</html>
->>>>>>> 9f06d4929469c57a0b0348d5f947321a293eb8a9:patient/patient_check-In.html
