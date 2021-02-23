@@ -46,7 +46,7 @@
                 <td><a onclick="alert('This feature does not yet exist.')" href="#">Schedule App.</a></td>
             </tr>
             <tr>
-                <td><a href="provider_database.html">Database</a></td>
+                <td><a href="provider_database.php">Database</a></td>
                 <td><a onclick="alert('This feature does not yet exist.')" href="#">Options</a></td>
             </tr>
         </tbody>
