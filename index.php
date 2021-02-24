@@ -7,7 +7,7 @@
         <link rel="stylesheet" type="text/css" href="stylesheet.css"> 
     </head>
     <body>
-        <h1>Welcome!</h1>
+        <h1>HI!</h1>
         <p>Please enter your credentials:</p>
         <form>
                 <label for="username">Username:</label>
@@ -20,5 +20,12 @@
         <button onclick="authenticateLogin(3)">Login as Admin</button><br><br>
         <button onclick="location.href = 'new_user/new_user.php'">New User?</button>
         <p id="authenticationErrors"></p>
+        <table>
+            <tbody>
+                <tr>
+                    <td>Test 1</td>
+                </tr>
+            <tbody>
+        </table>
     </body>
 </html>
