@@ -9,16 +9,16 @@ function authenticateLogin(validate){
 
     validate == 1 ? //provider login parsing code
         username == providerUsername && password == providerPassword ? 
-            window.location.href = "provider/provider_lander.php" : 
+            window.location.href = "provider/provider_lander.html" : 
                 document.getElementById("authenticationErrors").innerHTML = "Credentials are chungus" : 
 
     validate == 2 ? //patient login parsing code
         username == patientUsername && password == patientPassword ? 
-            window.location.href = "provider/provider_lander.php" : 
+            window.location.href = "provider/provider_lander.html" : 
                 document.getElementById("authenticationErrors").innerHTML = "Credentials are chungus" :
 
     validate == 3 ? //admin login code
-            window.location.href = "provider/provider_lander.php" :
+            window.location.href = "provider/provider_lander.html" :
 
     document.getElementById("authenticationErrors").innerHTML = "Invalid Authorization Code: " + validate;
 
