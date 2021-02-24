@@ -18,7 +18,7 @@ function authenticateLogin(validate){
                 document.getElementById("authenticationErrors").innerHTML = "Credentials are chungus" :
 
     validate == 3 ? //admin login code
-            window.location.href = "provider/provider_lander.html" :
+            window.location.href = "admin_index.html" :
 
     document.getElementById("authenticationErrors").innerHTML = "Invalid Authorization Code: " + validate;
 
