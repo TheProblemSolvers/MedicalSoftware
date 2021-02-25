@@ -17,6 +17,8 @@ function validateCredentials($inputUsername, $inputPassword){
             $databaseCredentials = fgets($fileLocation);
         }
     }
+    #close the file
+    fclose($fileLocation);
     #if no match is found in the patient_credentials, then move on to provider_credentials
     $fileLocation = fopen('credentials/provider_credentials.txt', 'r');
     while(!feof($fileLocation)){
@@ -30,6 +32,8 @@ function validateCredentials($inputUsername, $inputPassword){
             $databaseCredentials = fgets($fileLocation);
         }
     }
+    #close the file
+    fclose($fileLocation);
     #if no match is found, return an error message
     return "Username/password incorrect"; 
 }
