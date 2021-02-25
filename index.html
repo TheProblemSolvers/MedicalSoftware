@@ -9,19 +9,30 @@
     <body>
         <h1>Welcome!</h1>
         <p>Please enter your credentials:</p>
-        <?php
-            require("testphp.php");
-        ?>
-        <form>
+        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
                 <label for="username">Username:</label>
-                <input type="text" id="username"><br>
+                <input type="text" id="username" name="username"><br>
                 <label for="password">Password:</label>
-                <input type="password" id="password"><br><br>
+                <input type="password" id="password" name="password"><br><br>
+                <input type="submit">
         </form>
-        <button onclick="authenticateLogin(1)">Login as Provider</button>
-        <button onclick="authenticateLogin(2)">Login as Patient</button>
-        <button onclick="authenticateLogin(3)">Login as Admin</button><br><br>
+        <button onclick="window.location.href = 'admin_index.html'">Login as Admin</button><br><br>
         <button onclick="location.href = 'new_user/new_user.html'">New User?</button>
         <p id="authenticationErrors"></p>
+        <?php
+        require("credentials/credentials.php"); 
+        if ($_SERVER["REQUEST_METHOD"] == "POST"){            
+            $authorization = validateCredentials($_POST['username'], $_POST['password']);
+            if($authorization == 1){
+                header("Location: patient/patient_lander.html");
+            }
+            elseif($authorization == 2){
+                header("Location: provider/provider_lander.html");
+            }
+            else{
+                echo "Username or password is incorrect.";
+            }
+        }
+        ?>
     </body>
 </html>
