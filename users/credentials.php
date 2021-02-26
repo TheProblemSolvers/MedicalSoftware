@@ -38,3 +38,17 @@ function validateCredentials($inputUsername, $inputPassword){
     #let caller know there was no credentials match
     return false;
 }
+
+#adds new users to credentials.txt file, with respective user id and type
+function addCredentials($newUsername, $newPassword, $newUserType){
+    #convert form data to formatted strings to write to credentials.txt
+    $newCredentials = $newUsername . $GLOBALS['seperator'] . $newPassword . "\n";
+    $newUserType = $newUserType . "\n";
+    #opens the file and writes credentials, user type, and user id
+    $fileLocation = fopen('credentials.txt', 'a');
+    fwrite($fileLocation, $newCredentials);
+    fwrite($fileLocation, $newUserType);
+    
+    fclose($fileLocation);
+    return false;
+}

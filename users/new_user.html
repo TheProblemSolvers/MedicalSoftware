@@ -10,24 +10,32 @@
     <body>
         <h1>Welcome, New User!</h1>
         <p>Make a new account below:</p>
-        <form> <!--Collects user data, can be accessed later on using php/Java script-->
+        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
             <label for="firstName">First Name</label>
             <input type="text" id="firstName"><br>
             <label for="lastName">Last Name</label>
             <input type="text" id="lastName"><br>
             <label for="newUsername">Username:</label>
-            <input type="text" id="newUsername"><br>
+            <input type="text" name = "newUsername" id="newUsername"><br>
             <label for="newPassword">Password:</label>
-            <input type="password" id="newPassword"><br>
-            <label for="newPassword2">Re-enter Password:</label>
-            <input type="password" id="newPassword2"><br>
-            <label for="userType">Provider</label>
-            <input type="radio" id="userType1" name="provider">
-            <label for="userType">Patient</label>
-            <input type="radio" id="userType2" name="patient">            
+            <input type="password" name = "newPassword" id="newPassword"><br>
+            <input type="radio" id="provider" name="userType" value="provider">
+            <label for="provider">Provider</label><br>
+            <input type="radio" id="patient" name="userType" value="patient">
+            <label for="patient">Patient</label><br>            
+            <input type="submit" value="Create New User">
+            <?php
+            require("credentials.php");
+            if ($_SERVER["REQUEST_METHOD"] == "POST"){
+                $error = addCredentials($_POST['newUsername'], $_POST['newPassword'], $_POST['userType']);
+                if($error == false){
+                    header("Location: ../index.html");
+                }
+                else{
+                    echo "An error has occured";
+                }
+            }
+            ?>            
         </form>
-        <button onclick="window.location.href='../index.html'">Create New User</button>
-        <!--sends user back to login screen, 
-            eventually will collect user data as well-->
     </body>
 </html>
