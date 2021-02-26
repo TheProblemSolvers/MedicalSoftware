@@ -28,8 +28,8 @@
        
             $authorization = validateCredentials($_POST['username'], $_POST['password']);
             switch($authorization){
-                case a: header("Location: patient/patient_lander.html"); break;
-                case b: header("Location: provider/provider_lander.html"); break;
+                case 'a': header("Location: patient/patient_lander.html"); break;
+                case 'b': header("Location: provider/provider_lander.html"); break;
                 default: echo "Username or password is incorrect.";
             }
         }
