@@ -3,7 +3,7 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Medical Software</title>
-        <link rel="stylesheet" type="text/css" href="stylesheet.css"> 
+        <link rel="stylesheet" type="text/css" href="../stylesheet.css"> 
         <script src="../scripts.js"></script>
         
     </head>
@@ -21,6 +21,10 @@
             <input type="password" id="newPassword"><br>
             <label for="newPassword2">Re-enter Password:</label>
             <input type="password" id="newPassword2"><br>
+            <label for="userType">Provider</label>
+            <input type="radio" id="userType1" name="provider">
+            <label for="userType">Patient</label>
+            <input type="radio" id="userType2" name="patient">            
         </form>
         <button onclick="window.location.href='../index.html'">Create New User</button>
         <!--sends user back to login screen, 

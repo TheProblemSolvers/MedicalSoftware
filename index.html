@@ -17,20 +17,20 @@
                 <input type="submit" value="Login">
         </form>
         <button onclick="window.location.href = 'admin_index.html'">Login as Admin</button>
-        <button onclick="location.href = 'new_user/new_user.html'">New User?</button>
+        <button onclick="location.href = 'users/new_user.html'">New User?</button>
         <p id="authenticationErrors"></p>
         <?php
-        require("credentials/credentials.php"); 
-        if ($_SERVER["REQUEST_METHOD"] == "POST"){            
+        require("users/credentials.php"); 
+        if ($_SERVER["REQUEST_METHOD"] == "POST"){
+
+            //echo testFileRead();
+            //echo convertInputCredentials($_POST['username'], $_POST['password']);
+       
             $authorization = validateCredentials($_POST['username'], $_POST['password']);
-            if($authorization == 1){
-                header("Location: patient/patient_lander.html");
-            }
-            elseif($authorization == 2){
-                header("Location: provider/provider_lander.html");
-            }
-            else{
-                echo "Username or password is incorrect.";
+            switch($authorization){
+                case a: header("Location: patient/patient_lander.html"); break;
+                case b: header("Location: provider/provider_lander.html"); break;
+                default: echo "Username or password is incorrect.";
             }
         }
         ?>
