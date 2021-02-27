@@ -21,11 +21,7 @@
         <p id="authenticationErrors"></p>
         <?php
         require("users/credentials.php"); 
-        if ($_SERVER["REQUEST_METHOD"] == "POST"){
-
-            //echo testFileRead();
-            //echo convertInputCredentials($_POST['username'], $_POST['password']);
-       
+        if ($_SERVER["REQUEST_METHOD"] == "POST"){    
             $authorization = validateCredentials($_POST['username'], $_POST['password']);
             switch($authorization){
                 case 'patient': header("Location: patient/patient_lander.html"); break;

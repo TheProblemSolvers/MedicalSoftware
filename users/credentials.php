@@ -62,6 +62,7 @@ function addCredentials($newUsername, $newPassword, $newUserType){
 
 #functions below were used for testing and troubleshooting purposes
 
+/*
 #takes users inputted credentials, combines it into string, and returns to caller
 function convertInputCredentials($inputUsername, $inputPassword){
     $userCredentials = $inputUsername . $GLOBALS['seperator'] . $inputPassword;
@@ -108,4 +109,4 @@ function testUserId(){
     #creates new user id by adding 1 to preceding id, and adding linebreak
     $newUserId = strval(intval($contents) + 1) . "\n";
     return $newUserId;
-}
+}*/
