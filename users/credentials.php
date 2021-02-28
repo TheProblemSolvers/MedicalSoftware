@@ -15,7 +15,7 @@ function validateCredentials($inputUsername, $inputPassword){
             #if there is a match, send user to correct side of software
             $userType = trim(fgets($fileLocation));
             #set a cookie with the users unique id
-            setcookie("cookie", trim(fgets($fileLocation)));
+            setcookie("userId", trim(fgets($fileLocation)));
             #close the file
             fclose($fileLocation);
             return $userType;
@@ -72,6 +72,13 @@ function addCredentials($firstName, $lastName, $newUsername, $newPassword, $newU
     fclose($fileLocation);
 
     return false;
+}
+
+function userFullName($userId){
+    $fileHandle = fopen("../users\user_data\#" . trim(strval($userId)) . ".txt", 'r');
+    $userFullName = trim(fgets($fileHandle));
+    fclose($fileHandle);
+    return $userFullName;
 }
 
 

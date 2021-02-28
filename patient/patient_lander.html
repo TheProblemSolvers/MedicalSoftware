@@ -1,39 +1,21 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <!-- Home Page button -->
-    <a href="../index.html">
-        <button>Home Page</button>
-    </a>
-    <!-- Home Page button -->
-
-    <br>
-    <br>
-
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Medical Software</title>
     </head>
     <body>
-        <h1>Welcome, patient!</h1>
+        <button onclick="document.location='../../index.html'">Home Page</button>
+        <h1><?php require("../users\credentials.php"); echo "Welcome, " . userFullName($_COOKIE['userId']) . "!";?></h1>
         <p>Get started:</p>
     </body>
-
     <table>
-
-        <!-- css code -->
-        <style>
-        table, td {
-            border: 1px solid black;
-          }
-        </style>
-        <!-- css code -->
-
+        <style>table, td {border: 1px solid black;}</style>
         <thead>
             <tr>
                 <th colspan="2" scope="row">Directories</th>
             </tr>
         </thead>
-
         <tbody>
             <tr>
                 <!-- gotta replace all the ../index.html with the proper directory links (they're just placeholders) -->
@@ -49,7 +31,5 @@
                 <td><a onclick="alert('This feature does not yet exist.')" href="#">Options</a></td>
             </tr>
         </tbody>
-
     </table>
-
 </html>

@@ -7,6 +7,7 @@
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
     </head>
     <body>
+        <?php setcookie("userId", "", time() - 3600);?>
         <h1>Welcome!</h1>
         <p>Please enter your credentials:</p>
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" style="display: inline;">
