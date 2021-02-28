@@ -13,7 +13,12 @@ function validateCredentials($inputUsername, $inputPassword){
         $databaseCredentials = fgets($fileLocation);
         if($userCredentials == trim($databaseCredentials)){
             #if there is a match, send user to correct side of software
-            return trim(fgets($fileLocation));
+            $userType = trim(fgets($fileLocation));
+            #set a cookie with the users unique id
+            setcookie("cookie", trim(fgets($fileLocation)));
+            #close the file
+            fclose($fileLocation);
+            return $userType;
         }
     }
     #close the file
@@ -23,7 +28,7 @@ function validateCredentials($inputUsername, $inputPassword){
 }
 
 #adds new users to credentials.txt file, with respective user id and type
-function addCredentials($newUsername, $newPassword, $newUserType){
+function addCredentials($firstName, $lastName, $newUsername, $newPassword, $newUserType){
     #convert form data to formatted strings to write to credentials.txt
     $newCredentials = $newUsername . $GLOBALS['seperator'] . $newPassword . "\n";
     $newUserType = $newUserType . "\n";
@@ -55,14 +60,34 @@ function addCredentials($newUsername, $newPassword, $newUserType){
     fwrite($fileLocation, $newCredentials);
     fwrite($fileLocation, $newUserType);
     fwrite($fileLocation, $newUserId);
-    #closes the file and returns validation
+    #closes the credentials file
     fclose($fileLocation);
+
+    #creates a unique text file for the users data to be stored and accessed over time
+    $newUserId = trim($newUserId);
+    $fileName = "user_data\#" . $newUserId . ".txt";
+    $fileLocation = fopen($fileName, "w");
+    fwrite($fileLocation, $firstName . " " . $lastName . "\n");
+    fwrite($fileLocation, $newUserType);
+    fclose($fileLocation);
+
     return false;
 }
+
 
 #functions below were used for testing and troubleshooting purposes
 
 /*
+
+function testCreateUserData(){
+    $userId = 5;
+    $endLine = "\n";
+    $fileName = "users\user_data\#" . $newUserId . ".txt";
+    $fileLocation = fopen($fileName, "w");
+    fwrite($fileLocation, "Michael" . "Bonaventura" . $endLine);
+    fclose($fileLocation);
+}
+
 #takes users inputted credentials, combines it into string, and returns to caller
 function convertInputCredentials($inputUsername, $inputPassword){
     $userCredentials = $inputUsername . $GLOBALS['seperator'] . $inputPassword;
