@@ -74,6 +74,7 @@ function addCredentials($firstName, $lastName, $newUsername, $newPassword, $newU
     return false;
 }
 
+#accesses the requested user data file and returns the users full name
 function userFullName($userId){
     $fileHandle = fopen("../users\user_data\#" . trim(strval($userId)) . ".txt", 'r');
     $userFullName = trim(fgets($fileHandle));
