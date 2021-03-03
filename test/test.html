@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Testing</title>
+    </head>
+    <body>
+        <h1>Click the button to test!</h1>
+        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+            <input type="text" name="test" value="">
+            <input type="text" name="test2" value="">
+            <input type="submit" value="Test"><br><br>
+        </form>
+        <?php require("test.php");
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            if(testFunction($_POST["test"]) == false ){
+                echo "Failed!";
+            }
+            else{
+                echo "Passed!";
+            }
+        }
+        
+        ?>
+    </body>
+</html>
