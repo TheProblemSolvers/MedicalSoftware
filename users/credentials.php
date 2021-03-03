@@ -3,6 +3,14 @@
 #character to seperate username/password
 $seperator = "*";
 
+#accesses the requested user data file and returns the users full name
+function userFullName($userId){
+    $fileHandle = fopen("../users\user_data\#" . trim(strval($userId)) . ".txt", 'r');
+    $userFullName = trim(fgets($fileHandle));
+    fclose($fileHandle);
+    return $userFullName;
+}
+
 #compares users credentils to credential combinations in database
 function validateCredentials($inputUsername, $inputPassword){
     #takes user's inputted credentials and makes a single string
@@ -73,15 +81,6 @@ function addCredentials($firstName, $lastName, $newUsername, $newPassword, $newU
 
     return false;
 }
-
-#accesses the requested user data file and returns the users full name
-function userFullName($userId){
-    $fileHandle = fopen("../users\user_data\#" . trim(strval($userId)) . ".txt", 'r');
-    $userFullName = trim(fgets($fileHandle));
-    fclose($fileHandle);
-    return $userFullName;
-}
-
 
 #functions below were used for testing and troubleshooting purposes
 

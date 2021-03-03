@@ -6,16 +6,28 @@
         <script src="../scripts.js"></script>
     </head>
     <body onload="displayPatientRecord(1)">
-        <button onclick="document.location='provider_lander.html'">Back to Lander</button>
         <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-            padding: 5px;
-        }
-        </style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                padding: 5px;
+            }
+            </style>
+        <button onclick="document.location='provider_lander.html'">Back to Lander</button>
         <h1>Patient Records</h1>
-        <button onclick="document.location='provider_addNewPatient.html'">Add a new patient</button>
+        <button onclick="document.location='provider_addNewPatient.html'">Add a new patient</button><br><br>
+        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+            <label for="patientSearch">Search Database:</label>
+            <input type="text" id="patientSearch" name="patientSearch" required>
+            <input type="submit" value="Search">
+        </form>
+        <?php 
+        require("provider.php");
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            echo searchDatabase($_COOKIE["userId"], $_POST["patientSearch"]);
+            //echo testRegular();
+        }
+        ?><br>
         <table>
             <thead>
                 <tr>

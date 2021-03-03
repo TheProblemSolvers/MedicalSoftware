@@ -24,24 +24,6 @@ function authenticateLogin(validate){
 
 }
 
-//incomplete function, once Mike learns php he will complete this function and it will replace above authenticateLogin function
-function passwordProtection (validationCode){
-    //Validation code of 1 = provider, 2 = patient, 3 = admin
-    var username, password;
-    if(validationCode ==  1){
-        
-    }
-    if(validationCode == 2){
-
-    }
-    if(validationCode == 3){
-
-    }
-    if(validationCode > 3){
-
-    }
-}
-
 //collects stored patient data files and converts it to html data displayed by the provider_database.html table
 function displayPatientRecord(){
     var patient1 = ["John Doe", "Male", "46", "5'11&quot", "165"];

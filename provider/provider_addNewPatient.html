@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Medical Software</title>
+    </head>
+    <body>
+        <h1>New Patient</h1>
+        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+            <label for="newPatientFirstName">First Name</label>
+            <input type="text" id="newPatientFirstName" name="newPatientFirstName" required>
+            <label for="newPatientLastName">Last Name</label>
+            <input type="text" id="newPatientLasttName" name="newPatientLastName" required>
+            <label for="newPatientNotes">Patient Notes:</label>
+            <textarea id="newPatientNotes" name="newPatientNotes" value=""></textarea>
+            <input type="submit" value="Create new patient">
+        </form>
+        <?php
+        require("provider.php");
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
+            echo createNewPatient($_COOKIE['userId'], $_POST['newPatientFirstName'], $_POST['newPatientLastName'], $_POST['newPatientNotes']); 
+            header("Location: provider_database.html");
+        }
+        ?>
+    </body>
+</html>
