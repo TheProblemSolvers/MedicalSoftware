@@ -8,6 +8,7 @@
         
     </head>
     <body>
+        <button onclick="document.location='../index.html'">Home</button>
         <h1>Welcome, New User!</h1>
         <p>Make a new account below:</p>
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
@@ -27,12 +28,27 @@
             <?php
             require("credentials.php");
             if ($_SERVER["REQUEST_METHOD"] == "POST"){
-                $error = addCredentials($_POST['firstName'], $_POST['lastName'], $_POST['newUsername'], $_POST['newPassword'], $_POST['userType']);
-                if($error == false){
-                    header("Location: ../index.html");
+                if(checkLength($_POST['newUsername']) || checkLength($_POST['newPassword']) == true){
+                    echo " Username and password must be at least 6 characters long.";
                 }
                 else{
-                    echo "An error has occured";
+                    if(checkCharacters(trim($_POST['newUsername'])) == false || checkCharacters(trim($_POST['newPassword'])) == false){
+                        echo " Spaces are not allowed inside username or password.";
+                    }
+                    else{
+                        if(checkDuplicates('credentials.txt', $_POST['newUsername']) == true){
+                            echo " Username is already taken.";
+                        }
+                        else{
+                            $error = addCredentials($_POST['firstName'], $_POST['lastName'], $_POST['newUsername'], $_POST['newPassword'], $_POST['userType']);
+                            if($error == false){
+                                header("Location: ../index.html");
+                            }
+                            else{
+                                echo " An error has occured";
+                            }
+                        }
+                    }
                 }
             }
             ?>            

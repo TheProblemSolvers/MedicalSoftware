@@ -93,10 +93,10 @@ function createNewPatient($userId, $patientFirstName, $patientLastName, $patient
     #opens the users file for appending
     $fileHandle = fopen($fileName, "a+");
     #writes patient data to the file with correct labels
-    fwrite($fileHandle, "p" . $patientId . ".FirstName=" . $patientFirstName . "\n");
-    fwrite($fileHandle, "p" . $patientId . ".LastName=" . $patientLastName . "\n");
+    fwrite($fileHandle, "p" . $patientId . ".FirstName=" . trim($patientFirstName) . "\n");
+    fwrite($fileHandle, "p" . $patientId . ".LastName=" . trim($patientLastName) . "\n");
     if($patientNotes != ""){
-        fwrite($fileHandle, "p" . $patientId . ".Notes=" . $patientNotes . "\n");
+        fwrite($fileHandle, "p" . $patientId . ".Notes=" . trim($patientNotes, "") . "\n");
     }
     fclose($fileHandle);
 }

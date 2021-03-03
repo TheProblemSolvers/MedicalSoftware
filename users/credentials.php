@@ -3,6 +3,44 @@
 #character to seperate username/password
 $seperator = "*";
 
+#checks to make sure all characters in data are valid, 
+#returns false if invalid characters are present
+function checkCharacters($data){
+    if(preg_match("/\s/", $data) == 1){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+
+#checks a given file for a match in data, returns true if there is a match
+function checkDuplicates($fileLocation, $data){
+    $searchParameter = "/" . $data . "/i";
+    $fileHandle = fopen($fileLocation, "r");
+    $lineContents = fgets($fileHandle);
+    while(feof($fileHandle) == false){
+        if(preg_match($searchParameter, $lineContents) == 1){
+            fclose($fileHandle);
+            return true;
+        }
+        $lineContents = fgets($fileHandle);
+    }
+    fclose($fileHandle);
+    return false;
+}
+
+#checks the length of username and password, returns true if data is too short
+function checkLength($data){
+    $minimumLength = 6;
+    if(strlen($data) < $minimumLength){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
 #accesses the requested user data file and returns the users full name
 function userFullName($userId){
     $fileHandle = fopen("../users\user_data\#" . trim(strval($userId)) . ".txt", 'r');
@@ -38,7 +76,7 @@ function validateCredentials($inputUsername, $inputPassword){
 #adds new users to credentials.txt file, with respective user id and type
 function addCredentials($firstName, $lastName, $newUsername, $newPassword, $newUserType){
     #convert form data to formatted strings to write to credentials.txt
-    $newCredentials = $newUsername . $GLOBALS['seperator'] . $newPassword . "\n";
+    $newCredentials = trim($newUsername) . $GLOBALS['seperator'] . trim($newPassword) . "\n";
     $newUserType = $newUserType . "\n";
 
     #creates new unique user id based on last one in file
@@ -75,7 +113,7 @@ function addCredentials($firstName, $lastName, $newUsername, $newPassword, $newU
     $newUserId = trim($newUserId);
     $fileName = "user_data\#" . $newUserId . ".txt";
     $fileLocation = fopen($fileName, "w");
-    fwrite($fileLocation, $firstName . " " . $lastName . "\n");
+    fwrite($fileLocation, trim($firstName) . " " . trim($lastName) . "\n");
     fwrite($fileLocation, $newUserType);
     fclose($fileLocation);
 
