@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Medical Software</title>
+        <script src="scripts.js"></script>
+        <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    </head>
+    <body>
+        <h1>Appointment Scheduler</h1>
+        <form>
+            <label for="Appointment Type">
+
+                <em>Appointment Type:</em>
+
+            </label>
+            <br>
+            <br>
+                <select list="Appointment Types" value="Appointment Type" id="Appointment Type">
+                    <option value="Well Visit">Well Visit</option>
+                    <option value="Office Visit">Office Visit</option>
+                    <option value="Physical">Physical</option>
+                    <option value="School/Sports Physical">School/Sports Physical</option>
+                    <option value="Screening Diagnostic Labs">Screening Diagnostic Labs</option>
+                    <option value="Healthcare Visit">Healthcare Visit</option>
+                </select>
+            <br>
+            <br>
+            <label>
+                
+                <em>Is This an Emergency?</em>
+            
+            </label>
+            <br>
+            <br>
+           
+            <input type="button" onclick="return myFunction();">Try it</button>
+
+            <script>
+            function myFunction() {
+              var h = document.createElement("H1");
+              var t = document.createTextNode("Hello World");
+              h.appendChild(t);
+              document.body.appendChild(h);
+            }
+            </script>
+
+        </form>
+        <form>
+            Username: <input type="text" id="username"><span id="val"></span>
+            <input type="submit" onclick="return check();">
+        </form>
+        
+        <script type="text/javascript">
+        
+            function check() {
+                var username = document.getElementById("username").value;
+        
+                if(username == ""){
+                    document.getElementById("val").innerHTML = "Empty";
+                } else {
+                    document.getElementById("val").innerHTML = "Full";
+        
+                }
+                return false;
+            }
+        </script>
+        </body>
+    </body>
