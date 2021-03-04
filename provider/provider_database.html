@@ -20,13 +20,14 @@
             <label for="patientSearch">Search Database:</label>
             <input type="text" id="patientSearch" name="patientSearch" required>
             <input type="submit" value="Search">
-        </form><br>
+        </form>
         <?php 
         require("provider.php");
-        echo createPatientTable($_COOKIE["userId"]);
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             echo searchDatabase($_COOKIE["userId"], $_POST["patientSearch"]);
         }
-        ?>
+        echo createPatientTable($_COOKIE["userId"]);
+        ?><br>
+        <button onclick="document.location='provider_singlePatientView'">Test Single Patient View</button>
     </body>
 </html>

@@ -30,13 +30,32 @@ function getPatientId($lineContents){
     return $patientId;
 }
 
+#gets patients first and last name based on patients id
+function patientFullName($userId, $patientId){
+    $fileHandle = accessUserDatabase($userId);
+    $lineContents = getPatientData($fileHandle);
+    while(feof($fileHandle) == false){
+        if($patientId == (getPatientId($lineContents) - 1)){
+            $startRead = strpos($lineContents, "=") + 1;
+            $firstName = substr($lineContents, $startRead);
+            $lineContents = fgets($fileHandle);
+            $startRead = strpos($lineContents, "=") + 1;
+            $lastName = substr($lineContents, $startRead);
+            return trim($firstName . " " . $lastName);
+        }
+        else{
+            $lineContents = fgets($fileHandle);
+        }
+    }
+}
+
 #grabs all patient data from user file and returns a full table in html
 function createPatientTable($userId){
     $fileHandle = accessUserDatabase($userId);
     $lineContents = getPatientData($fileHandle);
 
     #defines the starting variables for the rest of the code to build the table off of
-    $htmlTable = "<table><thead><tr><th>First Name</th><th>Last Name</th><th>Patient Notes</th></tr></thead><tbody><tr>";
+    $htmlTable = "<br><table><thead><tr><th>First Name</th><th>Last Name</th><th>Patient Notes</th></tr></thead><tbody><tr>";
     $htmlEndTable = "</tr></tbody></table>";
     $patientId = "1";
     
