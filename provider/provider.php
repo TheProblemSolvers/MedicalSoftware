@@ -1,17 +1,14 @@
 <?php
 
-#searches user's database for patients matching search parameter and 
-#returns first patient id that matches
-function searchDatabase($userId, $searchParameter){
-    #defines an array used later to store search results
-    $i = 0;
-    $array = array();
-    #accesses correct user database
+#accesses correct user database
+function accessUserDatabase($userId){
     $fileName = "../users\user_data\#" . $userId . ".txt";
     $fileHandle = fopen($fileName, "r");
-    
-    #find the line where to start searching 
-    #(ignore all provider data and skip to patient's stored data)
+    return $fileHandle;
+}
+
+#sets file pointer to where stored patient data begins, returns first line
+function getPatientData($fileHandle){
     $lineContents = fgets($fileHandle);
     $finished = false;
     while($finished == false){
@@ -22,6 +19,55 @@ function searchDatabase($userId, $searchParameter){
             $finished = true;
         }
     }
+    return $lineContents;
+}
+
+#reads patient identification number from a given string
+function getPatientId($lineContents){
+    $startRead = strpos($lineContents, "p") + 1;
+    $endRead = strpos($lineContents, ".") - 1;
+    $patientId = strval(intval(substr($lineContents, $startRead, $endRead)) + 1);
+    return $patientId;
+}
+
+#grabs all patient data from user file and returns a full table in html
+function createPatientTable($userId){
+    $fileHandle = accessUserDatabase($userId);
+    $lineContents = getPatientData($fileHandle);
+
+    #defines the starting variables for the rest of the code to build the table off of
+    $htmlTable = "<table><thead><tr><th>First Name</th><th>Last Name</th><th>Patient Notes</th></tr></thead><tbody><tr>";
+    $htmlEndTable = "</tr></tbody></table>";
+    $patientId = "1";
+    
+    #read each patient's data, and once a new patient is found by the file pointer, 
+    #end the table row and create a new one
+    while(feof($fileHandle) == false){
+        if($patientId != getPatientId($lineContents)){
+            $htmlTable = $htmlTable . "</tr><tr>";
+            $patientId = getPatientId($lineContents);
+        }
+        $startRead = strpos($lineContents, "=") + 1;
+        $htmlTable = $htmlTable . "<td>" . substr($lineContents, $startRead) . "</td>";
+        $lineContents = fgets($fileHandle);
+    }
+
+    #close the file and return the completed table
+    $htmlTable = $htmlTable . $htmlEndTable;
+    fclose($fileHandle);
+    return $htmlTable;
+}
+
+#searches user's database for patients matching search parameter and 
+#returns first patient id that matches
+function searchDatabase($userId, $searchParameter){
+    #defines an array used later to store search results
+    $i = 0;
+    $array = array();
+
+    $fileHandle = accessUserDatabase($userId);
+    $lineContents = getPatientData($fileHandle);
+
     #modifies search paramter to regular expression to efficiently search database
     $searchParameter = "/" . $searchParameter . "/i";
     $searchResults = "";
@@ -84,11 +130,13 @@ function createNewPatient($userId, $patientFirstName, $patientLastName, $patient
     fclose($fileHandle);
     #checks to see if there is an existing patient already stored, if so, 
     #increment the patient's identification number by one
-    if(is_int(intval(substr($contents, 1, 1))) && (intval(substr($contents, 1, 1)) != 0) == false){
+    $startRead = strpos($lineContents, "p") + 1;
+    $endRead = strpos($lineContents, ".") - 1;
+    if(is_int(intval(substr($contents, $startRead, $endRead))) && (intval(substr($contents, $startRead, $endRead)) != 0) == false){
         $patientId = 1;
     }
     else{
-        $patientId = strval(intval(substr($contents, 1, 1)) + 1);
+        $patientId = strval(intval(substr($contents, $startRead, $endRead)) + 1);
     }
     #opens the users file for appending
     $fileHandle = fopen($fileName, "a+");

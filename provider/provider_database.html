@@ -20,25 +20,13 @@
             <label for="patientSearch">Search Database:</label>
             <input type="text" id="patientSearch" name="patientSearch" required>
             <input type="submit" value="Search">
-        </form>
+        </form><br>
         <?php 
         require("provider.php");
+        echo createPatientTable($_COOKIE["userId"]);
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             echo searchDatabase($_COOKIE["userId"], $_POST["patientSearch"]);
-            //echo testRegular();
         }
-        ?><br>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Sex</th>
-                    <th>Age</th>
-                    <th>Height</th>
-                    <th>Weight</th>
-                </tr>
-            </thead>
-            <tbody id="patientDatabase"></tbody><!--JavaScript fills this division w patient data-->
-        </table>
+        ?>
     </body>
 </html>

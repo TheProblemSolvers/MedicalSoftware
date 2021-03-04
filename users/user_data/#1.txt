@@ -27,3 +27,6 @@ p8.Notes=Looks very similar to that of the late Christopher Colombus.
 p9.FirstName=Jean
 p9.LastName=Reausso
 p9.Notes=Has a VERY French sounding name, he will surrender easily.
+p10.FirstName=Zaneta
+p10.LastName=Failibus
+p10.Notes=Patient wants to be Tom the cat.
