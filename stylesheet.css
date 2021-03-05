@@ -6,3 +6,42 @@ link this stylesheet to any other html page using this line of code:
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
 
 */
+
+/* This is just a test to see what this turns them into */
+
+
+.wrapper {
+    width: 960px;
+    margin: 0 auto;
+  }
+  
+  header {
+      width: 960px;
+  }
+  
+  nav, section {
+    float: left;
+  }
+  
+  nav {
+    width: 200px;
+    margin-right: 10px;
+  }
+  
+  section {
+    width: 750px;
+  }
+  
+  *, *:before, *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background: #2980b9;
+    color: #FFF;
+    font-family: Helvetica;
+    text-align: center;
+    margin: 0;
+  }
