@@ -3,7 +3,7 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Medical Software</title>
-        <script src="scripts.js"></script>
+        <script src="../scripts.js"></script>
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
     </head>
     <body>
@@ -34,36 +34,9 @@
             <br>
             <br>
            
-            <input type="button" onclick="return myFunction();">Try it</button>
+            <input type="button" onclick="return emergencyButton('1');" value="Yes" id="1"></button>
+            <input type="button" onclick="return emergencyButton('2');" value="No" id="2"></button>
 
-            <script>
-            function myFunction() {
-              var h = document.createElement("H1");
-              var t = document.createTextNode("Hello World");
-              h.appendChild(t);
-              document.body.appendChild(h);
-            }
-            </script>
-
-        </form>
-        <form>
-            Username: <input type="text" id="username"><span id="val"></span>
-            <input type="submit" onclick="return check();">
-        </form>
-        
-        <script type="text/javascript">
-        
-            function check() {
-                var username = document.getElementById("username").value;
-        
-                if(username == ""){
-                    document.getElementById("val").innerHTML = "Empty";
-                } else {
-                    document.getElementById("val").innerHTML = "Full";
-        
-                }
-                return false;
-            }
-        </script>
+            </form>
         </body>
-    </body>
+    </body> 
