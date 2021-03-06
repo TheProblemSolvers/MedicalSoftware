@@ -43,6 +43,8 @@ function displayPatientRecord(){
   document.getElementById("patientDatabase").innerHTML = txt;
 }
 
+
+//creates a table with the same celldata for each cell (takes row count, column count, and cell data as parameters)
 function tableCreate(rows, cols, cellData) {
   var body = document.getElementsByTagName('body')[0];
   var tbl = document.createElement('table');
@@ -66,6 +68,7 @@ function tableCreate(rows, cols, cellData) {
   body.appendChild(tbl);
 }
 
+<<<<<<< HEAD
 /*
 function emergencyYes() {
 var par = document.createElement("p");
@@ -74,3 +77,31 @@ par.appendChild(t);
 document.body.appendChild(par);
 break;
 }*/
+=======
+
+
+//Function to print headers or paragraphs with a button click
+function emergencyButton(buttonNumber) {
+  var x = buttonNumber;
+  switch (x) {
+
+    case '1': //Prints the text node when 'Yes' is clicked
+      var par = document.createElement("p");
+      var t = document.createTextNode("Please contact your local emergency services if immediate medical attention is required.");
+      par.appendChild(t);
+      document.body.appendChild(par);
+      break;
+
+    case '2': // Prints the text node when 'No' is clicked
+      var par = document.createElement("p");
+      var t = document.createTextNode("Please continue.");
+      par.appendChild(t);
+      document.body.appendChild(par);
+      break;
+
+    default: // Just in case button doesn't return 1 or 2 for some reason the program won't brick
+      return false;
+
+  }
+}
+>>>>>>> afeacfe385ad0855fabdc87dfdb279cb9ee14a2d
