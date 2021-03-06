@@ -19,7 +19,7 @@
         <?php
         require("provider.php");
         if($_SERVER["REQUEST_METHOD"] == "POST"){
-            echo createNewPatient($_COOKIE['userId'], $_POST['newPatientFirstName'], $_POST['newPatientLastName'], $_POST['newPatientNotes']); 
+            createNewPatient($_COOKIE['userId'], $_POST['newPatientFirstName'], $_POST['newPatientLastName'], $_POST['newPatientNotes']); 
             header("Location: provider_database.html");
         }
         ?>

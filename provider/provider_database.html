@@ -1,3 +1,5 @@
+<?php setcookie("patientId", "", time() - 3600);?>
+
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
@@ -6,7 +8,7 @@
         <script src="../scripts.js"></script>
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
     </head>
-    <body onload="displayPatientRecord(1)">
+    <body>
         <style>
             table, th, td {
                 border: 1px solid black;
@@ -17,7 +19,7 @@
         <button onclick="document.location='provider_lander.html'">Back to Lander</button>
         <h1>Patient Records</h1>
         <button onclick="document.location='provider_addNewPatient.html'">Add a new patient</button><br><br>
-        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+        <form id="patientSearch" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
             <label for="patientSearch">Search Database:</label>
             <input type="text" id="patientSearch" name="patientSearch" required>
             <input type="submit" value="Search">
@@ -29,6 +31,6 @@
         }
         echo createPatientTable($_COOKIE["userId"]);
         ?><br>
-        <button onclick="document.location='provider_singlePatientView'">Test Single Patient View</button>
+        <button onclick="document.location='#patientSearch'">Back to top</button>
     </body>
 </html>

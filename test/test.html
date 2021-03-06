@@ -10,16 +10,13 @@
             <input type="text" name="test2" value="">
             <input type="submit" value="Test"><br><br>
         </form>
+        <script>
+            
+        </script>
         <?php require("test.php");
         if($_SERVER["REQUEST_METHOD"] == "POST"){
-            if(testFunction($_POST["test"]) == false ){
-                echo "Failed!";
-            }
-            else{
-                echo "Passed!";
-            }
+            echo testFunction();
         }
-        
         ?>
     </body>
 </html>

@@ -1,3 +1,8 @@
+//sets a cookie for a page based on what link is clicked
+function setPatientIdCookie(id){
+  document.cookie = "patientId=" + id;
+}
+
 function authenticateLogin(validate){
   var providerUsername = "Username";
   var providerPassword = "password";  //Feel free to change username/password
@@ -61,10 +66,11 @@ function tableCreate(rows, cols, cellData) {
   body.appendChild(tbl);
 }
 
+/*
 function emergencyYes() {
 var par = document.createElement("p");
 var t = document.createTextNode("Hello Wamp");
 par.appendChild(t);
 document.body.appendChild(par);
 break;
-}
+}*/
