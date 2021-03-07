@@ -22,12 +22,61 @@ function getPatientData($fileHandle){
     return $lineContents;
 }
 
+#returns the type of information contained in a line of data from user's database
+function getDataType($lineContents){
+    $startRead = strpos($lineContents, ".") + 1;
+    $endRead = strpos($lineContents, "=") - 3;
+    return substr($lineContents, $startRead, $endRead);
+}
+
 #reads patient identification number from a given string
 function getPatientId($lineContents){
     $startRead = strpos($lineContents, "p") + 1;
     $endRead = strpos($lineContents, ".") - 1;
-    $patientId = strval(intval(substr($lineContents, $startRead, $endRead)) + 1);
+    $patientId = substr($lineContents, $startRead, $endRead);
     return $patientId;
+}
+
+#gets patients first and last name based on patients id
+function patientFullName($userId, $patientId){
+    $fileHandle = accessUserDatabase($userId);
+    $lineContents = getPatientData($fileHandle);
+    while(feof($fileHandle) == false){
+        if($patientId == getPatientId($lineContents)){
+            $startRead = strpos($lineContents, "=") + 1;
+            $firstName = substr($lineContents, $startRead);
+            $lineContents = fgets($fileHandle);
+            $startRead = strpos($lineContents, "=") + 1;
+            $lastName = substr($lineContents, $startRead);
+            return trim($firstName . " " . $lastName);
+        }
+        else{
+            $lineContents = fgets($fileHandle);
+        }
+    }
+}
+
+#grabs a single patient's data from user file and returns an html table
+function createInduvidualTable($userId, $patientId){
+    $fileHandle = accessUserDatabase($userId);
+    $lineContents = getPatientData($fileHandle);
+    $htmlTable = "<table><thead><tr><th>First Name</th><th>Last Name</th><th>Patient Notes</th></tr></thead><tbody><tr>";
+    $htmlEndTable = "</tr></tbody></table>";
+    
+    #changes file pointer to correct patient in database
+    while($patientId != getPatientId($lineContents)){
+        $lineContents = fgets($fileHandle);
+    }
+
+    #compiles all of selected patient's data into a t
+    while($patientId == getPatientId($lineContents)){
+        $startRead = strpos($lineContents, "=") + 1;
+        $htmlTable = $htmlTable . "<td>" . substr($lineContents, $startRead) . "</td>";
+        $lineContents = fgets($fileHandle);
+    }
+    $htmlTable = $htmlTable . $htmlEndTable;
+    fclose($fileHandle);
+    return $htmlTable;
 }
 
 #grabs all patient data from user file and returns a full table in html
@@ -36,20 +85,30 @@ function createPatientTable($userId){
     $lineContents = getPatientData($fileHandle);
 
     #defines the starting variables for the rest of the code to build the table off of
-    $htmlTable = "<table><thead><tr><th>First Name</th><th>Last Name</th><th>Patient Notes</th></tr></thead><tbody><tr>";
+    $htmlTable = "<br><table><thead><tr><th>First Name</th><th>Last Name</th><th>Patient Notes</th></tr></thead><tbody><tr>";
     $htmlEndTable = "</tr></tbody></table>";
     $patientId = "1";
     
     #read each patient's data, and once a new patient is found by the file pointer, 
     #end the table row and create a new one
     while(feof($fileHandle) == false){
+        #creates a new row if the patient id number has changed
         if($patientId != getPatientId($lineContents)){
             $htmlTable = $htmlTable . "</tr><tr>";
             $patientId = getPatientId($lineContents);
         }
-        $startRead = strpos($lineContents, "=") + 1;
-        $htmlTable = $htmlTable . "<td>" . substr($lineContents, $startRead) . "</td>";
-        $lineContents = fgets($fileHandle);
+        #if the datatype is a first name, make it a link to the patient's file
+        if(getDataType($lineContents) == "FirstName"){
+            $startRead = strpos($lineContents, "=") + 1;
+            $htmlTable = $htmlTable . "<td>" . "<a href='provider_singlePatientView.html' onclick='setPatientIdCookie(" . $patientId . ")'>" . substr($lineContents, $startRead) . "</a></td>";
+            $lineContents = fgets($fileHandle);
+        }
+        #if the datatype is not a first name, just add it to the table
+        else{
+            $startRead = strpos($lineContents, "=") + 1;
+            $htmlTable = $htmlTable . "<td>" . substr($lineContents, $startRead) . "</td>";
+            $lineContents = fgets($fileHandle);
+        }
     }
 
     #close the file and return the completed table

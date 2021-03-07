@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="../scripts.js"></script>
+        <title>Medical Software</title>
+    </head>
+    <body>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                padding: 5px;
+            }
+        </style>
+        <button onclick="document.location='provider_database.html'">Back to Database</button>
+        <h1><?php require("provider.php"); echo patientFullName($_COOKIE["userId"], $_COOKIE["patientId"]); ?>'s File:</h1>
+        <p><?php echo createInduvidualTable($_COOKIE["userId"], $_COOKIE["patientId"]); ?></p>
+    </body>
+</html>
