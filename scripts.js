@@ -68,20 +68,10 @@ function tableCreate(rows, cols, cellData) {
   body.appendChild(tbl);
 }
 
-<<<<<<< HEAD
+
+
+
 function emergencyButton(buttonNumber) {
-=======
-<<<<<<< HEAD
-/*
-function emergencyYes() {
-var par = document.createElement("p");
-var t = document.createTextNode("Hello Wamp");
-par.appendChild(t);
-document.body.appendChild(par);
-break;
-}*/
-=======
->>>>>>> 154052f9626062c2274af4e426c332173fef0884
 
   switch (buttonNumber) {
 
@@ -109,7 +99,6 @@ break;
 
   }
 }
-<<<<<<< HEAD
 
 //Code for getting the day
 function dayGetter() {
@@ -120,6 +109,3 @@ function dayGetter() {
   dayBoi.appendChild(n)
 
 }
-=======
->>>>>>> afeacfe385ad0855fabdc87dfdb279cb9ee14a2d
->>>>>>> 154052f9626062c2274af4e426c332173fef0884
