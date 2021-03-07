@@ -63,29 +63,41 @@ function tableCreate(rows, cols, cellData) {
   body.appendChild(tbl);
 }
 
-
-
-//Function to print headers or paragraphs with a button click
 function emergencyButton(buttonNumber) {
-  var x = buttonNumber;
-  switch (x) {
 
-    case '1': //Prints the text node when 'Yes' is clicked
-      var par = document.createElement("p");
-      var t = document.createTextNode("Please contact your local emergency services if immediate medical attention is required.");
-      par.appendChild(t);
-      document.body.appendChild(par);
-      break;
+  switch (buttonNumber) {
 
-    case '2': // Prints the text node when 'No' is clicked
-      var par = document.createElement("p");
-      var t = document.createTextNode("Please continue.");
-      par.appendChild(t);
-      document.body.appendChild(par);
-      break;
+      case 'Yes':
 
-    default: // Just in case button doesn't return 1 or 2 for some reason the program won't brick
+          var par = document.getElementById("emergencyYes");
+          var t = document.createTextNode("Please contact your local emergency services if immediate medical attention is required.");
+          par.appendChild(t);
+          var br = document.createElement('br');
+          par.appendChild(br);
+          break;
+
+      case 'No':
+
+          var par = document.getElementById("emergencyYes");
+          var t = document.createTextNode("Please continue.");
+          par.appendChild(t);
+          var br = document.createElement('br');
+          par.appendChild(br);
+          break;
+
+      default:
+      
       return false;
 
   }
+}
+
+//Code for getting the day
+function dayGetter() {
+
+  var d = new Date();
+  var n = d.getDay()
+  var dayBoi = document.getElementById("dayTest");
+  dayBoi.appendChild(n)
+
 }
