@@ -100,12 +100,29 @@ function emergencyButton(buttonNumber) {
   }
 }
 
-//Code for getting the day
-function dayGetter() {
+function cellChanger(wordsToAdd) {
+  var par = document.getElementById("testData")
+  var t = document.createTextNode(wordsToAdd)
+  par.appendChild(t);
+}
 
-  var d = new Date();
-  var n = d.getDay()
-  var dayBoi = document.getElementById("dayTest");
-  dayBoi.appendChild(n)
+// function returnMonth() {
+
+//   const monthNames = ["January", "February", "March", "April", "May", "June",
+//   "July", "August", "September", "October", "November", "December"];
+
+//   var par = document.getElementById('');
+//   const d = new Date();
+//   var t = monthNames[d.getMonth()]
+//   par.appendChild(t);
+  
+
+// }
+
+function dateGetter() {
+
+  const today = new Date();
+  document.getElementById("weekHeader").innerHTML = today.toLocaleString('default');
 
 }
+
