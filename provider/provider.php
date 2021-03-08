@@ -25,15 +25,15 @@ function getPatientData($fileHandle){
 #returns the type of information contained in a line of data from user's database
 function getDataType($lineContents){
     $startRead = strpos($lineContents, ".") + 1;
-    $endRead = strpos($lineContents, "=") - 3;
-    return substr($lineContents, $startRead, $endRead);
+    $endRead = strpos($lineContents, "=");
+    return substr($lineContents, $startRead, ($endRead - $startRead));
 }
 
 #reads patient identification number from a given string
 function getPatientId($lineContents){
     $startRead = strpos($lineContents, "p") + 1;
-    $endRead = strpos($lineContents, ".") - 1;
-    $patientId = substr($lineContents, $startRead, $endRead);
+    $endRead = strpos($lineContents, ".");
+    $patientId = substr($lineContents, $startRead, ($endRead - $startRead));
     return $patientId;
 }
 
@@ -136,15 +136,15 @@ function searchDatabase($userId, $searchParameter){
         if(preg_match($searchParameter, $lineContents) == 1){
             #determines the place where the patient id starts and stops in string
             $startRead = strpos($lineContents, "p") + 1;
-            $endRead = strpos($lineContents, ".") - 1;
+            $endRead = strpos($lineContents, ".");
             #if this patient ID has already been added to the array, do not add it
-            if(substr($lineContents, $startRead, $endRead) == $searchResults){
+            if(substr($lineContents, $startRead, ($endRead - $startRead)) == $searchResults){
                 
             }
             #compiles each matching search result into an array
             else{
-                $searchResults = substr($lineContents, $startRead, $endRead);
-                $array[$i] = $searchResults;
+                $searchResults = substr($lineContents, $startRead, ($endRead - $startRead));
+                $array[$i] = $searchResults . ", ";
                 $i++;
             }
         }
@@ -187,16 +187,12 @@ function createNewPatient($userId, $patientFirstName, $patientLastName, $patient
         $contents = $file->current(); #$contents holds the data in $lineNumber
     }
     fclose($fileHandle);
-    #checks to see if there is an existing patient already stored, if so, 
+
     #increment the patient's identification number by one
     $startRead = strpos($lineContents, "p") + 1;
-    $endRead = strpos($lineContents, ".") - 1;
-    if(is_int(intval(substr($contents, $startRead, $endRead))) && (intval(substr($contents, $startRead, $endRead)) != 0) == false){
-        $patientId = 1;
-    }
-    else{
-        $patientId = strval(intval(substr($contents, $startRead, $endRead)) + 1);
-    }
+    $endRead = strpos($lineContents, ".");
+    $patientId = strval(intval(substr($contents, $startRead, ($endRead - $startRead))) + 1);
+
     #opens the users file for appending
     $fileHandle = fopen($fileName, "a+");
     #writes patient data to the file with correct labels
