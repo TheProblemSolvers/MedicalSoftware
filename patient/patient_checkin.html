@@ -2,71 +2,16 @@
 <html lang="en-US">
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<title>Medical Software</title>
-			<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+		<title>Medical Software</title>
+		<link rel="stylesheet" type="text/css" href="../stylesheet.css">
 	</head>
-	
 	<body>
-		
-		<h1>
-            Check-in 
-        </h1>
-			
-		<table>
-				
-			<!-- css code -->
-			<style>
-
-            table, td, th {
-				width: 50%;
-                height: 130;
-                border: 1px solid black;
-                border-collapse: collapse;
-                font-size: x-large;
-                        }
-            
-            td {
-            
-				text-align: left;
-                vertical-align: top;
-            }
-
-            </style>
-			<!-- css code -->
-			
-				
-			<thead>
-					
-				<th colspan="7">
-                    	Status
-				</th>
-
-			</thead>
-				
-			<tbody>
-					
-				<tr>
-					<td>	
-						<br>
-						<p>
-                            If Ready Click Ready
-						</p>
-
-                    	<p>
-							If Not Click Not Ready
-						</p>
-
-					<td>
-						<br>
-						<p>
-								<a href="Patient_Status.html">Ready</a>
-                             </p>
-						<p>
-						    								<a href="Patient_Status.html"> Not Ready</a>
-                            </p>
-										</ul>
-									</tbody>
-								</table>
-						
-							</body>
-						</html>
+		<button onclick="document.location='patient_lander.html'">Back to Lander</button>
+		<h1><?php require("../users\credentials.php"); echo "Check In, " . userFullName($_COOKIE['userId']) . ".";?></h1>
+		<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+			<p>Click Ready if you have arrived for your in-person appointment. 
+				If not, navigate back to the lander page.</p>
+			<input type="submit" id="checkIn" value="Ready">
+		</form>
+	</body>
+</html>		
