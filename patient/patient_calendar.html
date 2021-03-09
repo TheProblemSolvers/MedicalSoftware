@@ -4,59 +4,136 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Medical Software</title>
+        <script src="../scripts.js"></script>
         <link rel="stylesheet" type="text/css" href="../stylesheet.css">
     </head>
 
-    <body>
+    <body onload="buttonActivator();">
         <h1>
             Patient Calendar
         </h1>
-        <table>
+        <table id="patCal">
 
-            <!-- css code -->
             <style>
 
-            table, td, th {
-                width: 95%;
-                height: 130;
+            table {
+                width: 100%;
+                height: 750px;
+                background-color: rebeccapurple;
                 border: 1px solid black;
                 border-collapse: collapse;
-                font-size: x-large;
                 table-layout: fixed;
             }
+
+            table.active {
+                transform: translateX(50px);
+            }
             
+            #monthHeader {
+                text-align: center;
+                table-layout: fixed;
+            }
+
+            /* code for arrows */
+            .arrow {
+                border: solid rebeccapurple;
+                border-width: 0 3px 3px 0;
+                display: inline-block;
+                padding: 3px;
+            }
+
+            /* code for left header arrow */
+            .left {
+                transform: rotate(135deg);
+                -webkit-transform: rotate(135deg);
+            }
+
+            /* code for right header arrow */
+            .right {
+                transform: rotate(-45deg);
+                -webkit-transform: rotate(-45deg);
+            }
+
+            /* applies font-size and elimination of white space */
+            th, td {
+                border-collapse: collapse;
+                font-size: x-large;
+            }
+
+            /* applies border and text alignment to table datas */
             td {
+                border: 1px solid black;
                 text-align: left;
                 vertical-align: top;
             }
 
+
+            /* Centers both header arrows */
+            #arrowRight, #arrowLeft {
+                text-align: center;
+            }
+
+            /* CSS for #btn, with decorative properties, initial position and animation commands */
+            #btn {
+                background-color: rebeccapurple;
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                height: 20vh;
+                padding: 1rem;
+                transform: translateX(-500px);
+                color: white;
+                border: none;
+                transition: transform 0.3s ease-in-out;
+                font-family: inherit;
+                font-size: 30px;
+            }
+
+
+            /* Activates the movement of #btn */
+            #btn.active {
+
+                transform: translateX(-100px);
+
+            }
+
             </style>
-            <!-- css code -->
 
             <thead>
-                <th colspan="7">
-                    <p><span id="datetime"></span></p>
+                <tr>
+                    <th id="arrowLeft">
 
-                        <script>
-                            const today = new Date();
-                            document.getElementById("datetime").innerHTML = today.toLocaleString('default', { month: 'long' });
-                        </script>
-                </th>
+                        <button><i class="arrow left"></i></button>
+
+                    </th>
+
+                        <th colspan="5" id="monthHeader">
+                            <p>
+
+                                <span id="datetime"></span>
+
+                            </p>
+                            
+                            <script>
+
+                                const today = new Date();
+                                document.getElementById("datetime").innerHTML = today.toLocaleString('default', { month: 'long' });
+
+                            </script>
+
+                        </th>
+
+                    <th id="arrowRight">
+
+                        <button><i class="arrow right"></i></button>
+
+                    </th>
+                </tr>
+               
             </thead>
             <tbody>
                 <tr>
-                    <td>
-                        <a href="../index.html">31</a>
-                        <br>
-                        <ul>
-                            <li>
-                                Note 1
-                            </li>
-                            <li>
-                                Note 2
-                            </li>
-                        </ul>
-                    </td>
+                    <td>31</td>
                     <td>1</td>
                     <td>2</td>
                     <td>3</td>
@@ -65,18 +142,7 @@
                     <td>6</td>
                 </tr>
                 <tr>
-                    <td>
-                        7
-                        <br>
-                        <ul>
-                            <li>
-                                Note 1
-                            </li>
-                            <li>
-                                Note 2
-                            </li>
-                        </ul>
-                    </td>
+                    <td>7</td>
                     <td>8</td>
                     <td>9</td>
                     <td>10</td>
@@ -85,20 +151,7 @@
                     <td>13</td>
                 </tr>
                 <tr>
-                    <td>
-                        14
-                        
-                        <br>
-
-                        <ul>
-                            <li>
-                                Note 1
-                            </li>
-                            <li>
-                                Note 2
-                            </li>
-                        </ul>
-                    </td>
+                    <td>14</td>
                     <td>15</td>
                     <td>16</td>
                     <td>17</td>
@@ -107,20 +160,7 @@
                     <td>20</td>
                 </tr>
                 <tr>
-                    <td>
-                        21
-                        
-                        <br>
-
-                        <ul>
-                            <li>
-                                Note 1
-                            </li>
-                            <li>
-                                Note 2
-                            </li>
-                        </ul>
-                    </td>
+                    <td>21</td>
                     <td>22</td>
                     <td>23</td>
                     <td>24</td>
@@ -129,20 +169,7 @@
                     <td>27</td>
                 </tr>
                 <tr>
-                    <td>
-                        28
-                    
-                        <br>
-
-                        <ul>
-                            <li>
-                                Note 1
-                            </li>
-                            <li>
-                                Note 2
-                            </li>
-                        </ul>
-                    </td>
+                    <td>28</td>
                     <td>1</td>
                     <td>2</td>
                     <td>3</td>
@@ -152,5 +179,6 @@
                 </tr>
             </tbody>
         </table>
+        <button id="btn">Click me to see me move!</button>
     </body>
 </html>

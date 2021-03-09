@@ -26,7 +26,6 @@ function authenticateLogin(validate){
           window.location.href = "admin_index.html" :
 
   document.getElementById("authenticationErrors").innerHTML = "Invalid Authorization Code: " + validate;
-
 }
 
 //collects stored patient data files and converts it to html data displayed by the provider_database.html table
@@ -42,7 +41,6 @@ function displayPatientRecord(){
   txt = txt + "</tr>"
   document.getElementById("patientDatabase").innerHTML = txt;
 }
-
 
 //creates a table with the same celldata for each cell (takes row count, column count, and cell data as parameters)
 function tableCreate(rows, cols, cellData) {
@@ -68,9 +66,7 @@ function tableCreate(rows, cols, cellData) {
   body.appendChild(tbl);
 }
 
-
-
-
+//function that writes a message based on the emergency question input
 function emergencyButton(buttonNumber) {
 
   switch (buttonNumber) {
@@ -100,29 +96,37 @@ function emergencyButton(buttonNumber) {
   }
 }
 
+
+//function for adding words to a cell
 function cellChanger(wordsToAdd) {
-  var par = document.getElementById("testData")
-  var t = document.createTextNode(wordsToAdd)
+
+  var par = document.getElementById("testData");
+  var t = document.createTextNode(wordsToAdd);
   par.appendChild(t);
+  var br = document.createElement('br');
+  par.appendChild(br);
+
 }
 
-// function returnMonth() {
-
-//   const monthNames = ["January", "February", "March", "April", "May", "June",
-//   "July", "August", "September", "October", "November", "December"];
-
-//   var par = document.getElementById('');
-//   const d = new Date();
-//   var t = monthNames[d.getMonth()]
-//   par.appendChild(t);
+//function for retrieving a date from the date input and then adding it's value to a cell.
+function dateRec()  {
   
-
-// }
-
-function dateGetter() {
-
-  const today = new Date();
-  document.getElementById("weekHeader").innerHTML = today.toLocaleString('default');
+  var par = document.getElementById("testData");
+  var dateControl = document.getElementById("calendarInput").value;
+  var t = document.createTextNode(dateControl);
+  par.appendChild(t);
+  var br = document.createElement('br');
+  par.appendChild(br);  
 
 }
 
+// function that activates button's movement properties
+function buttonActivator() {
+
+  const btn = document.getElementById('btn');
+  // const btnBoi = document.getElementById('buttonBoi');
+
+  btn.addEventListener("click", () => {
+  btn.classList.toggle("active");
+  });
+}

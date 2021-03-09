@@ -46,10 +46,24 @@
 
         <form>
 
-            <input type="text" name ="randomName" id="randomName">
+            <!-- Input for adding text to cell -->
+            <input type="text" name ="textAdderInput" id="textAdderInput">
+
             <br>
             <br>
-            <input type="button" onclick="cellChanger(document.getElementById('randomName').value);" value="Add Appointment">
+
+            <!-- Input for selecting a date -->
+            <input type="date" name="calendarInput" id="calendarInput">
+
+            <br>
+            <br>
+
+            <!-- Function call for date input -->
+            <input type="button" onclick="dateRec();" value="Submit Date">
+
+             <!-- Function call for text input -->
+            <input type="button" onclick="cellChanger(document.getElementById('textAdderInput').value);" value="Add Appointment">
+
 
         </form>
 
@@ -106,8 +120,6 @@
 
                     <td id="timeSlot">7am</td>
                     <td id="testData"></td>
-                    <td>asdf</td>
-
                 </tr>
                 <tr>
                     <td id="timeSlot">8am</td>
