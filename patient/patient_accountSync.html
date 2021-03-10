@@ -9,7 +9,7 @@
 		<button onclick="document.location='../../index.html'">Home Page</button>
         <h1><?php require("../users\credentials.php"); echo "Welcome, " . userFullName($_COOKIE['userId']) . "!";?></h1>
         <p>Sync to a provider's account below:</p>
-		<p><?php echo "Your unique user Id: " . $_COOKIE['userId'];?></p>
+		<p><?php echo "Your unique user ID: " . $_COOKIE['userId'];?></p>
 		<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
 			<label for="providerId">Provider's ID:</label>
 			<input type="text" id="providerId" name="providerId">
