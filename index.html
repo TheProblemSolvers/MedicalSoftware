@@ -4,9 +4,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Medical Software</title>
         <script src="scripts.js"></script>
-        <link rel="stylesheet" href="stylesheet.css">
+        <link rel="stylesheet" type="text/css" href="stylesheet.css">
     </head>
     <body>
+        
+        <div class="indexhome">
         <?php setcookie("userId", "", time() - 3600);?>
         <h1>Welcome!</h1>
         <p>Please enter your credentials:</p>
@@ -33,5 +35,6 @@
         ?>
         <button onclick="document.location='test/test.html'">Test</button>
         <!-- <body onload="tableCreate(3, 3, 'Random Word')"></body> -->
+        </div>
     </body>
 </html>
