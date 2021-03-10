@@ -42,30 +42,6 @@ function displayPatientRecord(){
   document.getElementById("patientDatabase").innerHTML = txt;
 }
 
-//creates a table with the same celldata for each cell (takes row count, column count, and cell data as parameters)
-function tableCreate(rows, cols, cellData) {
-  var body = document.getElementsByTagName('body')[0];
-  var tbl = document.createElement('table');
-  var tbdy = document.createElement('tbody');
-  tbl.style.width = '100%';
-  tbl.setAttribute('border', '1');
-  for (var i = 0; i < rows; i++) {
-    var tr = document.createElement('tr');
-    for (var j = 0; j < cols; j++) {
-      if (i == rows && j == cols) {
-        break;
-      } else {
-        var td = document.createElement('td');
-        td.appendChild(document.createTextNode(cellData))
-        tr.appendChild(td)
-      }
-    }
-    tbdy.appendChild(tr);
-  }
-  tbl.appendChild(tbdy);
-  body.appendChild(tbl);
-}
-
 //function that writes a message based on the emergency question input
 function emergencyButton(buttonNumber) {
 
@@ -109,6 +85,7 @@ function cellChanger(wordsToAdd) {
 }
 
 //function for retrieving a date from the date input and then adding it's value to a cell.
+
 function dateRec()  {
   
   var par = document.getElementById("testData");
@@ -121,12 +98,74 @@ function dateRec()  {
 }
 
 // function that activates button's movement properties
-function buttonActivator() {
+function buttonActivator(buttonId, modId, cssClass) {
 
-  const btn = document.getElementById('btn');
-  // const btnBoi = document.getElementById('buttonBoi');
+  const btn = document.getElementById(buttonId);
+  const changee = document.getElementById(modId);
 
   btn.addEventListener("click", () => {
-  btn.classList.toggle("active");
+    changee.classList.toggle(cssClass);
   });
+}
+
+
+// function tableAct() {
+
+//   const tbl = document.getElementById('patientCal');
+//   const aLeft = document.getElementById('arrowLeft');
+//   const aRight = document.getElementById('arrowRight');
+
+//   aLeft.addEventListener("click", () => {
+//     tbl.classList.toggle("activeLeft")
+//   })
+
+//   aRight.addEventListener("click", () => {
+//     tbl.classList.toggle("activeRight")
+//   })
+// }
+
+const buttonActivators = {
+
+  calSlider(buttonId, modId, cssClass) {
+
+    const btn = document.getElementById(buttonId);
+    const changee = document.getElementById(modId);
+  
+    btn.addEventListener("click", () => {
+      changee.classList.toggle(cssClass);
+    });
+  },
+
+  testButton () {
+
+    const btn = document.getElementById('btn');
+  
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("active")
+    });
+  }
+}
+
+//creates a table with the same celldata for each cell (takes row count, column count, and cell data as parameters)
+function tableCreate(rows, cols, cellData) {
+  var body = document.getElementsByTagName('body')[0];
+  var tbl = document.createElement('table');
+  var tbdy = document.createElement('tbody');
+  tbl.style.width = '100%';
+  tbl.setAttribute('border', '1');
+  for (var i = 0; i < rows; i++) {
+    var tr = document.createElement('tr');
+    for (var j = 0; j < cols; j++) {
+      if (i == rows && j == cols) {
+        break;
+      } else {
+        var td = document.createElement('td');
+        td.appendChild(document.createTextNode(cellData))
+        tr.appendChild(td)
+      }
+    }
+    tbdy.appendChild(tr);
+  }
+  tbl.appendChild(tbdy);
+  body.appendChild(tbl);
 }

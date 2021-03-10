@@ -8,25 +8,37 @@
         <link rel="stylesheet" type="text/css" href="../stylesheet.css">
     </head>
 
-    <body onload="buttonActivator();">
+    <body onload="buttonActivators.testButton();
+                  buttonActivators.calSlider('arrowLeft', 'patientCal', 'activeLeft');
+                  buttonActivators.calSlider('arrowRight', 'patientCal', 'activeRight');
+                  tableCreate(3,3,3)">
+        <!-- onload="buttonActivator('btn', 'btn', 'active') -->
         <h1>
             Patient Calendar
         </h1>
-        <table id="patCal">
+        <table id="patientCal">
 
             <style>
 
-            table {
-                width: 100%;
+            #patientCal {
+                width: 75%;
                 height: 750px;
                 background-color: rebeccapurple;
                 border: 1px solid black;
                 border-collapse: collapse;
                 table-layout: fixed;
+                position: fixed;
+                transform: translateX(0);
+                transition: transform 0.5s ease-in-out;
+
             }
 
-            table.active {
-                transform: translateX(50px);
+            #patientCal.activeLeft {
+                transform: translateX(-25%);
+            }
+
+            #patientCal.activeRight {
+                transform: translateX(25%)
             }
             
             #monthHeader {
@@ -69,7 +81,7 @@
 
 
             /* Centers both header arrows */
-            #arrowRight, #arrowLeft {
+            #arrowRightHeader, #arrowLeftHeader {
                 text-align: center;
             }
 
@@ -93,7 +105,7 @@
             /* Activates the movement of #btn */
             #btn.active {
 
-                transform: translateX(-100px);
+                transform: translateX(-300px);
 
             }
 
@@ -101,9 +113,9 @@
 
             <thead>
                 <tr>
-                    <th id="arrowLeft">
+                    <th id="arrowLeftHeader">
 
-                        <button><i class="arrow left"></i></button>
+                        <button id="arrowLeft"><i class="arrow left"></i></button>
 
                     </th>
 
@@ -123,9 +135,9 @@
 
                         </th>
 
-                    <th id="arrowRight">
+                    <th id="arrowRightHeader">
 
-                        <button><i class="arrow right"></i></button>
+                        <button id="arrowRight"><i class="arrow right"></i></button>
 
                     </th>
                 </tr>
