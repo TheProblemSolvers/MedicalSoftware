@@ -9,38 +9,96 @@ link this stylesheet to any other html page using this line of code:
 
 /* This is just a test to see what this turns them into */
 
+
 .wrapper {
-    width: 960px;
+  max-width: 960px;
     margin: 0 auto;
   }
-  
-  header {
-      width: 960px;
-  }
-  
-  nav, section {
-    float: left;
-  }
-  
-  nav {
-    width: 200px;
-    margin-right: 10px;
-  }
-  
-  section {
-    width: 750px;
-  }
-  
-  *, *:before, *:after {
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-  
+ 
   body {
     background: #2980b9;
     color: #FFF;
     font-family: Helvetica;
-    text-align: left;
-    margin: 10px;
+    text-align: center;
+    margin: 0;
+  }
+
+
+    /* Index Should have special formatting because its a page unlike the rest */
+  .indexhome {
+    background-color: #2980b9;
+    color: rgb(255, 255, 255);
+    position: absolute;
+    top: 40px;
+    bottom: 40px;
+    width:100%;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: Helvetica;
+  }
+  
+  
+  /* These are for creating the sections of the website */
+
+  .topnav {
+    overflow: hidden;
+    background-color: rgba(1, 22, 212,);
+  }
+  .topnav a {
+    float: left;
+    display: block;
+    color: #ffffff;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  .topnav .buttons {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    font-family: inherit; 
+    margin: 0; 
+ }
+
+  .topnav a:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+  }
+
+  .content {
+    background-color: #ddd;
+    color: rgb(0, 0, 0);
+    position: absolute;
+    top: 40px;
+    bottom: 40px;
+    width:100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .footer {
+    background-color: #eb1eda;
+    height: 40px;
+    position: absolute;
+    bottom: 0;
+    width:100%;
+  }  
+
+                        /* For Creating Seperate Columns and Such for information */
+
+  .row {        
+    display: -webkit-flex;
+    display: flex;
+  }
+
+  .column {
+    flex: 1;
+    padding: 10px;
+  }
+ 
+  .column_middle {
+    flex: 2;
+    padding: 10px;
   }
