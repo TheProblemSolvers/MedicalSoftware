@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Medical Software</title>
+        <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+    </head>
+    <body>
+        <style>
+            table, th, td {
+                border: 1px solid white;
+                border-collapse: collapse;
+                padding: 5px;
+            }
+        </style>
+        <button onclick="document.location='../../index.html'">Home Page</button>
+        <h1><?php require("../users\credentials.php"); echo userFullName($_COOKIE['userId']) . "'s Profile";?></h1>
+        <?php
+            require("patient.php");
+            echo generatePatientTable($_COOKIE['userId']);
+        ?>
+    </body>
+</html>

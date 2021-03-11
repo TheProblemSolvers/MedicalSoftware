@@ -18,7 +18,9 @@
 		<?php 
 			require("patient.php");
 			if($_SERVER["REQUEST_METHOD"] == "POST"){
-				echo "Success!";
+				if(patientToProvider($_COOKIE['userId'], $_POST['providerId']) == true){
+					header("Location: patient_lander.html");
+				}
 			}
 		?>
 	</body>
