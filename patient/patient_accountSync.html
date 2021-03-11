@@ -18,8 +18,12 @@
 		<?php 
 			require("patient.php");
 			if($_SERVER["REQUEST_METHOD"] == "POST"){
-				if(patientToProvider($_COOKIE['userId'], $_POST['providerId']) == true){
+				$returnValue = patientToProvider($_COOKIE['userId'], $_POST['providerId']);
+				if($returnValue == 1){
 					header("Location: patient_lander.html");
+				}
+				else{
+					echo $returnValue;
 				}
 			}
 		?>

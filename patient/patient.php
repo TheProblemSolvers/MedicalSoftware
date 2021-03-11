@@ -22,9 +22,24 @@ function getPatientId($lineContents){
     return $patientId;
 }
 
+#checks a file for any duplicates of data, returns false if no duplicates
+function checkDuplicates($userId, $data){
+    $fileHandle = accessUserDatabase($userId, "r");
+    $searchParameter = "/" . $data . "/i";
+    while(feof($fileHandle) == false){
+        $lineContents = fgets($fileHandle);
+        if(preg_match($searchParameter, $lineContents) == 1){
+            fclose($fileHandle);
+            return true;
+        }
+    }
+    fclose($fileHandle);
+    return false;
+}
+
 #gets patients first and last name based on patients id
 function patientFullName($userId, $patientId){
-    $fileHandle = accessUserDatabase($userId);
+    $fileHandle = accessUserDatabase($userId, "r");
     $lineContents = getPatientData($fileHandle);
     while(feof($fileHandle) == false){
         if($patientId == getPatientId($lineContents)){
@@ -43,11 +58,21 @@ function patientFullName($userId, $patientId){
 
 #Allows patient to sync their account to their provider
 function patientToProvider($userId, $linkId){
-    $fileHandle = accessUserDatabase($userId, "a");
-    $linkData = "ProviderAccount=" . strval($linkId) . "\n";
-    fwrite($fileHandle, $linkData);
-    fclose($fileHandle);
-    return true;
+    if(checkDuplicates($userId, "ProviderAccount") == false){
+        $fileHandle = accessUserDatabase($userId, "a");
+        if(file_exists("../users\user_data\#" . $linkId . ".txt") == true){
+            $linkData = "ProviderAccount=" . strval($linkId) . "\n";
+            fwrite($fileHandle, $linkData);
+            fclose($fileHandle);
+            return true;
+        }
+        else{
+            return "Provider ID does not exist.";
+        }
+    }
+    else{
+        return "Provider ID already linked to this account.";
+    }
 }
 
 #generates an html table with only patient's data

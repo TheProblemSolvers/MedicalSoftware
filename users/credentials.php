@@ -14,22 +14,6 @@ function checkCharacters($data){
     }
 }
 
-#checks a given file for a match in data, returns true if there is a match
-function checkDuplicates($fileLocation, $data){
-    $searchParameter = "/" . $data . "/i";
-    $fileHandle = fopen($fileLocation, "r");
-    $lineContents = fgets($fileHandle);
-    while(feof($fileHandle) == false){
-        if(preg_match($searchParameter, $lineContents) == 1){
-            fclose($fileHandle);
-            return true;
-        }
-        $lineContents = fgets($fileHandle);
-    }
-    fclose($fileHandle);
-    return false;
-}
-
 #checks the length of username and password, returns true if data is too short
 function checkLength($data){
     $minimumLength = 6;
