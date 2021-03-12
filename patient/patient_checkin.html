@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<button onclick="document.location='patient_lander.html'">Back to Lander</button>
-		<h1><?php require("../users\credentials.php"); echo "Check In, " . userFullName($_COOKIE['userId']) . ".";?></h1>
+		<h1><?php require("../scripts.php"); echo "Check In, " . userFullName($_COOKIE['userId']) . ".";?></h1>
 		<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
 			<p>Click Ready if you have arrived for your in-person appointment. 
 				If not, navigate back to the lander page.</p>

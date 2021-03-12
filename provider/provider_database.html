@@ -25,7 +25,7 @@
             <input type="submit" value="Search">
         </form>
         <?php 
-        require("provider.php");
+        require("../scripts.php");
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             echo searchDatabase($_COOKIE["userId"], $_POST["patientSearch"]);
         }

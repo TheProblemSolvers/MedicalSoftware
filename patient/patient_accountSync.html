@@ -6,8 +6,8 @@
 		<link rel="stylesheet" type="text/css" href="../stylesheet.css">
 	</head>
 	<body>
-		<button onclick="document.location='../../index.html'">Home Page</button>
-        <h1><?php require("../users\credentials.php"); echo "Welcome, " . userFullName($_COOKIE['userId']) . "!";?></h1>
+		<button onclick="document.location='../patient_lander.html'">Home Page</button>
+        <h1><?php require("../scripts.php"); echo "Welcome, " . userFullName($_COOKIE['userId']) . "!";?></h1>
         <p>Sync to a provider's account below:</p>
 		<p><?php echo "Your unique user ID: " . $_COOKIE['userId'];?></p>
 		<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
@@ -16,7 +16,6 @@
 			<input type="submit" value="Sync Account">
 		</form>
 		<?php 
-			require("patient.php");
 			if($_SERVER["REQUEST_METHOD"] == "POST"){
 				$returnValue = patientToProvider($_COOKIE['userId'], $_POST['providerId']);
 				if($returnValue == 1){

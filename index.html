@@ -23,7 +23,7 @@
         <button onclick="location.href = 'users/new_user.html'">New User?</button>
         <p id="authenticationErrors"></p>
         <?php
-        require("users/credentials.php"); 
+        require("scripts.php"); 
         if ($_SERVER["REQUEST_METHOD"] == "POST"){    
             $authorization = validateCredentials($_POST['username'], $_POST['password']);
             switch($authorization){

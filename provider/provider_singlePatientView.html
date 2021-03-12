@@ -15,7 +15,7 @@
             }
         </style>
         <button onclick="document.location='provider_database.html'">Back to Database</button>
-        <h1><?php require("provider.php"); echo patientFullName($_COOKIE["userId"], $_COOKIE["patientId"]); ?>'s File:</h1>
+        <h1><?php require("../scripts.php"); echo patientFullName($_COOKIE["userId"], $_COOKIE["patientId"]); ?>'s File:</h1>
         <p><?php echo createInduvidualTable($_COOKIE["userId"], $_COOKIE["patientId"]); ?></p>
     </body>
 </html>

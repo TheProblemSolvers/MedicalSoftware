@@ -14,9 +14,8 @@
             }
         </style>
         <button onclick="document.location='../../index.html'">Home Page</button>
-        <h1><?php require("../users\credentials.php"); echo userFullName($_COOKIE['userId']) . "'s Profile";?></h1>
+        <h1><?php require("../scripts.php"); echo userFullName($_COOKIE['userId']) . "'s Profile";?></h1>
         <?php
-            require("patient.php");
             echo generatePatientTable($_COOKIE['userId']);
         ?>
     </body>
