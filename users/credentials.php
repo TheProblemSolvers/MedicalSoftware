@@ -33,6 +33,27 @@ function userFullName($userId){
     return $userFullName;
 }
 
+#checks a file for any duplicates of data, returns false if no duplicates
+function checkDuplicates($fileLocation, $data){
+    require("../provider\provider.php");
+    if(intval($fileLocation) != 0){
+        $fileHandle = accessUserDatabase($fileLocation);
+    }
+    else{
+        $fileHandle = fopen($fileLocation, "r");
+    }
+    $searchParameter = "/" . $data . "/i";
+    while(feof($fileHandle) == false){
+        $lineContents = fgets($fileHandle);
+        if(preg_match($searchParameter, $lineContents) == 1){
+            fclose($fileHandle);
+            return true;
+        }
+    }
+    fclose($fileHandle);
+    return false;
+}
+
 #compares users credentils to credential combinations in database
 function validateCredentials($inputUsername, $inputPassword){
     #takes user's inputted credentials and makes a single string

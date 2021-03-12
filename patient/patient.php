@@ -22,21 +22,6 @@ function getPatientId($lineContents){
     return $patientId;
 }
 
-#checks a file for any duplicates of data, returns false if no duplicates
-function checkDuplicates($userId, $data){
-    $fileHandle = accessUserDatabase($userId, "r");
-    $searchParameter = "/" . $data . "/i";
-    while(feof($fileHandle) == false){
-        $lineContents = fgets($fileHandle);
-        if(preg_match($searchParameter, $lineContents) == 1){
-            fclose($fileHandle);
-            return true;
-        }
-    }
-    fclose($fileHandle);
-    return false;
-}
-
 #gets patients first and last name based on patients id
 function patientFullName($userId, $patientId){
     $fileHandle = accessUserDatabase($userId, "r");
@@ -87,22 +72,18 @@ function generatePatientTable($userId){
     while(feof($fileHandle) == false){
         $lineContents = fgets($fileHandle);
         if(preg_match("/ProviderAccount/i", $lineContents) == 1){
-            
             $startRead = strpos($lineContents, "=") + 1;
             $providerId = trim(substr($lineContents, $startRead));
             break;
         }
     }
     fclose($fileHandle);
-
     #if there was no linked provider account, return an error
     if($providerId == null){
         return "No linked provider account.";
     }
-
     #opens the provider's file and finds the patient's information
     $fileHandle = accessUserDatabase($providerId, "r");
-
     #filters through provider's file and lands on patient's info
     while($userId != getPatientId($lineContents)){
         $lineContents = fgets($fileHandle);
@@ -114,7 +95,6 @@ function generatePatientTable($userId){
         $lineContents = fgets($fileHandle);
     }
     $htmlTable = $htmlTable . $htmlEndTable;
-
     fclose($fileHandle);
     return $htmlTable;
 }
