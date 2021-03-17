@@ -5,9 +5,8 @@ $seperator = "*";
 
 #accesses correct user database
 function accessUserDatabase($userId, $accessType){
-    $fileName = "../users\user_data\#" . $userId . ".txt";
+    $fileName = "../users\user_data\#" . $userId . "\data.txt";
     $fileHandle = fopen($fileName, $accessType);
-    //$fileHandle[1] = $fileName;
     return $fileHandle;
 }
 
@@ -84,7 +83,7 @@ function checkLength($data){
 
 #accesses the requested user data file and returns the users full name
 function userFullName($userId){
-    $fileHandle = fopen("../users\user_data\#" . trim(strval($userId)) . ".txt", 'r');
+    $fileHandle = fopen("../users\user_data\#" . trim(strval($userId)) . "\data.txt", 'r');
     $userFullName = trim(fgets($fileHandle));
     fclose($fileHandle);
     return $userFullName;
@@ -134,7 +133,7 @@ function validateCredentials($inputUsername, $inputPassword){
     return false;
 }
 
-#adds new users to credentials.txt file, with respective user id and type
+#adds new users to credentials.txt file and creates their folder and standard database file
 function addCredentials($firstName, $lastName, $newUsername, $newPassword, $newUserType){
     #convert form data to formatted strings to write to credentials.txt
     $newCredentials = trim($newUsername) . $GLOBALS['seperator'] . trim($newPassword) . "\n";
@@ -142,7 +141,7 @@ function addCredentials($firstName, $lastName, $newUsername, $newPassword, $newU
 
     #creates new unique user id based on last one in file
     #opens file and counts how many lines there are
-    $fileLocation = fopen("users\credentials.txt", "r");
+    $fileLocation = fopen("credentials.txt", "r");
     $lineCount = 0;
     while(feof($fileLocation) == false){
         $lineContents = fgets($fileLocation);
@@ -152,7 +151,7 @@ function addCredentials($firstName, $lastName, $newUsername, $newPassword, $newU
     $lineNumber = $lineCount - 2;
     #following 4 lines of code from https://stackoverflow.com/users/1268048/phil,
     #and they read the contents of a specific line in the .txt file
-    $file = new SplFileObject("users\credentials.txt");
+    $file = new SplFileObject("credentials.txt");
     if (!$file->eof()) {
         $file->seek($lineNumber);
         $contents = $file->current(); // $contents would hold the data from line x
@@ -163,7 +162,7 @@ function addCredentials($firstName, $lastName, $newUsername, $newPassword, $newU
 
     #writes credentials, usertype and userid to open file
     #opens the file credential storage file
-    $fileLocation = fopen('users\credentials.txt', 'a+');
+    $fileLocation = fopen('credentials.txt', 'a+');
     fwrite($fileLocation, $newCredentials);
     fwrite($fileLocation, $newUserType);
     fwrite($fileLocation, $newUserId);
@@ -172,7 +171,9 @@ function addCredentials($firstName, $lastName, $newUsername, $newPassword, $newU
 
     #creates a unique text file for the users data to be stored and accessed over time
     $newUserId = trim($newUserId);
-    $fileName = "users\user_data\#" . $newUserId . ".txt";
+    $newDirectory = "user_data\#" . $newUserId;
+    mkdir($newDirectory);
+    $fileName = "user_data\#" . $newUserId . "\data.txt";
     $fileLocation = fopen($fileName, "w");
     fwrite($fileLocation, trim($firstName) . " " . trim($lastName) . "\n");
     fwrite($fileLocation, $newUserType);
@@ -293,7 +294,7 @@ function searchDatabase($userId, $searchParameter){
 
 #creates a new patient in the provider's database
 function createNewPatient($userId, $patientFirstName, $patientLastName, $patientNotes){
-    $fileName = "../users\user_data\#" . $userId . ".txt";
+    $fileName = "../users\user_data\#" . $userId . "\data.txt";
     $fileHandle = fopen($fileName, "r");
     
     #finds the total number of lines in the opened file
@@ -333,7 +334,7 @@ function createNewPatient($userId, $patientFirstName, $patientLastName, $patient
 function patientToProvider($userId, $linkId){
     if(checkDuplicates($userId, "ProviderAccount") == false){
         $fileHandle = accessUserDatabase($userId, "a");
-        if(file_exists("../users\user_data\#" . $linkId . ".txt") == true){
+        if(file_exists("../users\user_data\#" . $linkId . "\data.txt") == true){
             $linkData = "ProviderAccount=" . strval($linkId) . "\n";
             if(fwrite($fileHandle, $linkData) == false){
                 return $fileHandle;
