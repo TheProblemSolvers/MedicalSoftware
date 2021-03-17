@@ -8,20 +8,16 @@
         <link rel="stylesheet" type="text/css" href="../stylesheet.css">
     </head>
 
-    <body onload="buttonActivators.testButton();
-                  buttonActivators.calSlider('arrowLeft', 'patientCal', 'activeLeft');
-                  buttonActivators.calSlider('arrowRight', 'patientCal', 'activeRight');
-                  tableCreate(3,3,3)">
-        <!-- onload="buttonActivator('btn', 'btn', 'active') -->
+    <body onload="printCalendar(2, 2021);">
+
         <h1>
             Patient Calendar
         </h1>
-        <table id="patientCal">
 
-            <style>
-
-            #patientCal {
-                width: 75%;
+        <style>
+            
+            table {
+                width: 90%;
                 height: 750px;
                 background-color: rebeccapurple;
                 border: 1px solid black;
@@ -30,17 +26,10 @@
                 position: fixed;
                 transform: translateX(0);
                 transition: transform 0.5s ease-in-out;
-
+                margin-left: 5%;
+                margin-right: 5%;
             }
 
-            #patientCal.activeLeft {
-                transform: translateX(-25%);
-            }
-
-            #patientCal.activeRight {
-                transform: translateX(25%)
-            }
-            
             #monthHeader {
                 text-align: center;
                 table-layout: fixed;
@@ -48,7 +37,7 @@
 
             /* code for arrows */
             .arrow {
-                border: solid rebeccapurple;
+                border: solid rgb(51, 138, 153);
                 border-width: 0 3px 3px 0;
                 display: inline-block;
                 padding: 3px;
@@ -60,10 +49,19 @@
                 -webkit-transform: rotate(135deg);
             }
 
+            /* Centers both header arrows */
+            #arrowRightHeader, #arrowLeftHeader {
+                text-align: center;
+            }
+
             /* code for right header arrow */
             .right {
                 transform: rotate(-45deg);
                 -webkit-transform: rotate(-45deg);
+            }
+
+            th {
+                border: 1px solid black;
             }
 
             /* applies font-size and elimination of white space */
@@ -79,118 +77,6 @@
                 vertical-align: top;
             }
 
-
-            /* Centers both header arrows */
-            #arrowRightHeader, #arrowLeftHeader {
-                text-align: center;
-            }
-
-            /* CSS for #btn, with decorative properties, initial position and animation commands */
-            #btn {
-                background-color: rebeccapurple;
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                height: 20vh;
-                padding: 1rem;
-                transform: translateX(-500px);
-                color: white;
-                border: none;
-                transition: transform 0.3s ease-in-out;
-                font-family: inherit;
-                font-size: 30px;
-            }
-
-
-            /* Activates the movement of #btn */
-            #btn.active {
-
-                transform: translateX(-300px);
-
-            }
-
             </style>
-
-            <thead>
-                <tr>
-                    <th id="arrowLeftHeader">
-
-                        <button id="arrowLeft"><i class="arrow left"></i></button>
-
-                    </th>
-
-                        <th colspan="5" id="monthHeader">
-                            <p>
-
-                                <span id="datetime"></span>
-
-                            </p>
-                            
-                            <script>
-
-                                const today = new Date();
-                                document.getElementById("datetime").innerHTML = today.toLocaleString('default', { month: 'long' });
-
-                            </script>
-
-                        </th>
-
-                    <th id="arrowRightHeader">
-
-                        <button id="arrowRight"><i class="arrow right"></i></button>
-
-                    </th>
-                </tr>
-               
-            </thead>
-            <tbody>
-                <tr>
-                    <td>31</td>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
-                    <td>6</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>8</td>
-                    <td>9</td>
-                    <td>10</td>
-                    <td>11</td>
-                    <td>12</td>
-                    <td>13</td>
-                </tr>
-                <tr>
-                    <td>14</td>
-                    <td>15</td>
-                    <td>16</td>
-                    <td>17</td>
-                    <td>18</td>
-                    <td>19</td>
-                    <td>20</td>
-                </tr>
-                <tr>
-                    <td>21</td>
-                    <td>22</td>
-                    <td>23</td>
-                    <td>24</td>
-                    <td>25</td>
-                    <td>26</td>
-                    <td>27</td>
-                </tr>
-                <tr>
-                    <td>28</td>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
-                    <td>6</td>
-                </tr>
-            </tbody>
-        </table>
-        <button id="btn">Click me to see me move!</button>
     </body>
 </html>

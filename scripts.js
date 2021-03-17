@@ -97,75 +97,140 @@ function dateRec()  {
 
 }
 
-// function that activates button's movement properties
-function buttonActivator(buttonId, modId, cssClass) {
+function appleBottomJeans() {
 
-  const btn = document.getElementById(buttonId);
-  const changee = document.getElementById(modId);
+  document.getElementById('baseCal').style.transform = 'translateX(-1250px)';
 
-  btn.addEventListener("click", () => {
-    changee.classList.toggle(cssClass);
-  });
 }
 
+function blackTieAffair () {
 
-// function tableAct() {
+  document.getElementById('baseCal').style.transform = 'translateX(1250px)';
 
-//   const tbl = document.getElementById('patientCal');
-//   const aLeft = document.getElementById('arrowLeft');
-//   const aRight = document.getElementById('arrowRight');
-
-//   aLeft.addEventListener("click", () => {
-//     tbl.classList.toggle("activeLeft")
-//   })
-
-//   aRight.addEventListener("click", () => {
-//     tbl.classList.toggle("activeRight")
-//   })
-// }
-
-const buttonActivators = {
-
-  calSlider(buttonId, modId, cssClass) {
-
-    const btn = document.getElementById(buttonId);
-    const changee = document.getElementById(modId);
-  
-    btn.addEventListener("click", () => {
-      changee.classList.toggle(cssClass);
-    });
-  },
-
-  testButton () {
-
-    const btn = document.getElementById('btn');
-  
-    btn.addEventListener("click", () => {
-      btn.classList.toggle("active")
-    });
-  }
 }
 
-//creates a table with the same celldata for each cell (takes row count, column count, and cell data as parameters)
-function tableCreate(rows, cols, cellData) {
+//Global declarations for the printCalendar function
+let today = new Date();
+let currentMonth = today.getMonth();
+let currentYear = today.getFullYear();
+let selectYear = document.getElementById("year");
+let selectMonth = document.getElementById("month");
+
+let months = ["January", "February", "March", "April", "May", "Junr", "July", "August", "September", "October", "November", "December"];
+
+let monthAndYear = document.getElementById("monthAndYear");
+
+
+//Function that creates each different month calendar page
+function printCalendar(month, year) {
+
+  //Declarations of month data for later use
+  let firstDay = (new Date(year, month)).getDay();
+  let daysInMonth = 32 - new Date(year, month, 32).getDate();
+  var monthName=months[month];
+
+  //Creation of the body, table, table body and top row for headers
   var body = document.getElementsByTagName('body')[0];
   var tbl = document.createElement('table');
+  tbl.id = "baseCal"
   var tbdy = document.createElement('tbody');
-  tbl.style.width = '100%';
-  tbl.setAttribute('border', '1');
-  for (var i = 0; i < rows; i++) {
-    var tr = document.createElement('tr');
-    for (var j = 0; j < cols; j++) {
-      if (i == rows && j == cols) {
-        break;
-      } else {
-        var td = document.createElement('td');
-        td.appendChild(document.createTextNode(cellData))
-        tr.appendChild(td)
+
+  var headerRow = document.createElement('tr');
+
+  //Left button with translation functionality
+    var theader = document.createElement('th');
+    theader.id = "arrowLeftHeader";
+
+      var btn1 = document.createElement('button');
+        btn1.id = "arrowLeft";
+        btn1.onclick = function() {appleBottomJeans();};
+          var iElement = document.createElement('i');
+          iElement.setAttribute('class', 'arrow left');
+        btn1.appendChild(iElement);
+      theader.appendChild(btn1);
+
+  //Center header w/ month name
+  var theader2 = document.createElement('th');
+  theader2.setAttribute('colspan', '5')
+  theader2.appendChild(document.createTextNode(monthName));
+
+  //Right button with translation functionality
+    var theader3 = document.createElement('th');
+    theader3.id = "arrowRightHeader";
+
+      var btn2 = document.createElement('button');
+        btn2.id = "arrowRight";
+        btn2.onclick = function() {blackTieAffair();};
+          var iElement2 = document.createElement('i');
+          iElement2.setAttribute('class', 'arrow right');
+        btn2.appendChild(iElement2);
+      theader3.appendChild(btn2);
+
+  //Appending all of the sub headers to the main header row
+  headerRow.appendChild(theader);
+  headerRow.appendChild(theader2);
+  headerRow.appendChild(theader3);
+
+  //Appending the main header row to the body of the table
+  tbdy.appendChild(headerRow);
+
+  // creating all cells
+  let date = 1;
+  for (let i = 0; i < 6; i++) {
+      // creates a table row
+      let row = document.createElement("tr");
+
+      //creating individual cells, filing them up with data.
+      for (let j = 0; j < 7; j++) {
+
+        //Adds the blank spaces before the actual dates start appearing
+          if (i === 0 && j < firstDay) {
+              let cell = document.createElement("td");
+              let cellText = document.createTextNode("");
+              cell.appendChild(cellText);
+              row.appendChild(cell);
+          }
+
+          //When the current date is greater than the days in the month the function stops
+          else if (date > daysInMonth) {
+              break;
+          }
+
+          else {
+              let cell = document.createElement("td");
+              let cellText = document.createTextNode(date);
+
+              if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
+                    cell.classList.add("bg-info");
+              } // color today's date
+
+              cell.appendChild(cellText);
+              row.appendChild(cell);
+              date++;
+
+              //Adds the blank spaces after the dates to fill the calendar completely
+              if (i === 4 && date > daysInMonth && j < 7) {
+                for (let z = 0; z < j; z++) {
+
+                  let cell = document.createElement("td");
+                  let cellText = document.createTextNode("");
+                  cell.appendChild(cellText);
+                  row.appendChild(cell);
+
+                }
+
+              }
+    
+          }
+
       }
-    }
-    tbdy.appendChild(tr);
+
+      //Appending the rows into the calendar
+      tbdy.appendChild(row);
   }
+
+  //Appending the table body to the table and the table to the body
   tbl.appendChild(tbdy);
   body.appendChild(tbl);
+
 }
