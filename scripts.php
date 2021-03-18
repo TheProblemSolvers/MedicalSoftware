@@ -354,6 +354,8 @@ function patientToProvider($userId, $linkId){
 
 #generates an html table with only patient's data
 function generatePatientTable($userId){
+    $userFullName = userFullName($userId);
+    $userName = explode(' ', $userFullName);
     $fileHandle = accessUserDatabase($userId, "r");
 
     $htmlTable = "<br><table><thead><tr><th>First Name</th><th>Last Name</th><th>Patient Notes</th></tr></thead><tbody><tr>";
@@ -376,12 +378,34 @@ function generatePatientTable($userId){
     }
     #opens the provider's file and finds the patient's information
     $fileHandle = accessUserDatabase($providerId, "r");
-    #filters through provider's file and lands on patient's info
-    while($userId != getPatientId($lineContents)){
+
+    
+    #filters through provider's file and finds user's id in the provider's database
+    while(feof($fileHandle) == false){
+        while(preg_match("/" . $userName[0] . "/i", $lineContents) == 0){
+            $lineContents = fgets($fileHandle);
+        }
+        $lineContents = fgets($fileHandle);
+        if(preg_match("/" . $userName[1] . "/i", $lineContents) == 1){
+            $patientId = getPatientId($lineContents);
+            break;
+        }
+        else{
+            continue;
+        }
+    }
+    #resets the file pointer to the beginning of the file
+    fclose($fileHandle);
+    $fileHandle = accessUserDatabase($providerId, "r");
+    
+    #filters through provider's file and finds the correct line where patient data starts
+    $lineContents = fgets($fileHandle);
+    while($patientId != getPatientId($lineContents)){
         $lineContents = fgets($fileHandle);
     }
+    
     #compiles all of selected patient's data into a table to display
-    while($userId == getPatientId($lineContents)){
+    while($patientId == getPatientId($lineContents)){
         $startRead = strpos($lineContents, "=") + 1;
         $htmlTable = $htmlTable . "<td>" . substr($lineContents, $startRead) . "</td>";
         $lineContents = fgets($fileHandle);
