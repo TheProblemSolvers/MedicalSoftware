@@ -3,6 +3,27 @@
 #character to seperate username/password
 $seperator = "*";
 
+#gets linked provider's account from patient's file
+function getLinkedAccount($userId){
+    $fileHandle = accessUserDatabase($userId, "r");
+    #filters through patient's file and finds linked provider's account
+    while(feof($fileHandle) == false){
+        $lineContents = fgets($fileHandle);
+        if(preg_match("/ProviderAccount/i", $lineContents) == 1){
+            $startRead = strpos($lineContents, "=") + 1;
+            $providerId = trim(substr($lineContents, $startRead));
+            break;
+        }
+    }
+    fclose($fileHandle);
+    #if there was no linked provider account, return an error
+    if($providerId == null){
+        return false;
+    }
+    #opens the provider's file and finds the patient's information
+    return $providerId;
+}
+
 #accesses correct user database
 function accessUserDatabase($userId, $accessType){
     $fileName = "../users\user_data\#" . $userId . "\data.txt";
@@ -194,7 +215,7 @@ function createInduvidualTable($userId, $patientId){
         $lineContents = fgets($fileHandle);
     }
 
-    #compiles all of selected patient's data into a t
+    #compiles all of selected patient's data into a table
     while($patientId == getPatientId($lineContents)){
         $startRead = strpos($lineContents, "=") + 1;
         $htmlTable = $htmlTable . "<td>" . substr($lineContents, $startRead) . "</td>";
@@ -352,7 +373,7 @@ function patientToProvider($userId, $linkId){
     }
 }
 
-#generates an html table with only patient's data
+#generates an html table with only patient's data from their linked provider's account
 function generatePatientTable($userId){
     $userFullName = userFullName($userId);
     $userName = explode(' ', $userFullName);
@@ -379,8 +400,7 @@ function generatePatientTable($userId){
     #opens the provider's file and finds the patient's information
     $fileHandle = accessUserDatabase($providerId, "r");
 
-    
-    #filters through provider's file and finds user's id in the provider's database
+    #filters through provider's file and finds user's full name in the provider's database
     while(feof($fileHandle) == false){
         while(preg_match("/" . $userName[0] . "/i", $lineContents) == 0){
             $lineContents = fgets($fileHandle);
@@ -413,4 +433,31 @@ function generatePatientTable($userId){
     $htmlTable = $htmlTable . $htmlEndTable;
     fclose($fileHandle);
     return $htmlTable;
+}
+
+#adds the patient's first and last name to the checked in file in linked provider's database
+function patientCheckIn($userId){
+    #gathers patients first and last name, and their provider's ID
+    $fullName = userFullName($userId);
+    $providerId = getLinkedAccount($userId);
+    if($providerId == false){
+        return "No linked Provider Account";
+    }
+    #creates/opens checkinLog file, and writes patients name who has checked in
+    $providerFileName = "../users\user_data\#" . $providerId . "\checkinLog.txt";
+    $fileHandle = fopen($providerFileName, "a");
+    fwrite($fileHandle, $fullName . "\n");
+    fclose($fileHandle);
+    return true;   
+
+}
+
+#accesses user's checkinLog.txt file and returns patients who have checked in
+function readCheckinFile($providerId){
+    $fileHandle = fopen("../users\user_data\#" . $providerId . "\checkinLog.txt", "r");
+    $readyPatients = "";
+    while(feof($fileHandle) == false){
+        $readyPatients = $readyPatients . fgets($fileHandle);
+    }
+    return $readyPatients;
 }
