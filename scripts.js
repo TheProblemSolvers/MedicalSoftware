@@ -99,13 +99,34 @@ function dateRec()  {
 
 function appleBottomJeans() {
 
-  document.getElementById('baseCal').style.transform = 'translateX(-1250px)';
+  // const cloneTables = document.getElementsByClassName('random_test');
+  
+  // Array.from(cloneTables).forEach(function (cloneTable) {
+
+  //     cloneTable.style.transform = 'translate(-50%)';
+
+  //   });
+
+  document.getElementById('RandomTest1').style.transform = 'translateX(-1920px)';
 
 }
 
-function blackTieAffair () {
+// function blackTieAffair () {
 
-  document.getElementById('baseCal').style.transform = 'translateX(1250px)';
+//   document.getElementById('baseCal').style.transform = 'translateX(1250px)';
+
+// }
+
+function nextMonth () {
+
+  currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
+  currentMonth = (currentMonth + 1) % 12;
+  printCalendar(currentMonth, currentYear, 0);
+
+
+}
+
+function previousMonth () {
 
 }
 
@@ -116,13 +137,13 @@ let currentYear = today.getFullYear();
 let selectYear = document.getElementById("year");
 let selectMonth = document.getElementById("month");
 
-let months = ["January", "February", "March", "April", "May", "Junr", "July", "August", "September", "October", "November", "December"];
+let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 let monthAndYear = document.getElementById("monthAndYear");
 
 
 //Function that creates each different month calendar page
-function printCalendar(month, year) {
+function printCalendar(month, year, pixel) {
 
   //Declarations of month data for later use
   let firstDay = (new Date(year, month)).getDay();
@@ -132,7 +153,9 @@ function printCalendar(month, year) {
   //Creation of the body, table, table body and top row for headers
   var body = document.getElementsByTagName('body')[0];
   var tbl = document.createElement('table');
-  tbl.id = "baseCal"
+  tbl.id = 'RandomTest1';
+  // tbl.className = "random_test";
+  tbl.style.transform = `translateX(${pixel}px)`;
   var tbdy = document.createElement('tbody');
 
   var headerRow = document.createElement('tr');
@@ -143,7 +166,7 @@ function printCalendar(month, year) {
 
       var btn1 = document.createElement('button');
         btn1.id = "arrowLeft";
-        btn1.onclick = function() {appleBottomJeans();};
+        btn1.onclick = function() {appleBottomJeans(); nextMonth();y};
           var iElement = document.createElement('i');
           iElement.setAttribute('class', 'arrow left');
         btn1.appendChild(iElement);
@@ -160,7 +183,7 @@ function printCalendar(month, year) {
 
       var btn2 = document.createElement('button');
         btn2.id = "arrowRight";
-        btn2.onclick = function() {blackTieAffair();};
+          btn2.onclick = function() {blackTieAffair(); /*printCalendar(currentMonth + 1, currentYear)*/};
           var iElement2 = document.createElement('i');
           iElement2.setAttribute('class', 'arrow right');
         btn2.appendChild(iElement2);
@@ -199,18 +222,13 @@ function printCalendar(month, year) {
           else {
               let cell = document.createElement("td");
               let cellText = document.createTextNode(date);
-
-              if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
-                    cell.classList.add("bg-info");
-              } // color today's date
-
               cell.appendChild(cellText);
               row.appendChild(cell);
               date++;
 
               //Adds the blank spaces after the dates to fill the calendar completely
-              if (i === 4 && date > daysInMonth && j < 7) {
-                for (let z = 0; z < j; z++) {
+              if (date > daysInMonth && j < 7) {
+                for (let z = 0; z < 6 - j; z++) {
 
                   let cell = document.createElement("td");
                   let cellText = document.createTextNode("");

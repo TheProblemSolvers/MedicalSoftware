@@ -8,7 +8,7 @@
         <link rel="stylesheet" type="text/css" href="../stylesheet.css">
     </head>
 
-    <body onload="printCalendar(2, 2021);">
+    <body onload="printCalendar(currentMonth, currentYear, 0);">
 
         <h1>
             Patient Calendar
@@ -24,15 +24,9 @@
                 border-collapse: collapse;
                 table-layout: fixed;
                 position: fixed;
-                transform: translateX(0);
                 transition: transform 0.5s ease-in-out;
                 margin-left: 5%;
                 margin-right: 5%;
-            }
-
-            #monthHeader {
-                text-align: center;
-                table-layout: fixed;
             }
 
             /* code for arrows */
