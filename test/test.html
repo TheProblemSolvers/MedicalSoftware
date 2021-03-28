@@ -10,12 +10,10 @@
             <input type="text" name="test2" value="">
             <input type="submit" value="Test"><br><br>
         </form>
-        <script>
-            
-        </script>
+        <button onclick="document.location='index.html'">Random Email</button>
         <?php require("test.php");
         if($_SERVER["REQUEST_METHOD"] == "POST"){
-            echo testFunction();
+            echo sendEmail();
         }
         ?>
     </body>

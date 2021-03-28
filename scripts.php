@@ -1,5 +1,10 @@
 <?php
 
+#class declarations for the automated email function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 #character to seperate username/password
 $seperator = "*";
 
@@ -155,7 +160,7 @@ function validateCredentials($inputUsername, $inputPassword){
 }
 
 #adds new users to credentials.txt file and creates their folder and standard database file
-function addCredentials($firstName, $lastName, $newUsername, $newPassword, $newUserType){
+function addCredentials($firstName, $lastName, $emailAddress, $newUsername, $newPassword, $newUserType){
     #convert form data to formatted strings to write to credentials.txt
     $newCredentials = trim($newUsername) . $GLOBALS['seperator'] . trim($newPassword) . "\n";
     $newUserType = $newUserType . "\n";
@@ -198,6 +203,7 @@ function addCredentials($firstName, $lastName, $newUsername, $newPassword, $newU
     $fileLocation = fopen($fileName, "w");
     fwrite($fileLocation, trim($firstName) . " " . trim($lastName) . "\n");
     fwrite($fileLocation, $newUserType);
+    fwrite($fileLocation, "email=" . $emailAddress);
     fclose($fileLocation);
 
     return false;
@@ -392,6 +398,7 @@ function generatePatientTable($userId){
             break;
         }
     }
+
     fclose($fileHandle);
     #if there was no linked provider account, return an error
     if($providerId == null){
@@ -443,10 +450,16 @@ function patientCheckIn($userId){
     if($providerId == false){
         return "No linked Provider Account";
     }
-    #creates/opens checkinLog file, and writes patients name who has checked in
+    
+    #creates/opens checkinLog file, and writes patients name who has checked in if not already present
     $providerFileName = "../users\user_data\#" . $providerId . "\checkinLog.txt";
+    if(file_exists($providerFileName) == true){
+        if(checkDuplicates($providerFileName, "=" . $userId . ".") == true){
+            return "Provider Already Notified";
+        }
+    }
     $fileHandle = fopen($providerFileName, "a");
-    fwrite($fileHandle, $fullName . "\n");
+    fwrite($fileHandle, "\n" . $fullName . "=" . $userId . ".");
     fclose($fileHandle);
     return true;   
 
@@ -456,8 +469,117 @@ function patientCheckIn($userId){
 function readCheckinFile($providerId){
     $fileHandle = fopen("../users\user_data\#" . $providerId . "\checkinLog.txt", "r");
     $readyPatients = "";
+    #advances the file pointer to start of checkinLog.txt
+    fgets($fileHandle);
+    #loops through file and creates list
     while(feof($fileHandle) == false){
-        $readyPatients = $readyPatients . fgets($fileHandle);
+        $lineContents = fgets($fileHandle);
+        $endRead = strpos($lineContents, "=");
+        $patientFullName = substr($lineContents, 0, $endRead);
+        $patientId = substr($lineContents, $endRead + 1);
+        $readyPatients = $readyPatients . "<p>" . $patientFullName . "</p>" . 
+            "<a href='provider_executeCmd.html' onclick='setPatientIdCookie(" . $patientId . ")'>Check In</a>";
     }
     return $readyPatients;
+}
+
+#recieves check in instructions, deletes users name from check in file, and sends notification email
+function checkInPatient($providerId, $patientId){
+    $fileHandle = fopen("../users\user_data\#" . $providerId . "\data.txt", "r");
+    #runs through provider's data file and gets full name and email
+    $providerFullName = fgets($fileHandle);
+    fgets($fileHandle);
+    $lineContents = fgets($fileHandle);
+    $startRead = strpos($lineContents, "=");
+    $providerEmail = substr($lineContents, $startRead);
+    fclose($fileHandle);
+
+    $fileHandle = fopen("../users\user_data\#" . $patientId . "\data.txt", "r");
+    #runs through patient's data file and gets full name and email
+    $patientFullName = fgets($fileHandle);
+    fgets($fileHandle);
+    $lineContents = fgets($fileHandle);
+    $startRead = strpos($lineContents, "=");
+    $patientEmail = substr($lineContents, $startRead + 1);
+    fclose($fileHandle);
+
+    #deletes user's name from the checkin file
+    $fileHandle = fopen("../users\user_data\#" . $providerId . "\checkinLog.txt", "r");
+    #increment file pointer one line to avoid initial space
+    $lineContents = fgets($fileHandle);
+    #loop through checkin file and get all names except the checked in name
+    $i = 0;
+    while(feof($fileHandle) == false){
+        $lineContents = fgets($fileHandle);
+        if(preg_match('/' . $patientId . '/', $lineContents) == 1){
+            continue;
+        }
+        else{
+            $checkinList[$i] = $lineContents;
+            $i++;
+        }
+    }
+    fclose($fileHandle);
+
+    #rewrite all stored names to the checkin file
+    $i = 0;
+    $namesLeft = "";
+    $fileHandle = fopen("../users\user_data\#" . $providerId . "\checkinLog.txt", "w");
+    $numberOfNames = count($checkinList);
+    while($i < $numberOfNames){
+        $namesLeft = $namesLeft . "\n" . $checkinList[$i];
+        $i++;
+    }
+    fwrite($fileHandle, $namesLeft);
+    fclose($fileHandle);
+
+
+    sendEmail($patientEmail, $patientFullName, $providerFullName);
+
+
+    #need to get patient email, patients full name, and providers full name, 
+    #delete user's name from check in log, then call send email function
+}
+
+#sends an email to the patient letting them know to enter the building
+function sendEmail($patientEmail, $patientFullName, $providerFullName){
+    #accesses email library files
+    require("../vendor\phpmailer\src\Exception.php");
+    require("../vendor\phpmailer\src\PHPMailer.php");
+    require("../vendor\phpmailer\src\SMTP.php");
+
+    #Instantiation and passing `true` enables exceptions
+    $mail = new PHPMailer(true);
+
+    try {
+        #Server settings
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      
+        $mail->isSMTP();                                            
+        $mail->Host       = 'smtp.gmail.com';                     
+        $mail->SMTPAuth   = true;                                  
+        $mail->Username   = 'pltwmedicalsoftware@gmail.com';                  
+        $mail->Password   = 'Cherokee.2021';                              
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;       
+        $mail->Port       = 587;                                   
+
+        #Recipients
+        $mail->setFrom('pltwmedicalsoftware@gmail.com', $providerFullName);
+        $mail->addAddress($patientEmail, $patientFullName);     
+
+        #Content
+        $mail->isHTML(true);                            
+        $mail->Subject = "We are ready for your appointment!";
+        $mail->Body    = 'Dr. ' . $providerFullName . " is ready for you. Please enter the building and 
+            navigate to the check-in desk.<br><br>Thank you, <br>Management";
+        $mail->AltBody = 'Dr. ' . $providerFullName . " is ready for you. Please enter the building and 
+            navigate to the check-in desk. Thank you, Management"; #email body for non-HTML mail clients
+
+        $mail->send();
+        echo 'Message has been sent';
+    } 
+    catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+    sleep(1);
+    header("Location: provider_lander.html");
 }

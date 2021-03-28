@@ -15,11 +15,12 @@
 		</form>
 		<?php
 			if($_SERVER["REQUEST_METHOD"] == "POST"){
-				if(patientCheckIn($_COOKIE["userId"]) == 1){
+				$returnVal = patientCheckIn($_COOKIE["userId"]);
+				if($returnVal == 1){
 					header("Location: patient_lander.html");
 				}
 				else{
-					echo "An error has occured";
+					echo $returnVal;
 				}
 			}
 		?>
