@@ -7,10 +7,22 @@
         <link rel="stylesheet" type="text/css" href="../stylesheet.css">
 	</head>
 	<body>
+		<div class="topnav">=
+			<a href="../index.html">Logout</a>
+			<a href="provider_lander.html">Home</a>
+				<a href="provider_checkin.html">Check-In</a>
+				<a href="provider_calendar.html">Calender</a>
+				<a href="provider_addNewPatient.html">Add New Patient</a>
+				<a href="provider_database.html">Database</a>
+				<a href="provider_singlePatientView.html">Single Patient View</a>
+		</div>
+		
+		<div class="content"></div>
 		<h1>Arrived Patients:</h1>
 		<?php
 			require("../scripts.php");
 			echo readCheckinFile($_COOKIE["userId"]);
 		?>
+	</div>
 	</body>
 </html>

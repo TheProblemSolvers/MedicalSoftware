@@ -6,6 +6,17 @@
         <link rel="stylesheet" type="text/css" href="../stylesheet.css">
     </head>
     <body>
+        <div class="topnav"> 
+            <a href="../index.html">Logout</a>
+            <a href="patient_lander.html">Home</a>
+            <a href="patient_checkin.html">Check-In</a>
+            <a href="patient_calendar.html">Calender</a>
+            <a href="patient_app_scheduler.html">Scheduler</a>
+            <a href="patient_profile.html">Your Profile</a>
+            <a href="patient_accountSync.html">Account Syncing</a>
+      </div>
+      
+      <div class="content">
         <style>
             table, th, td {
                 border: 1px solid white;
@@ -13,10 +24,11 @@
                 padding: 5px;
             }
         </style>
-        <button onclick="document.location='patient_lander.html'">Home Page</button>
+        
         <h1><?php require("../scripts.php"); echo userFullName($_COOKIE['userId']) . "'s Profile";?></h1>
         <?php
             echo generatePatientTable($_COOKIE['userId']);
         ?>
+    </div>  
     </body>
 </html>

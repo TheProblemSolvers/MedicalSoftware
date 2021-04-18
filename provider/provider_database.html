@@ -9,6 +9,17 @@
         <link rel="stylesheet" type="text/css" href="../stylesheet.css">
     </head>
     <body>
+        <div class="topnav">
+            <a href="../index.html">Logout</a>
+            <a href="provider_lander.html">Home</a>
+				<a href="provider_checkin.html">Check-In</a>
+				<a href="provider_calendar.html">Calender</a>
+				<a href="provider_addNewPatient.html">Add New Patient</a>
+            	<a href="provider_database.html">Database</a>
+            	<a href="provider_singlePatientView.html">Michael IDK</a>
+        </div>
+       
+        <div class="content">
         <style>
             table, th, td {
                 border: 1px solid white;
@@ -16,7 +27,7 @@
                 padding: 5px;
             }
             </style>
-        <button onclick="document.location='provider_lander.html'">Home</button>
+        
         <h1>Patient Records</h1>
         <button onclick="document.location='provider_addNewPatient.html'">Add a new patient</button><br><br>
         <form id="patientSearch" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
@@ -32,5 +43,6 @@
         echo createPatientTable($_COOKIE["userId"]);
         ?><br>
         <button onclick="document.location='#patientSearch'">Back to top</button>
+    </div>
     </body>
 </html>

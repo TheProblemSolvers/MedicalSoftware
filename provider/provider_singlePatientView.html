@@ -7,15 +7,26 @@
         <title>Medical Software</title>
     </head>
     <body>
-        <style>
+        <div class="topnav">
+            <a href="../index.html">Logout</a>
+            <a href="provider_lander.html">Home</a>
+				<a href="provider_checkin.html">Check-In</a>
+				<a href="provider_calendar.html">Calender</a>
+				<a href="provider_addNewPatient.html">Add New Patient</a>
+            	<a href="provider_database.html">Database</a>
+            	<a href="provider_singlePatientView.html">Michael IDK</a>
+        </div>
+      
+        <div class="content ">
+       <style>
             table, th, td {
                 border: 1px solid black;
                 border-collapse: collapse;
                 padding: 5px;
             }
         </style>
-        <button onclick="document.location='provider_database.html'">Back to Database</button>
         <h1><?php require("../scripts.php"); echo patientFullName($_COOKIE["userId"], $_COOKIE["patientId"]); ?>'s File:</h1>
         <p><?php echo createInduvidualTable($_COOKIE["userId"], $_COOKIE["patientId"]); ?></p>
+    </div>
     </body>
 </html>
