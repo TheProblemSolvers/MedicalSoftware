@@ -553,7 +553,7 @@ function sendEmail($patientEmail, $patientFullName, $providerFullName){
 
     try {
         #Server settings
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      
+        $mail->SMTPDebug  = SMTP::DEBUG_SERVER;                      
         $mail->isSMTP();                                            
         $mail->Host       = 'smtp.gmail.com';                     
         $mail->SMTPAuth   = true;                                  
@@ -580,6 +580,6 @@ function sendEmail($patientEmail, $patientFullName, $providerFullName){
     catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
-    sleep(1);
+    //sleep(1);
     header("Location: provider_lander.html");
 }

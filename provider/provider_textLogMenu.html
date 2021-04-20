@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Medical Software</title>
+		<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+	</head>
+	<body>
+        <h1><?php require("../scripts.php"); echo userFullName($_COOKIE['userId']) . "'s Text Log Menu";?></h1>
+        <?php 
+            echo displayTextLogMenu($_COOKIE['userId']);
+        ?>
+	</body>
+</html>	
