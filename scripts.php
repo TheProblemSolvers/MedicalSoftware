@@ -1,5 +1,7 @@
 <?php
 
+/****************************  Global Declarations  *************************************/
+
 #class declarations for the automated email function
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -7,6 +9,17 @@ use PHPMailer\PHPMailer\Exception;
 
 #character to seperate username/password
 $seperator = "*";
+
+
+/****************************  Basic Functions  *************************************/
+
+#checks whether a user is a patient or provider, returns user type
+function userType($userId){
+    $fileHandle = accessUserDatabase($userId, "r");
+    $lineContents = fgets($fileHandle);
+    $lineContents = fgets($fileHandle);
+    return trim($lineContents);
+}
 
 #gets linked provider's account from patient's file
 function getLinkedAccount($userId){
@@ -135,6 +148,8 @@ function checkDuplicates($fileLocation, $data){
     return false;
 }
 
+/****************************  Specific Functions  *************************************/
+
 #compares users credentils to credential combinations in database
 function validateCredentials($inputUsername, $inputPassword){
     #takes user's inputted credentials and makes a single string
@@ -253,7 +268,8 @@ function createPatientTable($userId){
         #if the datatype is a first name, make it a link to the patient's file
         if(getDataType($lineContents) == "FirstName"){
             $startRead = strpos($lineContents, "=") + 1;
-            $htmlTable = $htmlTable . "<td>" . "<a href='provider_singlePatientView.html' onclick='setPatientIdCookie(" . $patientId . ")'>" . substr($lineContents, $startRead) . "</a></td>";
+            $htmlTable = $htmlTable . "<td>" . "<a href='provider_singlePatientView.html' onclick='setPatientIdCookie(" . 
+                $patientId . ")'>" . substr($lineContents, $startRead) . "</a></td>";
             $lineContents = fgets($fileHandle);
         }
         #if the datatype is not a first name, just add it to the table
@@ -533,15 +549,11 @@ function checkInPatient($providerId, $patientId){
     fwrite($fileHandle, $namesLeft);
     fclose($fileHandle);
 
-
+    #sends all relevant info to email functions
     sendEmail($patientEmail, $patientFullName, $providerFullName);
-
-
-    #need to get patient email, patients full name, and providers full name, 
-    #delete user's name from check in log, then call send email function
 }
 
-#sends an email to the patient letting them know to enter the building
+#sends an email to the patient letting them know to enter the building, uses PHPMailer library
 function sendEmail($patientEmail, $patientFullName, $providerFullName){
     #accesses email library files
     require("../vendor\phpmailer\src\Exception.php");
@@ -580,6 +592,82 @@ function sendEmail($patientEmail, $patientFullName, $providerFullName){
     catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
-    //sleep(1);
     header("Location: provider_lander.html");
+}
+
+#accesses patient's text log and displays conversation
+function displayTextLog($userId){
+    #opens user's file if they are a patient
+    if(userType($userId) == "patient"){
+        $fileHandle = fopen('../users\user_data\#' . $userId . '\text_log.txt', 'r');
+        $patientId = $userId;
+        $flag = 0;
+    }
+    #accesses patient's text log to display
+    elseif(userType($userId) == "provider"){
+        //code to open patients file if user is provider
+        $patientId = 327314153267847568;
+
+        $flag = 1;
+    }
+    
+    #compiles text string
+    $message = "";
+    while(feof($fileHandle) == false){
+        $lineContents = fgets($fileHandle);
+        $startRead = strpos($lineContents, ">") + 1;
+        $lineLength = strlen($lineContents);
+        if(substr($lineContents, $startRead, $lineLength - $startRead - 2) == ""){
+            continue;
+        }
+        elseif(preg_match("/<" . $patientId . ">/", $lineContents) == 1){
+            $message = $message . "<p class='patientText'>You Said: " . 
+                substr($lineContents, $startRead, $lineLength - $startRead - 2) . "</p>";
+        }
+        else{
+            $message = $message . "<p class='providerText'>They Said: " . 
+                substr($lineContents, $startRead, $lineLength - $startRead - 2) . "</p>";
+        }
+    }
+    fclose($fileHandle);
+    return $message;
+}
+
+#adds a line of text to patient's text log
+function addTextMessage($userId, $message){
+    if(userType($userId) == "patient"){
+        $fileHandle = fopen('../users\user_data\#' . $userId . '\text_log.txt', 'a');
+    }
+    elseif(userType($userId) == "provider"){
+        //code to open patients file if user is provider
+    }
+    $line = "<" . $userId . ">" . $message . "<\n";
+    fwrite($fileHandle, $line);
+    fclose($fileHandle);
+}
+
+#displays a list of hyperlinked names for the provider to click and view induvidual text log
+function displayTextLogMenu($providerId){
+    $fileHandle = accessUserDatabase($providerId, "r");
+    #loops through the provider's file and gathers first/last name, patient ID
+    while(feof($fileHandle) == false){
+        $lineContents = fgets($fileHandle);
+        $list = "";
+        if(preg_match('/firstName/', $lineContents) == 1){
+            $firstName = substr($lineContents, strpos($lineContents, "=") + 1);
+            $lineContents = fgets($fileHandle);
+            $lastName = substr($lineContents, strpos($lineContents, "=") + 1);
+            $startRead = strpos($lineContents, "p") + 1;
+            $endRead = strpos($lineContents, "=") - 1;
+            $patientId = substr($lineContents, $startRead, ($endRead - $startRead));
+            $list = $list . "<a href='provider_textLog.html' onclick='setPatientIdCookie(" . 
+                $patientId . ")'>" . $firstName . " " . $lastName . "</a><br>";
+        }
+        elseif(preg_match("/firstName/i", $lineContents) == 0){
+            $list = "No match found";
+            break;
+        }
+    }
+    fclose($fileHandle);
+    return $list;
 }
