@@ -136,7 +136,7 @@ function previousMonth () {
 
 function removeTable() {
 
-  var affTable = document.getElementById('Id1');
+  var affTable = document.getElementById('calendars');
 
   var parentEl = affTable.parentElement;
 
@@ -178,7 +178,7 @@ function printCalendar(month, year) {
 
   var tbl = document.createElement('table');
 
-  tbl.id = "Id1";
+  tbl.id = "calendars";
 
   var tbdy = document.createElement('tbody');
 
@@ -187,6 +187,9 @@ function printCalendar(month, year) {
   //Left button
 
     var theader = document.createElement('th');
+
+    theader.classList = "calendarHeader";
+
     theader.id = "arrowLeftHeader";
 
       var btn1 = document.createElement('button');
@@ -209,6 +212,8 @@ function printCalendar(month, year) {
 
   var theader2 = document.createElement('th');
 
+  theader2.classList = "calendarHeader";
+
   theader2.setAttribute('colspan', '5')
 
   theader2.appendChild(document.createTextNode(monthName));
@@ -216,6 +221,9 @@ function printCalendar(month, year) {
   //Right button
 
     var theader3 = document.createElement('th');
+
+    theader3.classList = "calendarHeader";
+
     theader3.id = "arrowRightHeader";
 
       var btn2 = document.createElement('button');
@@ -253,6 +261,7 @@ function printCalendar(month, year) {
       // creates a table row
 
       let row = document.createElement("tr");
+      row.classList = "calendarRow";
 
       //creating individual cells, filing them up with data.
 
@@ -263,8 +272,13 @@ function printCalendar(month, year) {
           if (i === 0 && j < firstDay) {
 
               let cell = document.createElement("td");
+
+              cell.classList = "calendarData";
+
               let cellText = document.createTextNode("");
+
               cell.appendChild(cellText);
+
               row.appendChild(cell);
 
           }
@@ -280,6 +294,8 @@ function printCalendar(month, year) {
           else {
 
             let cell = document.createElement("td");
+
+            cell.classList = "calendarData";
 
             var container = document.createElement("span");
 
@@ -306,6 +322,8 @@ function printCalendar(month, year) {
                 for (let z = 0; z < 6 - j; z++) {
 
                   let cell = document.createElement("td");
+
+                  cell.classList = "calendarData";
 
                   let cellText = document.createTextNode("");
 
