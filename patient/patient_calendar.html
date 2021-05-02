@@ -8,7 +8,6 @@
         <link rel="stylesheet" type="text/css" href="../stylesheet.css">
     </head>
 
-    <body onload="printCalendar(currentMonth, currentYear, 0);">
         <div class="topnav">              
             <a href="../index.html">Logout</a>
             <a href="patient_lander.html">Home</a>
@@ -17,70 +16,16 @@
             <a href="patient_app_scheduler.html">Scheduler</a>
             <a href="patient_profile.html">Your Profile</a>
             <a href="patient_accountSync.html">Account Syncing</a>
-    </div>
-    <div class="content">
-    <h1>
-            Patient Calendar
-        </h1>
+        </div>
 
-        <style>
-            
-            table {
-                width: 90%;
-                height: 750px;
-                background-color: rebeccapurple;
-                border: 1px solid black;
-                border-collapse: collapse;
-                table-layout: fixed;
-                position: fixed;
-                transition: transform 0.5s ease-in-out;
-                margin-left: 5%;
-                margin-right: 5%;
-            }
+        <br>
+        <br>
+        <br>
 
-            /* code for arrows */
-            .arrow {
-                border: solid rgb(51, 138, 153);
-                border-width: 0 3px 3px 0;
-                display: inline-block;
-                padding: 3px;
-            }
+        <div class="content">
 
-            /* code for left header arrow */
-            .left {
-                transform: rotate(135deg);
-                -webkit-transform: rotate(135deg);
-            }
+            <body id="tableContainer" onload="printCalendar(currentMonth, currentYear, 0);">
 
-            /* Centers both header arrows */
-            #arrowRightHeader, #arrowLeftHeader {
-                text-align: center;
-            }
-
-            /* code for right header arrow */
-            .right {
-                transform: rotate(-45deg);
-                -webkit-transform: rotate(-45deg);
-            }
-
-            th {
-                border: 1px solid black;
-            }
-
-            /* applies font-size and elimination of white space */
-            th, td {
-                border-collapse: collapse;
-                font-size: x-large;
-            }
-
-            /* applies border and text alignment to table datas */
-            td {
-                border: 1px solid black;
-                text-align: left;
-                vertical-align: top;
-            }
-
-            </style>
-               </div>
+        </div>
     </body>
 </html>
