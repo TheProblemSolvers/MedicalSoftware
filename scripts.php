@@ -379,10 +379,14 @@ function patientToProvider($userId, $linkId){
         $fileHandle = accessUserDatabase($userId, "a");
         if(file_exists("../users\user_data\#" . $linkId . "\data.txt") == true){
             $linkData = "ProviderAccount=" . strval($linkId) . "\n";
-            if(fwrite($fileHandle, $linkData) == false){
-                return $fileHandle;
-            }
+            fwrite($fileHandle, $linkData);
             fclose($fileHandle);
+            
+            #adds patient's full name and database-referenced id to provider's account
+            $fileHandle = fopen("../users\user_data\#" . $linkId . "\linkedAccounts.txt", "a");
+            fwrite($fileHandle, userFullName($userId) . "=" . $userId . ".\n");
+            fclose($fileHandle);
+            
             return true;
         }
         else{
@@ -596,24 +600,28 @@ function sendEmail($patientEmail, $patientFullName, $providerFullName){
 }
 
 #accesses patient's text log and displays conversation
-function displayTextLog($userId){
-    #opens user's file if they are a patient
-    if(userType($userId) == "patient"){
-        $fileHandle = fopen('../users\user_data\#' . $userId . '\text_log.txt', 'r');
-        $patientId = $userId;
-        $flag = 0;
+function displayTextLog($patientId, $userType){
+    #opens text log, creates a new one if one doesn't exist
+    if(file_exists('../users\user_data\#' . $patientId . '\text_log.txt') == false){
+        $fileHandle = fopen('../users\user_data\#' . $patientId . '\text_log.txt', 'w');
+        fclose($fileHandle);
     }
-    #accesses patient's text log to display
-    elseif(userType($userId) == "provider"){
-        //code to open patients file if user is provider
-        $patientId = 327314153267847568;
+    $fileHandle = fopen('../users\user_data\#' . $patientId . '\text_log.txt', 'r');
 
-        $flag = 1;
-    }
-    
     #compiles text string
     $message = "";
     while(feof($fileHandle) == false){
+        #sets the tags for the text line based on user type
+        if($userType == "provider"){
+            $patientTag = userFullName($patientId) . " Said: ";
+            $providerTag = "You Said: ";
+        }
+        if($userType == "patient"){
+            $providerId = getLinkedAccount($patientId);
+            $patientTag = "You Said: ";
+            $providerTag = "Dr. " . userFullName($providerId) . " Said: ";
+        }
+        #compiles list of text messaging
         $lineContents = fgets($fileHandle);
         $startRead = strpos($lineContents, ">") + 1;
         $lineLength = strlen($lineContents);
@@ -621,11 +629,11 @@ function displayTextLog($userId){
             continue;
         }
         elseif(preg_match("/<" . $patientId . ">/", $lineContents) == 1){
-            $message = $message . "<p class='patientText'>You Said: " . 
+            $message = $message . "<p class='patientText'>" . $patientTag .  
                 substr($lineContents, $startRead, $lineLength - $startRead - 2) . "</p>";
         }
         else{
-            $message = $message . "<p class='providerText'>They Said: " . 
+            $message = $message . "<p class='providerText'>" . $providerTag . 
                 substr($lineContents, $startRead, $lineLength - $startRead - 2) . "</p>";
         }
     }
@@ -634,13 +642,8 @@ function displayTextLog($userId){
 }
 
 #adds a line of text to patient's text log
-function addTextMessage($userId, $message){
-    if(userType($userId) == "patient"){
-        $fileHandle = fopen('../users\user_data\#' . $userId . '\text_log.txt', 'a');
-    }
-    elseif(userType($userId) == "provider"){
-        //code to open patients file if user is provider
-    }
+function addTextMessage($patientId, $userId, $message){
+    $fileHandle = fopen('../users\user_data\#' . $patientId . '\text_log.txt', 'a');
     $line = "<" . $userId . ">" . $message . "<\n";
     fwrite($fileHandle, $line);
     fclose($fileHandle);
@@ -648,26 +651,44 @@ function addTextMessage($userId, $message){
 
 #displays a list of hyperlinked names for the provider to click and view induvidual text log
 function displayTextLogMenu($providerId){
+    $providerId = trim($providerId);
     $fileHandle = accessUserDatabase($providerId, "r");
+    $list = "";
     #loops through the provider's file and gathers first/last name, patient ID
     while(feof($fileHandle) == false){
         $lineContents = fgets($fileHandle);
-        $list = "";
-        if(preg_match('/firstName/', $lineContents) == 1){
-            $firstName = substr($lineContents, strpos($lineContents, "=") + 1);
+        $linkedAccountExists = false;
+        if(preg_match("/firstname/i", $lineContents) == 1){
+            $firstName = trim(substr($lineContents, strpos($lineContents, "=") + 1));
             $lineContents = fgets($fileHandle);
-            $lastName = substr($lineContents, strpos($lineContents, "=") + 1);
-            $startRead = strpos($lineContents, "p") + 1;
-            $endRead = strpos($lineContents, "=") - 1;
-            $patientId = substr($lineContents, $startRead, ($endRead - $startRead));
-            $list = $list . "<a href='provider_textLog.html' onclick='setPatientIdCookie(" . 
-                $patientId . ")'>" . $firstName . " " . $lastName . "</a><br>";
-        }
-        elseif(preg_match("/firstName/i", $lineContents) == 0){
-            $list = "No match found";
-            break;
+            $lastName = trim(substr($lineContents, strpos($lineContents, "=") + 1));
+            
+            #checks the provider's linked accounts text file and gather's patient's database-relative ID
+            $patientFullName = $firstName . " " . $lastName;
+            $fileHandle2 = fopen("../users\user_data\#" . $providerId . "\linkedAccounts.txt", "r");
+            while(feof($fileHandle2) == false){
+                $lineContents = fgets($fileHandle2);
+                if(preg_match("/" . $patientFullName . "/i", $lineContents) == true){
+                    $linkedAccountExists = true;
+                    $startRead = strpos($lineContents, "=") + 1;
+                    $endRead = strpos($lineContents, ".");
+                    $patientId = trim(substr($lineContents, $startRead, ($endRead - $startRead)));
+                }
+            }
+            fclose($fileHandle2);
+            #html link is only compiled if the patient has linked their account to the provider
+            if($linkedAccountExists == true){
+                $cookie = "patientId=" . $patientId;
+                $list = $list . "<a href='provider_textLog.html' onclick='setPatientIdCookie(" . 
+                $patientId .")'>" . $firstName . " " . $lastName . "</a><br>";
+            }
         }
     }
     fclose($fileHandle);
-    return $list;
+    if($list == ""){
+        return "No Patients Found";
+    }
+    else{
+        return $list;
+    }
 }

@@ -4,6 +4,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Medical Software</title>
 		<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+		<script src="../scripts.js"></script>
 	</head>
 	<body>
         <style>
@@ -17,7 +18,7 @@
 		<button onclick="document.location='patient_lander.html'">Home Page</button>
         <h1><?php require("../scripts.php"); echo userFullName($_COOKIE['userId']) . "'s Text Log";?></h1><br>
 		<?php 
-			echo displayTextLog($_COOKIE['userId']);
+			echo displayTextLog($_COOKIE['userId'], "patient");
 		?><br><br>
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
 			<label for="textContents">Send Message:</label>
@@ -26,7 +27,7 @@
 		</form>
         <?php 
 			if($_SERVER["REQUEST_METHOD"] == "POST"){
-				addTextMessage($_COOKIE['userId'], $_POST['textContents']);
+				addTextMessage($_COOKIE['userId'], $_COOKIE['userId'], $_POST['textContents']);
                 header("Refresh:0; url=#");
 			}
 		?>
