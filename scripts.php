@@ -694,9 +694,15 @@ function displayTextLogMenu($providerId){
     }
 }
 
+#checks on html page load whether provider account is linked or not
+function checkLinkedAccount($patientId){
+    
+}
+
 #parses data from the format the appointment date is sent to the browser in
 function parseApptData($apptDate){
     #parses cookie data into seperate numbers for simple use, then returns all data as an array
+    #date format:  <(patientId)>(minute)A(hour)B(day)C(month)D(year)
     $apptMinute = substr($apptDate, 0, strpos($apptDate, "A"));
     $apptHour = substr($apptDate, strpos($apptDate, "A") + 1, strpos($apptDate, "B"));
     $apptDay = substr($apptDate, strpos($apptDate, "B") + 1, strpos($apptDate, "C"));
@@ -705,12 +711,68 @@ function parseApptData($apptDate){
     return array($apptMinute, $apptHour, $apptDay, $apptMonth, $apptYear);
 }
 
+#seperates day, month, and year from HTML date format
+function seperateHTMLDate($date){
+    #finds where year data stops, and stores year data
+    $endRead = strpos($date, "-");
+    $apptYear = substr($date, 0, $endRead);
+
+    #finds where month data starts, and stores month data
+    $startRead = $endRead + 1;
+    $endRead = strpos($date, "-", $endRead + 1);
+    $apptMonth = substr($date, $startRead, ($endRead - $startRead));
+
+    #finds where day data starts, and stores day data
+    $startRead = $endRead + 1;
+    $apptDay = substr($date, $startRead);
+
+    #returns data in array format to calling function
+    return array($apptDay, $apptMonth, $apptYear);
+}
+
+#seperates hour and minute from HTML time format
+function seperateHTMLTime($time){
+    $endRead = strpos($time, ":");
+    $hour = substr($time, 0, $endRead);
+    $minute = substr($time, $endRead + 1);
+    return array($minute, $hour);
+}
+
 #takes appointment date and time and stores it into provider's database
-function storeApptData($patientId, $apptType, $addtlInfo, $date){
+function storeApptData($patientId, $apptType, $addtlInfo, $date, $time){
+    #returns an error message if no linked provider's account is found
+    if(getLinkedAccount($patientId) == false){
+        return "No provider account linked. Please link to your provider's account.";
+    }
+
+    #compile data into format server can easily read
+    $date = seperateHTMLDate($date);
+    $time = seperateHTMLTime($time);
+    $apptData = "<" . $patientId . ">" . $time[0] . "A" . $time[1] . "B" . $date[0] . "C" . $date[1] . "D" . $date[2] . "\n";
+
+    #access provider's database
     $providerId = getLinkedAccount($patientId);
     $fileName = "../users\user_data\#" . trim($providerId) . "\calendar.txt";
+
+    #checks if appointment slot is availible
+    $startRead = strpos($apptData, ">") + 1;
+    if(checkDuplicates($fileName, substr($apptData, $startRead)) == true){
+        return "Appointment slot is taken.";
+    }
+
+    #open file, write data, close it
     $fileHandle = fopen($fileName, "a");
-    fwrite($fileHandle, $date);
+    fwrite($fileHandle, $apptData);
     fclose($fileHandle);
-    return 0;
+
+    #turns military time into std time for success message to patient
+    $timeTag = "AM";
+    if($time[1] > 12){
+        $time[1] = $time[1] - 12;
+        $timeTag = "PM";
+    }
+
+    #returns success message with date and time of appointment
+    return "Appointment has been made for " . userFullName($patientId) . " on " . $date[1] . "/" . $date[0] . "/" . 
+        $date[2] . " at " . $time[1] . ":" . $time[0] . " " . $timeTag;
 }

@@ -10,6 +10,10 @@ link this stylesheet to any other html page using this line of code:
 /* This is just a test to see what this turns them into */
  
  
+.errorMessage{
+  color: red;
+}
+
 .wrapper {
   max-width: 960px;
     margin: 0 auto;

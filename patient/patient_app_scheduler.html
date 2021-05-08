@@ -26,6 +26,12 @@
     <div id="appointment">
  
         <h1>Appointment Scheduling</h1>
+        <?php 
+            require("../scripts.php");
+            if(getLinkedAccount($_COOKIE['userId']) == false){
+                echo "<p class='errorMessage'>No provider account linked. <br>Please link a providers account to continue.</p>";
+            }
+        ?>
  
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
  
@@ -71,8 +77,20 @@
             <br>
  
             <!-- Input for selecting a date -->
-            <input type="date" name="calInput" id="calInput">
+            <input type="date" name="calInput" id="calInput" required>
  
+            <br>
+            <br>
+
+            <!-- Input for selecting a date -->
+            <input type="time" name="timeInput" id="timeInput" min="07:00:00" max="17:30:00" step="1800" width="200px" required>
+
+            <!-- <input type="number" name="timeInput" id="timeInput">
+            <select name="time" list="Time of Day" id="time">
+                <option value="Well Visit">AM</option>
+                <option value="Office Visit">PM</option>
+            </select> -->
+
             <br>
             <br>
  
@@ -82,14 +100,11 @@
         </form>
  
         <?php
- 
-        require("../scripts.php");
-        if($_SERVER['REQUEST_METHOD']=="POST"){
-            //grab the jawn
-            storeApptData($_COOKIE['userId'],$_POST['appType'],$_POST['addInfo'],$_POST['calInput']);
-            header("Refresh:0; url=#");
-        }
- 
+            if($_SERVER['REQUEST_METHOD']=="POST"){
+                echo storeApptData($_COOKIE['userId'], $_POST['appType'], $_POST['addInfo'], 
+                    $_POST['calInput'], $_POST['timeInput']);
+                //header("Refresh:0; url=#");
+            }
         ?>
  
         <br>
