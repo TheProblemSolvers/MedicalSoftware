@@ -321,6 +321,7 @@ function searchDatabase($userId, $searchParameter){
         $lineContents = fgets($fileHandle);
     }
     fclose($fileHandle);
+
     #if there are matches, read them into a string to return
     if($i > 0){
         $returnString = "";
@@ -329,7 +330,7 @@ function searchDatabase($userId, $searchParameter){
         }
         return $returnString;
     }
-    #return an error if there are no matches
+    #return an message if there are no matches
     else{
         return "Patient record not found";
     }    
@@ -691,4 +692,25 @@ function displayTextLogMenu($providerId){
     else{
         return $list;
     }
+}
+
+#parses data from the format the appointment date is sent to the browser in
+function parseApptData($apptDate){
+    #parses cookie data into seperate numbers for simple use, then returns all data as an array
+    $apptMinute = substr($apptDate, 0, strpos($apptDate, "A"));
+    $apptHour = substr($apptDate, strpos($apptDate, "A") + 1, strpos($apptDate, "B"));
+    $apptDay = substr($apptDate, strpos($apptDate, "B") + 1, strpos($apptDate, "C"));
+    $apptMonth = substr($apptDate, strpos($apptDate, "C") + 1, strpos($apptDate, "D"));
+    $apptYear = substr($apptDate, strpos($apptDate, "D") + 1);
+    return array($apptMinute, $apptHour, $apptDay, $apptMonth, $apptYear);
+}
+
+#takes appointment date and time and stores it into provider's database
+function storeApptData($patientId, $apptType, $addtlInfo, $date){
+    $providerId = getLinkedAccount($patientId);
+    $fileName = "../users\user_data\#" . trim($providerId) . "\calendar.txt";
+    $fileHandle = fopen($fileName, "a");
+    fwrite($fileHandle, $date);
+    fclose($fileHandle);
+    return 0;
 }

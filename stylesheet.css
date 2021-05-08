@@ -1,15 +1,15 @@
 /*
-
+ 
 put css code here
-
+ 
 link this stylesheet to any other html page using this line of code:
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
-
+ 
 */
-
+ 
 /* This is just a test to see what this turns them into */
-
-
+ 
+ 
 .wrapper {
   max-width: 960px;
     margin: 0 auto;
@@ -22,8 +22,26 @@ link this stylesheet to any other html page using this line of code:
     text-align: center;
     margin: 0;
   }
-
-
+ 
+  #filler {
+ 
+  background: #2980b9;
+  color: #FFF;
+  font-family: Helvetica;
+  text-align: left;
+  margin: 0;
+  
+}
+ 
+  #appointment {
+    background-color: #ddd;
+    color: rgb(0, 0, 0);
+    position: absolute;
+    width:100%;
+    margin-left: 7.5%;
+  }
+ 
+ 
     /* Index Should have special formatting because its a page unlike the rest */
   .indexhome {
     background-color: #2980b9;
@@ -39,7 +57,7 @@ link this stylesheet to any other html page using this line of code:
   
   
   /* These are for creating the sections of the website */
-
+ 
   .topnav {
     overflow: hidden;
     background-color: rgba(1, 22, 212,);
@@ -61,12 +79,12 @@ link this stylesheet to any other html page using this line of code:
     font-family: inherit; 
     margin: 0; 
  }
-
+ 
   .topnav a:hover {
     background-color: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
   }
-
+ 
   .content {
     background-color: #ddd;
     color: rgb(0, 0, 0);
@@ -85,14 +103,14 @@ link this stylesheet to any other html page using this line of code:
     bottom: 0;
     width:100%;
   }  
-
+ 
                         /* For Creating Seperate Columns and Such for information */
-
+ 
   .row {        
     display: -webkit-flex;
     display: flex;
   }
-
+ 
   .column {
     flex: 1;
     padding: 10px;
@@ -102,10 +120,10 @@ link this stylesheet to any other html page using this line of code:
     flex: 2;
     padding: 10px;
   }
-
+ 
   .image1 {
     background:url(https://static.wikia.nocookie.net/rezero/images/a/a0/Emilia_ep.41_%283%29.png/revision/latest?cb=20210120201244) center fixed ; }
-
+ 
   .image1-inner  {
     padding-top: 30% ; 
     padding-bottom: 30% ;
@@ -160,7 +178,7 @@ link this stylesheet to any other html page using this line of code:
     background-image: url("img_parallax3.jpg");
     min-height: 400px;
   }
-
+ 
   .caption {
     position: absolute;
     left: 0;
@@ -191,96 +209,98 @@ link this stylesheet to any other html page using this line of code:
       background-attachment: scroll;
     }
   }
-
+ 
   /* Calendar css */
-
+ 
   #calendars {
-
+ 
     width: 90%;
-    height: 750px;
+    height: 75%;
     border: 1px solid black;
     border-radius: 10px 10px 0px 0px;
     border-collapse: collapse;
     table-layout: fixed;
     position: fixed;
-    transition: transform 0.5s ease-in-out;
+    /* transition: transform 0.5s ease-in-out; */
+    margin-top: 2%;
     margin-left: 5%;
     margin-right: 5%;
     font-family: Arial, Helvetica, sans-serif;
     overflow: hidden;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
-
+ 
     }
-
+ 
     /* code for arrows */
     .arrow {
-
+ 
     border: solid rgb(51, 138, 153);
     border-width: 0 3px 3px 0;
     display: inline-block;
     padding: 3px;
-
+ 
     }
-
+ 
     /* code for left header arrow */
     .left {
-
+ 
     transform: rotate(135deg);
     -webkit-transform: rotate(135deg);
-
+ 
     }
-
+ 
     /* Centers both header arrows */
     #arrowRightHeader, #arrowLeftHeader {
-
+ 
     text-align: center;
-
+ 
     }
-
+ 
     /* code for right header arrow */
     .right {
-
+ 
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
-
+ 
     }
-
+ 
     th.calendarHeader {
-
+ 
     /* border-bottom: 1px solid black;
     border-top: 1px solid black; */
     background-color: #2980b9;
     font-size: 300%;
-
+    text-align: center;
+ 
     }
-
-
+ 
+ 
     /* applies border and text alignment to table datas */
     td.calendarData {
-
+ 
     border: 1px solid black;
     font-size: x-large;
     text-align: left;
     vertical-align: top;
     color:  #2980b9;;
-
+ 
     }
-
+ 
     /* applies font-size and elimination of white space */
     th.calendarHeader, td.calendarData {
-
+ 
     padding: 12px 15px;
-
+ 
     }
-
+ 
     tr.calendarRow:nth-of-type(even) {
-
+ 
     background-color: #f3f3f3;
-
+ 
     }
-
+ 
     /* tr:last-of-type {
-
+ 
     border-bottom: 20px solid #2980b9; 
-
+ 
     } */
