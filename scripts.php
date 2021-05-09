@@ -506,24 +506,6 @@ function readCheckinFile($providerId){
 
 #recieves check in instructions, deletes users name from check in file, and sends notification email
 function checkInPatient($providerId, $patientId){
-    $fileHandle = fopen("../users\user_data\#" . $providerId . "\data.txt", "r");
-    #runs through provider's data file and gets full name and email
-    $providerFullName = fgets($fileHandle);
-    fgets($fileHandle);
-    $lineContents = fgets($fileHandle);
-    $startRead = strpos($lineContents, "=");
-    $providerEmail = substr($lineContents, $startRead);
-    fclose($fileHandle);
-
-    $fileHandle = fopen("../users\user_data\#" . $patientId . "\data.txt", "r");
-    #runs through patient's data file and gets full name and email
-    $patientFullName = fgets($fileHandle);
-    fgets($fileHandle);
-    $lineContents = fgets($fileHandle);
-    $startRead = strpos($lineContents, "=");
-    $patientEmail = substr($lineContents, $startRead + 1);
-    fclose($fileHandle);
-
     #deletes user's name from the checkin file
     $fileHandle = fopen("../users\user_data\#" . $providerId . "\checkinLog.txt", "r");
     #increment file pointer one line to avoid initial space
@@ -555,22 +537,51 @@ function checkInPatient($providerId, $patientId){
     fclose($fileHandle);
 
     #sends all relevant info to email functions
-    sendEmail($patientEmail, $patientFullName, $providerFullName);
+    $subject = "We are ready for your appointment!";
+    $body = 'Dr. ' . $providerFullName . " is ready for you. Please enter the building and 
+        navigate to the check-in desk.<br><br>Thank you, <br>Management";
+    $altBody = 'Dr. ' . $providerFullName . " is ready for you. Please enter the building and 
+        navigate to the check-in desk. Thank you, Management";
+    sendEmail($patientId, $subject, $body, $altBody);
+    header("Location: provider_lander.html");
 }
 
 #sends an email to the patient letting them know to enter the building, uses PHPMailer library
-function sendEmail($patientEmail, $patientFullName, $providerFullName){
+function sendEmail($patientId, $subject, $body, $altBody){
     #accesses email library files
     require("../vendor\phpmailer\src\Exception.php");
     require("../vendor\phpmailer\src\PHPMailer.php");
     require("../vendor\phpmailer\src\SMTP.php");
+
+    #<------------------------gathers necessary info to send email------------------------->
+
+    #runs through patient's data file and gets full name and email
+    $fileHandle = fopen("../users\user_data\#" . $patientId . "\data.txt", "r");
+    $patientFullName = fgets($fileHandle);
+    fgets($fileHandle);
+    $lineContents = fgets($fileHandle);
+    $startRead = strpos($lineContents, "=");
+    $patientEmail = substr($lineContents, $startRead + 1);
+    fclose($fileHandle);
+
+    #runs through provider's data file and gets full name and email
+    $providerId = getLinkedAccount($patientId);
+    $fileHandle = fopen("../users\user_data\#" . trim($providerId) . "\data.txt", "r");
+    $providerFullName = fgets($fileHandle);
+    fgets($fileHandle);
+    $lineContents = fgets($fileHandle);
+    $startRead = strpos($lineContents, "=");
+    $providerEmail = substr($lineContents, $startRead);
+    fclose($fileHandle);
+
+    #<------------------------------sends email------------------------------------->
 
     #Instantiation and passing `true` enables exceptions
     $mail = new PHPMailer(true);
 
     try {
         #Server settings
-        $mail->SMTPDebug  = SMTP::DEBUG_SERVER;                      
+        $mail->SMTPDebug  = 0;                      
         $mail->isSMTP();                                            
         $mail->Host       = 'smtp.gmail.com';                     
         $mail->SMTPAuth   = true;                                  
@@ -580,24 +591,21 @@ function sendEmail($patientEmail, $patientFullName, $providerFullName){
         $mail->Port       = 587;                                   
 
         #Recipients
-        $mail->setFrom('pltwmedicalsoftware@gmail.com', $providerFullName);
+        $mail->setFrom($providerEmail, $providerFullName);
         $mail->addAddress($patientEmail, $patientFullName);     
 
         #Content
         $mail->isHTML(true);                            
-        $mail->Subject = "We are ready for your appointment!";
-        $mail->Body    = 'Dr. ' . $providerFullName . " is ready for you. Please enter the building and 
-            navigate to the check-in desk.<br><br>Thank you, <br>Management";
-        $mail->AltBody = 'Dr. ' . $providerFullName . " is ready for you. Please enter the building and 
-            navigate to the check-in desk. Thank you, Management"; #email body for non-HTML mail clients
-
+        $mail->Subject = $subject;
+        $mail->Body    = $body;
+        $mail->AltBody = $altBody;
         $mail->send();
-        echo 'Message has been sent';
+        //echo 'Message has been sent';
     } 
     catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
-    header("Location: provider_lander.html");
+    return;
 }
 
 #accesses patient's text log and displays conversation
@@ -772,7 +780,11 @@ function storeApptData($patientId, $apptType, $addtlInfo, $date, $time){
         $timeTag = "PM";
     }
 
+    #compiles confirmation message to email to patient
+    $confirmationMessage = "Appointment has been made for " . userFullName($patientId) . " on " . $date[1] . 
+        "/" . $date[0] . "/" . $date[2] . " at " . $time[1] . ":" . $time[0] . " " . $timeTag;
+    sendEmail($patientId, "Appointment Confirmation", $confirmationMessage, $confirmationMessage);
+
     #returns success message with date and time of appointment
-    return "Appointment has been made for " . userFullName($patientId) . " on " . $date[1] . "/" . $date[0] . "/" . 
-        $date[2] . " at " . $time[1] . ":" . $time[0] . " " . $timeTag;
+    return $confirmationMessage;
 }
