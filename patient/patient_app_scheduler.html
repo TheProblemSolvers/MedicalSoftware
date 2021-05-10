@@ -10,22 +10,21 @@
     <body id="filler">
  
     <div class="topnav">
- 
-            <a href="../index.html">Logout</a>
-            <a href="patient_lander.html">Home</a>
-            <a href="patient_checkin.html">Check-In</a>
-            <a href="patient_calendar.html">Calender</a>
-            <a href="patient_app_scheduler.html">Scheduling</a>
-            <a href="patient_profile.html">Your Profile</a>
-            <a href="patient_accountSync.html">Account Syncing</a>
- 
+        <a href="../index.html">Logout</a>
+        <a href="patient_lander.html">Home</a>
+        <a href="patient_checkin.html">Check-In</a>
+        <a href="patient_calendar.html">Calender</a>
+        <a href="patient_app_scheduler.html">Scheduling</a>
+        <a href="patient_profile.html">Your Profile</a>
+        <a href="patient_accountSync.html">Account Syncing</a>
     </div>
  
-   <section class="content">
- 
+    <section class="content">
+
+        <h1 id="patientCalendarHeader">Appointment Scheduling</h1>
+
     <div id="appointment">
- 
-        <h1>Appointment Scheduling</h1>
+
         <?php 
             require("../scripts.php");
             if(getLinkedAccount($_COOKIE['userId']) == false){
@@ -35,14 +34,12 @@
  
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
  
-            <label for="Appointment Type">
- 
-                <em>Appointment Type:</em>
- 
-            </label>
- 
-            <br>
-            <br>
+            <label><em>Is This an Emergency?</em></label><br><br>
+            <input type="button" onclick="emergencyButton('Yes');" value="Yes">
+            <input type="button" onclick="emergencyButton('No');" value="No">
+            <p id="emergency"></p>
+
+            <label for="Appointment Type"><em>Appointment Type:</em></label><br><br>
  
                 <select name="appType" list="Appointment Types" value="Appointment Type" id="appType">
                     <option value="Well Visit">Well Visit</option>
@@ -51,51 +48,22 @@
                     <option value="School/Sports Physical">School/Sports Physical</option>
                     <option value="Screening Diagnostic Labs">Screening Diagnostic Labs</option>
                     <option value="Healthcare Visit">Healthcare Visit</option>
-                </select>
+                </select><br><br>
  
-            <br>
-            <br>
-            
-            <label>
-                
-                <em>Is This an Emergency?</em>
-            
-            </label>
- 
-            <br>
-            <br>
- 
-            <input type="button" onclick="emergencyButton('Yes');" value="Yes">
-            <input type="button" onclick="emergencyButton('No');" value="No">
- 
-            <p id="emergencyYes"></p>
- 
+            <!-- Input for selecting a time -->
+            <label for="timeInput">Appointment Time</label><br><br>
+            <input type="time" name="timeInput" id="timeInput" min="07:00:00" max="17:30:00" step="1800" required><br><br>
+
+            <!-- Input for selecting a date -->
+            <label for="calInput">Appointment Date</label><br><br>
+            <input type="date" name="calInput" id="calInput" required><br><br>
+
             <!-- Input for adding text to cell -->
-            <input type="text" name ="addInfo" id="addInfo">
- 
-            <br>
-            <br>
- 
-            <!-- Input for selecting a date -->
-            <input type="date" name="calInput" id="calInput" required>
- 
-            <br>
-            <br>
+            <label for="addInfo">Additional Information</label><br><br>
+            <input type="text" name ="addInfo" id="addInfo"><br><br>           
 
-            <!-- Input for selecting a date -->
-            <input type="time" name="timeInput" id="timeInput" min="07:00:00" max="17:30:00" step="1800" width="200px" required>
-
-            <!-- <input type="number" name="timeInput" id="timeInput">
-            <select name="time" list="Time of Day" id="time">
-                <option value="Well Visit">AM</option>
-                <option value="Office Visit">PM</option>
-            </select> -->
-
-            <br>
-            <br>
- 
             <!-- Function call for date input -->
-            <input type="submit" onclick="dateRec();" value="Submit Date">
+            <input type="submit" value="Schedule Appointment">
  
         </form>
  
@@ -117,9 +85,12 @@
             }
  
         </style>
- 
-        <body id=""onload="printCalendar(currentMonth, currentYear)"></body>
         </div>
+
+        <div>
+            <body id=""onload="printCalendar(currentMonth, currentYear)"></body>
+        </div>
+       
         </section>
     </body>
 </html>

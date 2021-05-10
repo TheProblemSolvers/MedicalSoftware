@@ -48,18 +48,21 @@ function emergencyButton(buttonNumber) {
   switch (buttonNumber) {
  
       case 'Yes':
- 
-          var par = document.getElementById("emergencyYes");
-          var t = document.createTextNode("Please contact your local emergency services if immediate medical attention is required.");
+
+          document.getElementById("emergency").innerHTML = "Please contact your local emergency" +
+            "services if immediate medical attention is required.";
+          var par = document.getElementById("emergency");
+          var t = document.innerHTML("Please contact your local emergency services if immediate medical attention is required.");
           par.appendChild(t);
           var br = document.createElement('br');
           par.appendChild(br);
           break;
  
       case 'No':
- 
+
+        document.getElementById("emergency").innerHTML = "Please continue.";
           var par = document.getElementById("emergencyYes");
-          var t = document.createTextNode("Please continue.");
+          var t = document.innerHTML("Please continue.");
           par.appendChild(t);
           var br = document.createElement('br');
           par.appendChild(br);

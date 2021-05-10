@@ -702,11 +702,6 @@ function displayTextLogMenu($providerId){
     }
 }
 
-#checks on html page load whether provider account is linked or not
-function checkLinkedAccount($patientId){
-    
-}
-
 #parses data from the format the appointment date is sent to the browser in
 function parseApptData($apptDate){
     #parses cookie data into seperate numbers for simple use, then returns all data as an array

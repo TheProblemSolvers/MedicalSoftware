@@ -14,6 +14,14 @@ link this stylesheet to any other html page using this line of code:
   color: red;
 }
 
+#emergency{
+  color: red;
+}
+
+#patientCalendarHeader{
+  margin-left: 5.5%;
+}
+
 .wrapper {
   max-width: 960px;
     margin: 0 auto;
@@ -41,8 +49,8 @@ link this stylesheet to any other html page using this line of code:
     background-color: #ddd;
     color: rgb(0, 0, 0);
     position: absolute;
-    width:100%;
-    margin-left: 7.5%;
+    width:20%;
+    margin-left: 5.5%;
   }
  
  
