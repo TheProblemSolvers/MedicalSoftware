@@ -82,13 +82,10 @@
         <?php $appointmentArray = getAppointmentDates($_COOKIE['userId']); ?>
 
         <script type="text/javascript">
-            function displayAppointment(){
+
                 var appointmentArray = <?php echo json_encode($appointmentArray); ?>;
-                document.getElementById("testing").innerHTML = appointmentArray;
-            }
-            function clearParagraph(id){
-                document.getElementById(id).innerHTML = "";
-            }
+                addAppData (appointmentArray);
+
         </script>
 
         <button onclick="displayAppointment()">Display Appointment</button>

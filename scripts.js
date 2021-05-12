@@ -146,7 +146,9 @@ function removeTable() {
  
 }
  
- 
+function addAppData () {
+
+}
  
 //Global declarations for the printCalendar function
  
