@@ -4,11 +4,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Medical Software</title>
 		<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+		<script src="../scripts.js"></script>
 	</head>
 	<body>
         <h1><?php require("../scripts.php"); echo userFullName($_COOKIE['userId']) . "'s Text Log Menu";?></h1>
         <?php 
             echo displayTextLogMenu($_COOKIE['userId']);
-        ?>
+        ?><br>
+		<p>(Only patients who have linked their accounts are shown)</p>
 	</body>
 </html>	

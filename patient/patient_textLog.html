@@ -4,31 +4,42 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Medical Software</title>
 		<link rel="stylesheet" type="text/css" href="../stylesheet.css">
+		<script src="../scripts.js"></script>
 	</head>
 	<body>
-        <style>
-            .patientText{
-                color:black;
-            }
-            .providerText{
-                color:white;
-            }
-        </style>
-		<button onclick="document.location='patient_lander.html'">Home Page</button>
-        <h1><?php require("../scripts.php"); echo userFullName($_COOKIE['userId']) . "'s Text Log";?></h1><br>
-		<?php 
-			echo displayTextLog($_COOKIE['userId']);
-		?><br><br>
-        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-			<label for="textContents">Send Message:</label>
-			<input type="text" id="textContents" name="textContents" placeholder="Write message here...">
-			<input type="submit" value="Send">
-		</form>
-        <?php 
-			if($_SERVER["REQUEST_METHOD"] == "POST"){
-				addTextMessage($_COOKIE['userId'], $_POST['textContents']);
-                header("Refresh:0; url=#");
-			}
-		?>
+		<div class="topnav">
+            <a href="../index.html">Logout</a>
+            <a href="patient_lander.html">Home</a>
+            <a href="patient_checkin.html">Check-In</a>
+            <a href="patient_calendar.html">Calender</a>
+            <a href="patient_app_scheduler.html">Scheduler</a>
+            <a href="patient_profile.html">Your Profile</a>
+            <a href="patient_accountSync.html">Account Syncing</a>
+		</div>
+		<div class="content">
+			<style>
+				.patientText{
+					color:black;
+				}
+				.providerText{
+					color:white;
+				}
+			</style>
+			<h1><?php require("../scripts.php"); echo userFullName($_COOKIE['userId']) . "'s Text Log";?></h1><br>
+			<?php 
+				echo displayTextLog($_COOKIE['userId'], "patient");
+			?><br><br>
+			<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+				<label for="textContents">Send Message:</label>
+				<input type="text" id="textContents" name="textContents" placeholder="Write message here...">
+				<input type="submit" value="Send">
+			</form>
+			<?php 
+				if($_SERVER["REQUEST_METHOD"] == "POST"){
+					addTextMessage($_COOKIE['userId'], $_COOKIE['userId'], $_POST['textContents']);
+					header("Refresh:0; url=#");
+				}
+			?>
+		</div>
 	</body>
 </html>	

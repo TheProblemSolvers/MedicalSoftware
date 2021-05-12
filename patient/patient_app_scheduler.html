@@ -6,168 +6,111 @@
         <script src="../scripts.js"></script>
         <link rel="stylesheet" type="text/css" href="../stylesheet.css">
     </head>
-    <body>
-        <div class="topnav">
-            <a href="../index.html">Logout</a>
-            <a href="patient_lander.html">Home</a>
-            <a href="patient_checkin.html">Check-In</a>
-            <a href="patient_calendar.html">Calender</a>
-            <a href="patient_app_scheduler.html">Scheduler</a>
-            <a href="patient_profile.html">Your Profile</a>
-            <a href="patient_accountSync.html">Account Syncing</a>
+ 
+    <body id="filler">
+ 
+    <div class="topnav">
+        <a href="../index.html">Logout</a>
+        <a href="patient_lander.html">Home</a>
+        <a href="patient_checkin.html">Check-In</a>
+        <a href="patient_calendar.html">Calender</a>
+        <a href="patient_app_scheduler.html">Scheduling</a>
+        <a href="patient_profile.html">Your Profile</a>
+        <a href="patient_accountSync.html">Account Syncing</a>
     </div>
-   <section class="content">  
-        <h1>Appointment Scheduler</h1>
-        <form>
-            <label for="Appointment Type">
+ 
+    <section class="content">
 
-                <em>Appointment Type:</em>
+        <h1 id="patientCalendarHeader">Appointment Scheduling</h1>
 
-            </label>
-            <br>
-            <br>
-                <select list="Appointment Types" value="Appointment Type" id="Appointment Type">
+    <div id="appointment">
+
+        <?php 
+            require("../scripts.php");
+            if(getLinkedAccount($_COOKIE['userId']) == false){
+                echo "<p class='errorMessage'>No provider account linked. <br>Please link a providers account to continue.</p>";
+            }
+        ?>
+ 
+        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+ 
+            <label><em>Is This an Emergency?</em></label><br><br>
+            <input type="button" onclick="emergencyButton('Yes');" value="Yes">
+            <input type="button" onclick="emergencyButton('No');" value="No">
+            <p id="emergency"></p>
+
+            <label for="Appointment Type"><em>Appointment Type:</em></label><br><br>
+ 
+                <select name="apptType" list="Appointment Types" value="Appointment Type" id="appType">
                     <option value="Well Visit">Well Visit</option>
                     <option value="Office Visit">Office Visit</option>
                     <option value="Physical">Physical</option>
                     <option value="School/Sports Physical">School/Sports Physical</option>
                     <option value="Screening Diagnostic Labs">Screening Diagnostic Labs</option>
                     <option value="Healthcare Visit">Healthcare Visit</option>
-                </select>
-            <br>
-            <br>
-            
-            <label>
-                
-                <em>Is This an Emergency?</em>
-            
-            </label>
-
-            <br>
-            <br>
-
-            <input type="button" onclick="emergencyButton('Yes');" value="Yes">
-            <input type="button" onclick="emergencyButton('No');" value="No">
-
-            <p id="emergencyYes"></p>
-
-        </form>
-
-        <form>
-
-            <!-- Input for adding text to cell -->
-            <input type="text" name ="textAdderInput" id="textAdderInput">
-
-            <br>
-            <br>
+                </select><br><br>
+ 
+            <!-- Input for selecting a time -->
+            <label for="timeInput">Appointment Time</label><br><br>
+            <input type="time" name="timeInput" id="timeInput" min="07:00:00" max="17:30:00" step="1800" required><br><br>
 
             <!-- Input for selecting a date -->
-            <input type="date" name="calendarInput" id="calendarInput">
+            <label for="calInput">Appointment Date</label><br><br>
+            <input type="date" name="calInput" id="calInput" required><br><br>
 
-            <br>
-            <br>
+            <!-- Input for adding text to cell -->
+            <label for="addInfo">Additional Information</label><br><br>
+            <input type="text" name ="addInfo" id="addInfo"><br><br>           
 
             <!-- Function call for date input -->
-            <input type="button" onclick="dateRec();" value="Submit Date">
-
-             <!-- Function call for text input -->
-            <input type="button" onclick="cellChanger(document.getElementById('textAdderInput').value);" value="Add Appointment">
-
-
+            <input type="submit" value="Schedule Appointment">
+ 
         </form>
+ 
+        <?php
+            if($_SERVER['REQUEST_METHOD'] == "POST"){
+                echo "<br>" . storeApptData($_COOKIE['userId'], $_POST['apptType'], $_POST['addInfo'], 
+                    $_POST['calInput'], $_POST['timeInput']);
+                //header("Refresh:0; url=#");
+            }
+        ?>
 
+<!-- --------------------------data transfer testing---------------------------------- -->
+
+        <p id="testing"></p>
+
+        <?php $appointmentArray = getAppointmentDates($_COOKIE['userId']); ?>
+
+        <script type="text/javascript">
+            function displayAppointment(){
+                var appointmentArray = <?php echo json_encode($appointmentArray); ?>;
+                document.getElementById("testing").innerHTML = appointmentArray;
+            }
+            function clearParagraph(id){
+                document.getElementById(id).innerHTML = "";
+            }
+        </script>
+
+        <button onclick="displayAppointment()">Display Appointment</button>
+        <button onclick="clearParagraph('testing')">Clear Data</button>
+
+<!-- --------------------------data transfer testing---------------------------------- -->
         <br>
-
-        <table> <!--For later on when your moving this crap around Adam, move this table so that it's next to the form/text on the right of the screen-->
-
-            <!-- css code, please move this to the css file and do your thing with it Adam -->
-            <style>
-
-            table {
-                width: 95%;
-                height: 130;
-                border: 1px solid black;
-                border-collapse: collapse;
-                table-layout: fixed;
+        
+        <style>
+ 
+            #calendars {
+                width: 65%;
+                margin-left: 30%;
             }
+ 
+        </style>
+        </div>
 
-            th, td {
-                border: 1px solid black;
-                border-collapse: collapse;
-                font-size: x-large;
-
-            }
-
-            #timeSlot {
-                text-align: center;
-            }
-
-
-            </style>
-            <!-- css code -->
-
-            <thead>
-                <tr>
-                    <th>
-                        Week of: <span id="weekHeader"></span>
-                        <script>
-                            const today = new Date();
-                            document.getElementById("weekHeader").innerHTML = today.toLocaleString('default');
-                        </script>
-                    </th>
-                    <th>Sunday</th>
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                    <th>Saturday</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-
-                    <td id="timeSlot">7am</td>
-                    <td id="testData"></td>
-                </tr>
-                <tr>
-                    <td id="timeSlot">8am</td>
-                </tr>
-                <tr>
-                    <td id="timeSlot">9am</td>
-                </tr>
-                <tr>
-                    <td id="timeSlot">10am</td>
-                </tr>
-                <tr>
-                    <td id="timeSlot">11am</td>
-                </tr>
-                <tr>
-                    <td id="timeSlot">12pm</td>
-                </tr>
-                <tr>
-                    <td id="timeSlot">1pm</td>
-                </tr>
-                <tr>
-                    <td id="timeSlot">2pm</td>
-                </tr>
-                <tr>
-                    <td id="timeSlot">3pm</td>
-                </tr>
-                <tr>
-                    <td id="timeSlot">4pm</td>
-                </tr>
-                <tr>
-                    <td id="timeSlot">5pm</td>
-                </tr>
-                <tr>
-                    <td id="timeSlot">6pm</td>
-                </tr>
-                <tr>
-                    <td id="timeSlot">7pm</td>
-                </tr>
-            </tbody>
-        </table>
-</section>
+        <div>
+            <body id="" onload="printCalendar(currentMonth, currentYear)"></body>
+        </div>
+       
+        </section>
     </body>
 </html>

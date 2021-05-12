@@ -1,5 +1,7 @@
 <?php
 
+/****************************  Global Declarations  *************************************/
+
 #class declarations for the automated email function
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -7,6 +9,17 @@ use PHPMailer\PHPMailer\Exception;
 
 #character to seperate username/password
 $seperator = "*";
+
+
+/****************************  Basic Functions  *************************************/
+
+#checks whether a user is a patient or provider, returns user type
+function userType($userId){
+    $fileHandle = accessUserDatabase($userId, "r");
+    $lineContents = fgets($fileHandle);
+    $lineContents = fgets($fileHandle);
+    return trim($lineContents);
+}
 
 #gets linked provider's account from patient's file
 function getLinkedAccount($userId){
@@ -135,6 +148,8 @@ function checkDuplicates($fileLocation, $data){
     return false;
 }
 
+/****************************  Specific Functions  *************************************/
+
 #compares users credentils to credential combinations in database
 function validateCredentials($inputUsername, $inputPassword){
     #takes user's inputted credentials and makes a single string
@@ -253,7 +268,8 @@ function createPatientTable($userId){
         #if the datatype is a first name, make it a link to the patient's file
         if(getDataType($lineContents) == "FirstName"){
             $startRead = strpos($lineContents, "=") + 1;
-            $htmlTable = $htmlTable . "<td>" . "<a href='provider_singlePatientView.html' onclick='setPatientIdCookie(" . $patientId . ")'>" . substr($lineContents, $startRead) . "</a></td>";
+            $htmlTable = $htmlTable . "<td>" . "<a href='provider_singlePatientView.html' onclick='setPatientIdCookie(" . 
+                $patientId . ")'>" . substr($lineContents, $startRead) . "</a></td>";
             $lineContents = fgets($fileHandle);
         }
         #if the datatype is not a first name, just add it to the table
@@ -305,6 +321,7 @@ function searchDatabase($userId, $searchParameter){
         $lineContents = fgets($fileHandle);
     }
     fclose($fileHandle);
+
     #if there are matches, read them into a string to return
     if($i > 0){
         $returnString = "";
@@ -313,7 +330,7 @@ function searchDatabase($userId, $searchParameter){
         }
         return $returnString;
     }
-    #return an error if there are no matches
+    #return an message if there are no matches
     else{
         return "Patient record not found";
     }    
@@ -363,10 +380,14 @@ function patientToProvider($userId, $linkId){
         $fileHandle = accessUserDatabase($userId, "a");
         if(file_exists("../users\user_data\#" . $linkId . "\data.txt") == true){
             $linkData = "ProviderAccount=" . strval($linkId) . "\n";
-            if(fwrite($fileHandle, $linkData) == false){
-                return $fileHandle;
-            }
+            fwrite($fileHandle, $linkData);
             fclose($fileHandle);
+            
+            #adds patient's full name and database-referenced id to provider's account
+            $fileHandle = fopen("../users\user_data\#" . $linkId . "\linkedAccounts.txt", "a");
+            fwrite($fileHandle, userFullName($userId) . "=" . $userId . ".\n");
+            fclose($fileHandle);
+            
             return true;
         }
         else{
@@ -485,24 +506,6 @@ function readCheckinFile($providerId){
 
 #recieves check in instructions, deletes users name from check in file, and sends notification email
 function checkInPatient($providerId, $patientId){
-    $fileHandle = fopen("../users\user_data\#" . $providerId . "\data.txt", "r");
-    #runs through provider's data file and gets full name and email
-    $providerFullName = fgets($fileHandle);
-    fgets($fileHandle);
-    $lineContents = fgets($fileHandle);
-    $startRead = strpos($lineContents, "=");
-    $providerEmail = substr($lineContents, $startRead);
-    fclose($fileHandle);
-
-    $fileHandle = fopen("../users\user_data\#" . $patientId . "\data.txt", "r");
-    #runs through patient's data file and gets full name and email
-    $patientFullName = fgets($fileHandle);
-    fgets($fileHandle);
-    $lineContents = fgets($fileHandle);
-    $startRead = strpos($lineContents, "=");
-    $patientEmail = substr($lineContents, $startRead + 1);
-    fclose($fileHandle);
-
     #deletes user's name from the checkin file
     $fileHandle = fopen("../users\user_data\#" . $providerId . "\checkinLog.txt", "r");
     #increment file pointer one line to avoid initial space
@@ -533,53 +536,274 @@ function checkInPatient($providerId, $patientId){
     fwrite($fileHandle, $namesLeft);
     fclose($fileHandle);
 
-
-    sendEmail($patientEmail, $patientFullName, $providerFullName);
-
-
-    #need to get patient email, patients full name, and providers full name, 
-    #delete user's name from check in log, then call send email function
+    #sends all relevant info to email functions
+    $subject = "We are ready for your appointment!";
+    $body = 'Dr. ' . $providerFullName . " is ready for you. Please enter the building and 
+        navigate to the check-in desk.<br><br>Thank you, <br>Management";
+    $altBody = 'Dr. ' . $providerFullName . " is ready for you. Please enter the building and 
+        navigate to the check-in desk. Thank you, Management";
+    sendEmail($patientId, $subject, $body, $altBody);
+    header("Location: provider_lander.html");
 }
 
-#sends an email to the patient letting them know to enter the building
-function sendEmail($patientEmail, $patientFullName, $providerFullName){
+#sends an email to the patient letting them know to enter the building, uses PHPMailer library
+function sendEmail($patientId, $subject, $body, $altBody){
     #accesses email library files
     require("../vendor\phpmailer\src\Exception.php");
     require("../vendor\phpmailer\src\PHPMailer.php");
     require("../vendor\phpmailer\src\SMTP.php");
+
+    #<------------------------gathers necessary info to send email------------------------->
+
+    #runs through patient's data file and gets full name and email
+    $fileHandle = fopen("../users\user_data\#" . $patientId . "\data.txt", "r");
+    $patientFullName = fgets($fileHandle);
+    fgets($fileHandle);
+    $lineContents = fgets($fileHandle);
+    $startRead = strpos($lineContents, "=");
+    $patientEmail = substr($lineContents, $startRead + 1);
+    fclose($fileHandle);
+
+    #runs through provider's data file and gets full name and email
+    $providerId = getLinkedAccount($patientId);
+    $fileHandle = fopen("../users\user_data\#" . trim($providerId) . "\data.txt", "r");
+    $providerFullName = fgets($fileHandle);
+    fgets($fileHandle);
+    $lineContents = fgets($fileHandle);
+    $startRead = strpos($lineContents, "=");
+    $providerEmail = substr($lineContents, $startRead);
+    fclose($fileHandle);
+
+    #<------------------------------sends email------------------------------------->
 
     #Instantiation and passing `true` enables exceptions
     $mail = new PHPMailer(true);
 
     try {
         #Server settings
-        $mail->SMTPDebug  = SMTP::DEBUG_SERVER;                      
+        $mail->SMTPDebug  = 0;                      
         $mail->isSMTP();                                            
         $mail->Host       = 'smtp.gmail.com';                     
         $mail->SMTPAuth   = true;                                  
         $mail->Username   = 'pltwmedicalsoftware@gmail.com';                  
-        $mail->Password   = 'Cherokee.2021';                              
+        $mail->Password   = 'Cherokee2021';                              
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;       
         $mail->Port       = 587;                                   
 
         #Recipients
-        $mail->setFrom('pltwmedicalsoftware@gmail.com', $providerFullName);
+        $mail->setFrom($providerEmail, $providerFullName);
         $mail->addAddress($patientEmail, $patientFullName);     
 
         #Content
         $mail->isHTML(true);                            
-        $mail->Subject = "We are ready for your appointment!";
-        $mail->Body    = 'Dr. ' . $providerFullName . " is ready for you. Please enter the building and 
-            navigate to the check-in desk.<br><br>Thank you, <br>Management";
-        $mail->AltBody = 'Dr. ' . $providerFullName . " is ready for you. Please enter the building and 
-            navigate to the check-in desk. Thank you, Management"; #email body for non-HTML mail clients
-
+        $mail->Subject = $subject;
+        $mail->Body    = $body;
+        $mail->AltBody = $altBody;
         $mail->send();
-        echo 'Message has been sent';
+        //echo 'Message has been sent';
     } 
     catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
-    //sleep(1);
-    header("Location: provider_lander.html");
+    return;
+}
+
+#accesses patient's text log and displays conversation
+function displayTextLog($patientId, $userType){
+    #opens text log, creates a new one if one doesn't exist
+    if(file_exists('../users\user_data\#' . $patientId . '\text_log.txt') == false){
+        $fileHandle = fopen('../users\user_data\#' . $patientId . '\text_log.txt', 'w');
+        fclose($fileHandle);
+    }
+    $fileHandle = fopen('../users\user_data\#' . $patientId . '\text_log.txt', 'r');
+
+    #compiles text string
+    $message = "";
+    while(feof($fileHandle) == false){
+        #sets the tags for the text line based on user type
+        if($userType == "provider"){
+            $patientTag = userFullName($patientId) . " Said: ";
+            $providerTag = "You Said: ";
+        }
+        if($userType == "patient"){
+            $providerId = getLinkedAccount($patientId);
+            $patientTag = "You Said: ";
+            $providerTag = "Dr. " . userFullName($providerId) . " Said: ";
+        }
+        #compiles list of text messaging
+        $lineContents = fgets($fileHandle);
+        $startRead = strpos($lineContents, ">") + 1;
+        $lineLength = strlen($lineContents);
+        if(substr($lineContents, $startRead, $lineLength - $startRead - 2) == ""){
+            continue;
+        }
+        elseif(preg_match("/<" . $patientId . ">/", $lineContents) == 1){
+            $message = $message . "<p class='patientText'>" . $patientTag .  
+                substr($lineContents, $startRead, $lineLength - $startRead - 2) . "</p>";
+        }
+        else{
+            $message = $message . "<p class='providerText'>" . $providerTag . 
+                substr($lineContents, $startRead, $lineLength - $startRead - 2) . "</p>";
+        }
+    }
+    fclose($fileHandle);
+    return $message;
+}
+
+#adds a line of text to patient's text log
+function addTextMessage($patientId, $userId, $message){
+    $fileHandle = fopen('../users\user_data\#' . $patientId . '\text_log.txt', 'a');
+    $line = "<" . $userId . ">" . $message . "<\n";
+    fwrite($fileHandle, $line);
+    fclose($fileHandle);
+}
+
+#displays a list of hyperlinked names for the provider to click and view induvidual text log
+function displayTextLogMenu($providerId){
+    $providerId = trim($providerId);
+    $fileHandle = accessUserDatabase($providerId, "r");
+    $list = "";
+    #loops through the provider's file and gathers first/last name, patient ID
+    while(feof($fileHandle) == false){
+        $lineContents = fgets($fileHandle);
+        $linkedAccountExists = false;
+        if(preg_match("/firstname/i", $lineContents) == 1){
+            $firstName = trim(substr($lineContents, strpos($lineContents, "=") + 1));
+            $lineContents = fgets($fileHandle);
+            $lastName = trim(substr($lineContents, strpos($lineContents, "=") + 1));
+            
+            #checks the provider's linked accounts text file and gather's patient's database-relative ID
+            $patientFullName = $firstName . " " . $lastName;
+            $fileHandle2 = fopen("../users\user_data\#" . $providerId . "\linkedAccounts.txt", "r");
+            while(feof($fileHandle2) == false){
+                $lineContents = fgets($fileHandle2);
+                if(preg_match("/" . $patientFullName . "/i", $lineContents) == true){
+                    $linkedAccountExists = true;
+                    $startRead = strpos($lineContents, "=") + 1;
+                    $endRead = strpos($lineContents, ".");
+                    $patientId = trim(substr($lineContents, $startRead, ($endRead - $startRead)));
+                }
+            }
+            fclose($fileHandle2);
+            #html link is only compiled if the patient has linked their account to the provider
+            if($linkedAccountExists == true){
+                $cookie = "patientId=" . $patientId;
+                $list = $list . "<a href='provider_textLog.html' onclick='setPatientIdCookie(" . 
+                $patientId .")'>" . $firstName . " " . $lastName . "</a><br>";
+            }
+        }
+    }
+    fclose($fileHandle);
+    if($list == ""){
+        return "No Patients Found";
+    }
+    else{
+        return $list;
+    }
+}
+
+#parses data from the format the appointment date is sent to the browser in
+function parseApptData($apptDate){
+    #parses cookie data into seperate numbers for simple use, then returns all data as an array
+    #date format:  <(patientId)>(minute)A(hour)B(day)C(month)D(year)
+    $patientId = trim(substr($apptDate, strpos($apptDate, "<") + 1, strpos($apptDate, ">") - 1));
+    $apptMinute = trim(substr($apptDate, strpos($apptDate, ">") + 1, 2));
+    $apptHour = trim(substr($apptDate, strpos($apptDate, "A") + 1, 2));
+    $apptDay = trim(substr($apptDate, strpos($apptDate, "B") + 1, 2));
+    $apptMonth = trim(substr($apptDate, strpos($apptDate, "C") + 1, 2));
+    $apptYear = trim(substr($apptDate, strpos($apptDate, "D") + 1, 4));
+    return array($patientId, $apptMinute, $apptHour, $apptDay, $apptMonth, $apptYear);
+}
+
+#seperates day, month, and year from HTML date format
+function seperateHTMLDate($date){
+    #finds where year data stops, and stores year data
+    $endRead = strpos($date, "-");
+    $apptYear = substr($date, 0, $endRead);
+
+    #finds where month data starts, and stores month data
+    $startRead = $endRead + 1;
+    $endRead = strpos($date, "-", $endRead + 1);
+    $apptMonth = substr($date, $startRead, ($endRead - $startRead));
+
+    #finds where day data starts, and stores day data
+    $startRead = $endRead + 1;
+    $apptDay = substr($date, $startRead);
+
+    #returns data in array format to calling function
+    return array($apptDay, $apptMonth, $apptYear);
+}
+
+#seperates hour and minute from HTML time format
+function seperateHTMLTime($time){
+    $endRead = strpos($time, ":");
+    $hour = substr($time, 0, $endRead);
+    $minute = substr($time, $endRead + 1);
+    return array($minute, $hour);
+}
+
+#takes appointment date and time and stores it into provider's database
+function storeApptData($patientId, $apptType, $addtlInfo, $date, $time){
+    #returns an error message if no linked provider's account is found
+    if(getLinkedAccount($patientId) == false){
+        return "No provider account linked. Please link to your provider's account.";
+    }
+
+    #compile data into format server can easily read
+    $date = seperateHTMLDate($date);
+    $time = seperateHTMLTime($time);
+    $apptData = "<" . $patientId . ">" . $time[0] . "A" . $time[1] . "B" . $date[0] . "C" . $date[1] . "D" . $date[2] . "\n";
+
+    #access provider's database
+    $providerId = getLinkedAccount($patientId);
+    $fileName = "../users\user_data\#" . trim($providerId) . "\calendar.txt";
+
+    #checks if appointment slot is availible
+    $startRead = strpos($apptData, ">") + 1;
+    if(checkDuplicates($fileName, substr($apptData, $startRead)) == true){
+        return "Appointment slot is taken.";
+    }
+
+    #open file, write data, close it
+    $fileHandle = fopen($fileName, "a");
+    fwrite($fileHandle, $apptData);
+    fclose($fileHandle);
+
+    #turns military time into std time for success message to patient
+    $timeTag = "AM";
+    if($time[1] > 12){
+        $time[1] = $time[1] - 12;
+        $timeTag = "PM";
+    }
+
+    #compiles confirmation message to email to patient
+    $confirmationMessage = "Appointment has been made for " . userFullName($patientId) . " on " . $date[1] . 
+        "/" . $date[0] . "/" . $date[2] . " at " . $time[1] . ":" . $time[0] . " " . $timeTag;
+    sendEmail($patientId, "Appointment Confirmation", $confirmationMessage, $confirmationMessage);
+
+    #returns success message with date and time of appointment
+    return $confirmationMessage;
+}
+
+#gets a user's appointment from database and sends to browser so JavaScript can use data
+function getAppointmentDates($patientId){
+    #returns an error message if no linked provider's account is found
+    if(getLinkedAccount($patientId) == false){
+        return "No provider account linked. Please link to your provider's account.";
+    }
+
+    #access provider's database
+    $providerId = getLinkedAccount($patientId);
+    $fileName = "../users\user_data\#" . trim($providerId) . "\calendar.txt";
+    $fileHandle = fopen($fileName, "r");
+
+    #searches for the patient's id in beginning of appointment data string
+    while(feof($fileHandle) == false){
+        $lineContents = fgets($fileHandle);
+        if(preg_match("/<" . $patientId . ">/", $lineContents) == true){
+            $apptArray = parseApptData($lineContents);
+            return $apptArray;
+        }
+    }
+    return "No appointment found";
 }
