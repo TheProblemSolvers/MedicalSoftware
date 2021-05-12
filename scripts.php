@@ -586,7 +586,7 @@ function sendEmail($patientId, $subject, $body, $altBody){
         $mail->Host       = 'smtp.gmail.com';                     
         $mail->SMTPAuth   = true;                                  
         $mail->Username   = 'pltwmedicalsoftware@gmail.com';                  
-        $mail->Password   = 'Cherokee.2021';                              
+        $mail->Password   = 'Cherokee2021';                              
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;       
         $mail->Port       = 587;                                   
 
@@ -706,12 +706,13 @@ function displayTextLogMenu($providerId){
 function parseApptData($apptDate){
     #parses cookie data into seperate numbers for simple use, then returns all data as an array
     #date format:  <(patientId)>(minute)A(hour)B(day)C(month)D(year)
-    $apptMinute = substr($apptDate, 0, strpos($apptDate, "A"));
-    $apptHour = substr($apptDate, strpos($apptDate, "A") + 1, strpos($apptDate, "B"));
-    $apptDay = substr($apptDate, strpos($apptDate, "B") + 1, strpos($apptDate, "C"));
-    $apptMonth = substr($apptDate, strpos($apptDate, "C") + 1, strpos($apptDate, "D"));
-    $apptYear = substr($apptDate, strpos($apptDate, "D") + 1);
-    return array($apptMinute, $apptHour, $apptDay, $apptMonth, $apptYear);
+    $patientId = trim(substr($apptDate, strpos($apptDate, "<") + 1, strpos($apptDate, ">") - 1));
+    $apptMinute = trim(substr($apptDate, strpos($apptDate, ">") + 1, 2));
+    $apptHour = trim(substr($apptDate, strpos($apptDate, "A") + 1, 2));
+    $apptDay = trim(substr($apptDate, strpos($apptDate, "B") + 1, 2));
+    $apptMonth = trim(substr($apptDate, strpos($apptDate, "C") + 1, 2));
+    $apptYear = trim(substr($apptDate, strpos($apptDate, "D") + 1, 4));
+    return array($patientId, $apptMinute, $apptHour, $apptDay, $apptMonth, $apptYear);
 }
 
 #seperates day, month, and year from HTML date format
@@ -782,4 +783,27 @@ function storeApptData($patientId, $apptType, $addtlInfo, $date, $time){
 
     #returns success message with date and time of appointment
     return $confirmationMessage;
+}
+
+#gets a user's appointment from database and sends to browser so JavaScript can use data
+function getAppointmentDates($patientId){
+    #returns an error message if no linked provider's account is found
+    if(getLinkedAccount($patientId) == false){
+        return "No provider account linked. Please link to your provider's account.";
+    }
+
+    #access provider's database
+    $providerId = getLinkedAccount($patientId);
+    $fileName = "../users\user_data\#" . trim($providerId) . "\calendar.txt";
+    $fileHandle = fopen($fileName, "r");
+
+    #searches for the patient's id in beginning of appointment data string
+    while(feof($fileHandle) == false){
+        $lineContents = fgets($fileHandle);
+        if(preg_match("/<" . $patientId . ">/", $lineContents) == true){
+            $apptArray = parseApptData($lineContents);
+            return $apptArray;
+        }
+    }
+    return "No appointment found";
 }

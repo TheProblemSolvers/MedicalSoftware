@@ -41,7 +41,7 @@
 
             <label for="Appointment Type"><em>Appointment Type:</em></label><br><br>
  
-                <select name="appType" list="Appointment Types" value="Appointment Type" id="appType">
+                <select name="apptType" list="Appointment Types" value="Appointment Type" id="appType">
                     <option value="Well Visit">Well Visit</option>
                     <option value="Office Visit">Office Visit</option>
                     <option value="Physical">Physical</option>
@@ -68,13 +68,33 @@
         </form>
  
         <?php
-            if($_SERVER['REQUEST_METHOD']=="POST"){
-                echo storeApptData($_COOKIE['userId'], $_POST['appType'], $_POST['addInfo'], 
+            if($_SERVER['REQUEST_METHOD'] == "POST"){
+                echo "<br>" . storeApptData($_COOKIE['userId'], $_POST['apptType'], $_POST['addInfo'], 
                     $_POST['calInput'], $_POST['timeInput']);
                 //header("Refresh:0; url=#");
             }
         ?>
- 
+
+<!-- --------------------------data transfer testing---------------------------------- -->
+
+        <p id="testing"></p>
+
+        <?php $appointmentArray = getAppointmentDates($_COOKIE['userId']); ?>
+
+        <script type="text/javascript">
+            function displayAppointment(){
+                var appointmentArray = <?php echo json_encode($appointmentArray); ?>;
+                document.getElementById("testing").innerHTML = appointmentArray;
+            }
+            function clearParagraph(id){
+                document.getElementById(id).innerHTML = "";
+            }
+        </script>
+
+        <button onclick="displayAppointment()">Display Appointment</button>
+        <button onclick="clearParagraph('testing')">Clear Data</button>
+
+<!-- --------------------------data transfer testing---------------------------------- -->
         <br>
         
         <style>
@@ -88,7 +108,7 @@
         </div>
 
         <div>
-            <body id=""onload="printCalendar(currentMonth, currentYear)"></body>
+            <body id="" onload="printCalendar(currentMonth, currentYear)"></body>
         </div>
        
         </section>
