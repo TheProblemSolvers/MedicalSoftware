@@ -9,6 +9,9 @@ link this stylesheet to any other html page using this line of code:
  
 /* This is just a test to see what this turns them into */
  
+#apptText {
+  color: rebeccapurple;
+}
  
 .errorMessage{
   color: red;

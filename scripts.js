@@ -163,7 +163,7 @@ let monthAndYear = document.getElementById("monthAndYear");
  
 //Function that creates calendar
  
-function printCalendar(month, year) {
+function printCalendar(month, year, appointmentArrary) {
  
   //Declarations of month data for later use
  
@@ -304,15 +304,37 @@ function printCalendar(month, year) {
             var container = document.createElement("span");
  
             let cellText = document.createTextNode(date);
+          
  
               if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
  
                 container.style.color = "magenta";
  
               }
+
+
  
             container.appendChild(cellText);
+
+            container.appendChild(document.createElement("br"));
+            container.appendChild(document.createElement("br"));
  
+
+
+            if (date == appointmentArrary[3]) {
+
+              if(appointmentArrary[2] > 12){
+
+                appointmentArrary[2] = appointmentArrary[2] - 12;
+
+              }
+              
+              apptTime = `${appointmentArrary[2]}:${appointmentArrary[1]}`;
+              container.appendChild(document.createTextNode(apptTime));
+              apptTime.id = "apptText";
+
+            }
+
             cell.appendChild(container);
  
             row.appendChild(cell);
