@@ -798,12 +798,20 @@ function getAppointmentDates($patientId){
     $fileHandle = fopen($fileName, "r");
 
     #searches for the patient's id in beginning of appointment data string
+    $i = 0;
     while(feof($fileHandle) == false){
         $lineContents = fgets($fileHandle);
         if(preg_match("/<" . $patientId . ">/", $lineContents) == true){
-            $apptArray = parseApptData($lineContents);
-            return $apptArray;
+            $apptArray[$i] = parseApptData($lineContents);
+            $i++;
         }
     }
-    return "No appointment found";
+
+    #if appointments were found, return array if not, return message
+    if($apptArray == null){
+        return "No appointment found";
+    }
+    else{
+        return $apptArray;
+    }
 }
