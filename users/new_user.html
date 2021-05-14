@@ -14,6 +14,8 @@
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
             <label for="firstName">First Name</label>
             <input type="text" id="firstName" name="firstName"required><br>
+            <label for="middleName">Middle Name</label>
+            <input type="text" id="middleName" name="middleName" value=""><br>
             <label for="lastName">Last Name</label>
             <input type="text" id="lastName" name = "lastName" required><br>
             <label for="email">Email Address:</label>
@@ -22,11 +24,13 @@
             <input type="text" name = "newUsername" id="newUsername" required><br>
             <label for="newPassword">Password:</label>
             <input type="password" name = "newPassword" id="newPassword" required><br>
+            <label for="dob">Date of birth:</label>
+            <input type="date" name = "dob" id="dob" required><br>
             <input type="radio" id="provider" name="userType" value="provider" required>
             <label for="provider">Provider</label><br>
             <input type="radio" id="patient" name="userType" value="patient" required>
             <label for="patient">Patient</label><br>            
-            <input type="submit" value="Create New User">
+            <input type="submit" value="Create New User"><br><br>
             <?php
             require("../scripts.php");
             if ($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -38,17 +42,15 @@
                         echo " Spaces are not allowed inside username or password.";
                     }
                     else{
-                        if(checkDuplicates('credentials.txt', $_POST['newUsername']) == true){
+                        if(checkSqlDuplicates('medicalsoftware', 'credentials', 'username', $_POST['newUsername']) == true){
                             echo " Username is already taken.";
                         }
                         else{
-                            $error = addCredentials($_POST['firstName'], $_POST['lastName'], $_POST['emailAddress'], $_POST['newUsername'], $_POST['newPassword'], $_POST['userType']);
-                            if($error == false){
-                                header("Location: ../index.html");
-                            }
-                            else{
-                                echo " An error has occured";
-                            }
+                            $error = addNewUser($_POST['firstName'], $_POST['middleName'], $_POST['lastName'], $_POST['dob'],
+                                $_POST['emailAddress'], $_POST['newUsername'], $_POST['newPassword'], $_POST['userType']);
+
+                            if($error == true){header("Location: ../index.html");}
+                            else{echo "An error has occured";}
                         }
                     }
                 }

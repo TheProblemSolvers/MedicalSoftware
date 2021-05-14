@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Testing</title>
+        <title>MySQL Query</title>
     </head>
     <body>
-        <h1>Click the button to test!</h1>
+        <button onclick="document.location='../index.html'">Back to Login</button><br><br>
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-            <input type="text" name="test" value="">
-            <input type="text" name="test2" value="">
-            <input type="submit" value="Test"><br><br>
+            <label for="test">Enter characters: </label>
+            <input type="text" id="test" name="test">
+            <input type="submit" value="MySQL Query">
         </form>
-        <button onclick="document.location='index.html'">Random Email</button>
         <?php require("test.php");
         if($_SERVER["REQUEST_METHOD"] == "POST"){
-            echo sendEmail();
+            //echo testInsertion($_POST['test']);
+            //echo testDuplicates($_POST['test']);
+            //echo accessMySQL();
+            //echo $_POST['test'];
+            echo sqlUserType($_POST['test']);
         }
-        ?>
+        ?><br><br>
+        <button onclick="<?php echo resetTables(); ?>">Reset Tables</button>
     </body>
 </html>

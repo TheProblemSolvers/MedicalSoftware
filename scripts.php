@@ -7,11 +7,13 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-#character to seperate username/password
+#character to seperate username/password combinations
 $seperator = "*";
 
 
 /****************************  Basic Functions  *************************************/
+
+#replaced with SQL compatible function
 
 #checks whether a user is a patient or provider, returns user type
 function userType($userId){
@@ -19,6 +21,24 @@ function userType($userId){
     $lineContents = fgets($fileHandle);
     $lineContents = fgets($fileHandle);
     return trim($lineContents);
+}
+
+#returns user type based on user id
+function sqlUserType($id){
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
+
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    #gathers results from searching table into an array
+    $contents = $connection->prepare("SELECT usertype FROM allusers WHERE id='$id';");
+    $contents->execute();
+    $duplicate = $contents->fetch(PDO::FETCH_ASSOC);
+
+    #returns user type as a string (either 'provider' or 'patient')
+    return $duplicate['usertype'];
 }
 
 #gets linked provider's account from patient's file
@@ -128,6 +148,8 @@ function userFullName($userId){
     return $userFullName;
 }
 
+#replaced by new MySQL compatible function
+
 #checks a file for any duplicates of data, returns false if no duplicates
 function checkDuplicates($fileLocation, $data){
     if(intval($fileLocation) != 0){
@@ -148,9 +170,32 @@ function checkDuplicates($fileLocation, $data){
     return false;
 }
 
+#checks for duplicates in specified MySQL database, table, and column
+function checkSqlDuplicates($database, $table, $column, $data){
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
+
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    #gathers results from searching table into an array
+    $contents = $connection->prepare("SELECT $column FROM $table WHERE $column='$data';");
+    $contents->execute();
+    $duplicate = $contents->fetch(PDO::FETCH_ASSOC);
+
+    #if array is empty, then no match was found
+    if($duplicate == NULL){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+
 /****************************  Specific Functions  *************************************/
 
-#compares users credentils to credential combinations in database
+#compares users credentials to credential combinations in database
 function validateCredentials($inputUsername, $inputPassword){
     #takes user's inputted credentials and makes a single string
     $userCredentials = $inputUsername . $GLOBALS['seperator'] . $inputPassword;
@@ -174,8 +219,45 @@ function validateCredentials($inputUsername, $inputPassword){
     return false;
 }
 
+#compares credentials entered with valid combinations
+function validateSqlCredentials($username, $password){
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
+
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    #gathers results from searching table into an array
+    $contents = $connection->prepare("SELECT * FROM credentials WHERE username='$username';");
+    $contents->execute();
+    $validCombo = $contents->fetch(PDO::FETCH_ASSOC);
+    
+    #if no matches are found, deny access
+    if($validCombo == NULL){
+        return false;
+    }
+
+    #loop through to see if there is a matching username/password pair
+    else{
+        if($validCombo['username'] == "$username"){
+            #if username/password match, set cookie=id, proceed to repsective lander page
+            if($validCombo["password"] == "$password"){
+                setcookie("userId", $validCombo['id']);
+                return sqlUserType($validCombo['id']);
+            }
+            #if username/password do not match, deny access
+            else{
+                return false;
+            }
+        }
+    }
+}
+
+#replaced by new MySQL compatible function
+
 #adds new users to credentials.txt file and creates their folder and standard database file
-function addCredentials($firstName, $lastName, $emailAddress, $newUsername, $newPassword, $newUserType){
+function addCredentials($firstName, $middleName, $lastName, $emailAddress, $newUsername, $newPassword, $newUserType){
     #convert form data to formatted strings to write to credentials.txt
     $newCredentials = trim($newUsername) . $GLOBALS['seperator'] . trim($newPassword) . "\n";
     $newUserType = $newUserType . "\n";
@@ -223,6 +305,33 @@ function addCredentials($firstName, $lastName, $emailAddress, $newUsername, $new
 
     return false;
 }
+
+#adds a new user to medicalsoftware database (replacement for addCredentials function)
+function addNewUser($firstName, $middleName, $lastName, $dob, $email, $username, $password, $userType){
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
+
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    #sql query to store user's data to "allusers" table
+    $sql = "INSERT INTO allUsers (firstName, middleName, lastName, userType, dob, email) VALUES (trim('$firstName'), trim('$middleName'), 
+        trim('$lastName'), trim('$userType'), trim('$dob'), trim('$email'));";
+    try{$connection->query($sql);}
+    catch(PDOException $error){echo "Error executing query: " . $error->getMessage();}
+
+    #grabs the new user's id number
+    $id = $connection->lastInsertId();
+
+    #set the sql query to store user's credentials to "credentials" table
+    $sql = "INSERT INTO credentials VALUES (trim('$id'), trim('$username'), trim('$password'));";
+    try{$connection->query($sql);}
+    catch(PDOException $error){return $error->getMessage();}
+
+    return true;
+}
+
 
 #grabs a single patient's data from user file and returns an html table
 function createInduvidualTable($userId, $patientId){
@@ -374,6 +483,8 @@ function createNewPatient($userId, $patientFirstName, $patientLastName, $patient
     fclose($fileHandle);
 }
 
+#replaced by new MySQL compatible function
+
 #Allows patient to sync their account to their provider
 function patientToProvider($userId, $linkId){
     if(checkDuplicates($userId, "ProviderAccount") == false){
@@ -398,6 +509,34 @@ function patientToProvider($userId, $linkId){
     else{
         return "Provider ID already linked to this account.";
     }
+}
+
+#links patients account to providers account
+function linkToProvider($patientId, $providerId){
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
+
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    #check if provider has their own column or not
+    $column = "linked" . strval(trim($providerId));
+    $contents = $connection->prepare("SELECT $column FROM linkedaccounts;");
+    $contents->execute();
+    $data = $contents->fetch(PDO::FETCH_ASSOC);
+
+    #-----------------need to check if provider exists and if patient has already been linked-------------------------------
+
+    #if column does not exist, add it, otherwise continue
+    if($data == NULL){
+        $contents = $connection->prepare("ALTER TABLE linkedaccounts ADD $column INT UNSIGNED;");
+        $contents->execute();
+    }
+
+    #add patients id into correct column and row
+    $contents = $connection->prepare("INSERT INTO test ($column) VALUES ($patientId);");
+    $contents->execute();
 }
 
 #generates an html table with only patient's data from their linked provider's account
@@ -579,14 +718,17 @@ function sendEmail($patientId, $subject, $body, $altBody){
     #Instantiation and passing `true` enables exceptions
     $mail = new PHPMailer(true);
 
+    #gather configurations from config.ini file
+    $ini = parse_ini_file('config.ini.php');
+
     try {
         #Server settings
         $mail->SMTPDebug  = 0;                      
         $mail->isSMTP();                                            
         $mail->Host       = 'smtp.gmail.com';                     
         $mail->SMTPAuth   = true;                                  
-        $mail->Username   = 'pltwmedicalsoftware@gmail.com';                  
-        $mail->Password   = 'Cherokee2021';                              
+        $mail->Username   = $ini['email'];                  
+        $mail->Password   = $ini['password'];                              
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;       
         $mail->Port       = 587;                                   
 
