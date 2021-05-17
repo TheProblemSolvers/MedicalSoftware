@@ -26,7 +26,7 @@
 	</form>
 	<?php 
 		if($_SERVER["REQUEST_METHOD"] == "POST"){
-			$returnValue = patientToProvider($_COOKIE['userId'], $_POST['providerId']);
+			$returnValue = linkToProvider($_COOKIE['userId'], $_POST['providerId']);
 			if($returnValue == 1){
 				header("Location: patient_lander.html");
 			}

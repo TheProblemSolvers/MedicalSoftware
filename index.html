@@ -7,9 +7,9 @@
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
     </head>
     <body>
-        
         <div class="indexhome">
         <?php setcookie("userId", "", time() - 3600);?>
+        <?php setcookie("patientId", "", time() - 3600);?>
         <h1>Welcome!</h1>
         <p>Please enter your credentials:</p>
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" style="display: inline;">
@@ -25,7 +25,7 @@
         <?php
         require("scripts.php"); 
         if ($_SERVER["REQUEST_METHOD"] == "POST"){    
-            $authorization = validateCredentials($_POST['username'], $_POST['password']);
+            $authorization = validateSqlCredentials($_POST['username'], $_POST['password']);
             switch($authorization){
                 case 'patient': header("Location: patient/patient_lander.html"); break;
                 case 'provider': header("Location: provider/provider_lander.html"); break;
@@ -33,8 +33,7 @@
             }
         }
         ?>
-        <button onclick="document.location='test/test.html'">Test</button>
-        <!-- <body onload="tableCreate(3, 3, 'Random Word')"></body> -->
+        <button onclick="document.location='test/test.html'">MySQL</button>
         </div>
     </body>
 </html>

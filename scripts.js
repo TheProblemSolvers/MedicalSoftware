@@ -341,6 +341,7 @@ function printCalendar(month, year, appointmentArray) {
                 cell.style.backgroundColor = "magenta"
 
               }
+      
 
             }
 
