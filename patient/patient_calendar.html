@@ -22,9 +22,42 @@
         <br>
         <br>
 
+        <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+        <?php 
+            require("../scripts.php");
+            if(getLinkedAccount($_COOKIE['userId']) == false){
+                echo "<p class='errorMessage'>No provider account linked. <br>Please link a providers account to continue.</p>";
+            }
+        ?>
+
+        <?php
+            if($_SERVER['REQUEST_METHOD'] == "POST"){
+                echo "<br>" . storeApptData($_COOKIE['userId'], $_POST['apptType'], $_POST['addInfo'], 
+                    $_POST['calInput'], $_POST['timeInput']);
+                //header("Refresh:0; url=#");
+            }
+        ?>
+
+<!-- --------------------------data transfer testing---------------------------------- -->
+
+        <p id="testing"></p>
+
+        <?php $appointmentArray = getAppointmentDates($_COOKIE['userId']); ?>
+
+        <script type="text/javascript">
+
+                var appointmentArray = <?php echo json_encode($appointmentArray); ?>;
+ 
+        </script>
+
+        // |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
         <div class="content">
 
-            <body onload="printCalendar(currentMonth, currentYear, 0);"></body>
+            <body onload="printCalendar(currentMonth, currentYear, appointmentArray);"></body>
 
         </div>
+
+        <input type="button" onclick="showApp()">
 </html>
