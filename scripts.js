@@ -118,7 +118,7 @@ function nextMonth () {
  
   currentMonth = (currentMonth + 1) % 12;
  
-  printCalendar(currentMonth, currentYear);
+  printCalendar(currentMonth, currentYear, appointmentArray);
  
 }
  
@@ -130,7 +130,7 @@ function previousMonth () {
  
   currentMonth = (currentMonth === 0) ? 11 : (currentMonth - 1) % 12;
  
-  printCalendar(currentMonth, currentYear);
+  printCalendar(currentMonth, currentYear, appointmentArray);
  
 }
  
@@ -151,7 +151,7 @@ function addAppData () {
 }
  
 //Global declarations for the printCalendar function
- 
+
 let today = new Date();
 let currentMonth = today.getMonth();
 let currentYear = today.getFullYear();
@@ -165,7 +165,7 @@ let monthAndYear = document.getElementById("monthAndYear");
  
 //Function that creates calendar
  
-function printCalendar(month, year, appointmentArrary) {
+function printCalendar(month, year, appointmentArray) {
  
   //Declarations of month data for later use
  
@@ -320,20 +320,27 @@ function printCalendar(month, year, appointmentArrary) {
 
             container.appendChild(document.createElement("br"));
             container.appendChild(document.createElement("br"));
- 
 
+            for (let q = 0; q < appointmentArray.length; q++) {
+                
+              if (date == appointmentArray[q][3]) {
 
-            if (date == appointmentArrary[0][3]) {
+                if (appointmentArray[q][2] > 12) {
 
-              if(appointmentArrary[0][2] > 12){
+                  appointmentArray[q][2] = appointmentArray[q][2] - 12;
 
-                appointmentArrary[0][2] = appointmentArrary[0][2] - 12;
+                }
+
+                apptTime = `${appointmentArray[q][2]}:${appointmentArray[q][1]}`;
+                container.appendChild(document.createTextNode(apptTime));
+                break;
+
+              } else if (q == appointmentArray.length - 1 ) {
+
+                container.appendChild(document.createTextNode("M"));
+                cell.style.backgroundColor = "magenta"
 
               }
-
-              apptTime = `${appointmentArrary[0][2]}:${appointmentArrary[0][1]}`;
-              container.appendChild(document.createTextNode(apptTime));
-              apptTime.id = "apptText";
 
             }
 
@@ -380,3 +387,11 @@ function printCalendar(month, year, appointmentArrary) {
   body.appendChild(tbl);
  
 }
+
+const btn1 = document.getElementsByClassName('button');
+const btn = document.getElementById('navBtn');
+const navDiv = document.getElementById('bigNav');
+btn.addEventListener("click", () => {
+  navDiv.classList.toggle('active');
+  btn1.style.transform = "translateY(-500px)";
+})
