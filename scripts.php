@@ -13,16 +13,6 @@ $seperator = "*";
 
 /****************************  Basic Functions  *************************************/
 
-#replaced with SQL compatible function
-
-#checks whether a user is a patient or provider, returns user type
-function userType($userId){
-    $fileHandle = accessUserDatabase($userId, "r");
-    $lineContents = fgets($fileHandle);
-    $lineContents = fgets($fileHandle);
-    return trim($lineContents);
-}
-
 #returns user type based on user id
 function sqlUserType($id){
     #open config.ini.php file and get configuration
@@ -41,25 +31,42 @@ function sqlUserType($id){
     return $duplicate['usertype'];
 }
 
-#gets linked provider's account from patient's file
-function getLinkedAccount($userId){
-    $fileHandle = accessUserDatabase($userId, "r");
-    #filters through patient's file and finds linked provider's account
-    while(feof($fileHandle) == false){
-        $lineContents = fgets($fileHandle);
-        if(preg_match("/ProviderAccount/i", $lineContents) == 1){
-            $startRead = strpos($lineContents, "=") + 1;
-            $providerId = trim(substr($lineContents, $startRead));
-            break;
+#gets linked provider's account from patients file
+function getSqlLinkedAccount($patientId){
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
+
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    #gather all column names from linkedaccounts database
+    $result = $connection->prepare("
+        SELECT
+            COLUMN_NAME, ORDINAL_POSITION, DATA_TYPE
+        FROM
+            INFORMATION_SCHEMA.COLUMNS
+        WHERE
+            TABLE_NAME = 'linkedaccounts'
+        ORDER BY 2;
+    ");
+    $result->execute();
+    $columns = $result->fetchAll(PDO::FETCH_ASSOC);
+
+    #cycle through all columns looking for a match
+    for($i = 1; $i < count($columns); $i++){
+        $column = $columns[$i]['COLUMN_NAME'];
+        $result = $connection->prepare("SELECT providerId FROM linkedaccounts WHERE $column = $patientId;");
+        $result->execute();
+        $data = $result->fetchAll(PDO::FETCH_ASSOC);
+
+        #if there is a match in the column, return provider id of that row
+        if($data != NULL){
+            return $data[$i - 1]['providerId'];
         }
-    }
-    fclose($fileHandle);
-    #if there was no linked provider account, return an error
-    if($providerId == null){
-        return false;
-    }
-    #opens the provider's file and finds the patient's information
-    return $providerId;
+    }   
+    #if cycled through each column of linkedaccounts table returns no result, no linked account
+    return false;
 }
 
 #accesses correct user database
@@ -148,30 +155,8 @@ function userFullName($userId){
     return $userFullName;
 }
 
-#replaced by new MySQL compatible function
-
-#checks a file for any duplicates of data, returns false if no duplicates
-function checkDuplicates($fileLocation, $data){
-    if(intval($fileLocation) != 0){
-        $fileHandle = accessUserDatabase($fileLocation, "r");
-    }
-    else{
-        $fileHandle = fopen($fileLocation, "r");
-    }
-    $searchParameter = "/" . $data . "/i";
-    while(feof($fileHandle) == false){
-        $lineContents = fgets($fileHandle);
-        if(preg_match($searchParameter, $lineContents) == 1){
-            fclose($fileHandle);
-            return true;
-        }
-    }
-    fclose($fileHandle);
-    return false;
-}
-
 #checks for duplicates in specified MySQL database, table, and column
-function checkSqlDuplicates($database, $table, $column, $data){
+function checkSqlDuplicates($table, $column, $data){
     #open config.ini.php file and get configuration
     $ini = parse_ini_file("config.ini.php");
 
@@ -182,42 +167,20 @@ function checkSqlDuplicates($database, $table, $column, $data){
     #gathers results from searching table into an array
     $contents = $connection->prepare("SELECT $column FROM $table WHERE $column='$data';");
     $contents->execute();
-    $duplicate = $contents->fetch(PDO::FETCH_ASSOC);
+    $duplicate = $contents->fetchAll(PDO::FETCH_ASSOC);
 
     #if array is empty, then no match was found
     if($duplicate == NULL){
         return false;
     }
+
+    #if array is not empty, then there must be a match, so return true
     else{
         return true;
     }
 }
 
 /****************************  Specific Functions  *************************************/
-
-#compares users credentials to credential combinations in database
-function validateCredentials($inputUsername, $inputPassword){
-    #takes user's inputted credentials and makes a single string
-    $userCredentials = $inputUsername . $GLOBALS['seperator'] . $inputPassword;
-    #tries to match up created string with strings in the patient_credentials
-    $fileLocation = fopen('users\credentials.txt', 'r');
-    while(feof($fileLocation) == false){
-        $databaseCredentials = fgets($fileLocation);
-        if($userCredentials == trim($databaseCredentials)){
-            #if there is a match, send user to correct side of software
-            $userType = trim(fgets($fileLocation));
-            #set a cookie with the users unique id
-            setcookie("userId", trim(fgets($fileLocation)));
-            #close the file
-            fclose($fileLocation);
-            return $userType;
-        }
-    }
-    #close the file
-    fclose($fileLocation);
-    #let caller know there was no credentials match
-    return false;
-}
 
 #compares credentials entered with valid combinations
 function validateSqlCredentials($username, $password){
@@ -242,7 +205,7 @@ function validateSqlCredentials($username, $password){
     else{
         if($validCombo['username'] == "$username"){
             #if username/password match, set cookie=id, proceed to repsective lander page
-            if($validCombo["password"] == "$password"){
+            if($validCombo["securePassword"] == "$password"){
                 setcookie("userId", $validCombo['id']);
                 return sqlUserType($validCombo['id']);
             }
@@ -252,58 +215,6 @@ function validateSqlCredentials($username, $password){
             }
         }
     }
-}
-
-#replaced by new MySQL compatible function
-
-#adds new users to credentials.txt file and creates their folder and standard database file
-function addCredentials($firstName, $middleName, $lastName, $emailAddress, $newUsername, $newPassword, $newUserType){
-    #convert form data to formatted strings to write to credentials.txt
-    $newCredentials = trim($newUsername) . $GLOBALS['seperator'] . trim($newPassword) . "\n";
-    $newUserType = $newUserType . "\n";
-
-    #creates new unique user id based on last one in file
-    #opens file and counts how many lines there are
-    $fileLocation = fopen("credentials.txt", "r");
-    $lineCount = 0;
-    while(feof($fileLocation) == false){
-        $lineContents = fgets($fileLocation);
-        $lineCount ++;
-    }
-    #calculates the position of the last user id in file
-    $lineNumber = $lineCount - 2;
-    #following 4 lines of code from https://stackoverflow.com/users/1268048/phil,
-    #and they read the contents of a specific line in the .txt file
-    $file = new SplFileObject("credentials.txt");
-    if (!$file->eof()) {
-        $file->seek($lineNumber);
-        $contents = $file->current(); // $contents would hold the data from line x
-    }
-    fclose($fileLocation);
-    #creates new user id by adding 1 to preceding id, and adding linebreak
-    $newUserId = strval(intval($contents) + 1) . "\n";
-
-    #writes credentials, usertype and userid to open file
-    #opens the file credential storage file
-    $fileLocation = fopen('credentials.txt', 'a+');
-    fwrite($fileLocation, $newCredentials);
-    fwrite($fileLocation, $newUserType);
-    fwrite($fileLocation, $newUserId);
-    #closes the credentials file
-    fclose($fileLocation);
-
-    #creates a unique text file for the users data to be stored and accessed over time
-    $newUserId = trim($newUserId);
-    $newDirectory = "user_data\#" . $newUserId;
-    mkdir($newDirectory);
-    $fileName = "user_data\#" . $newUserId . "\data.txt";
-    $fileLocation = fopen($fileName, "w");
-    fwrite($fileLocation, trim($firstName) . " " . trim($lastName) . "\n");
-    fwrite($fileLocation, $newUserType);
-    fwrite($fileLocation, "email=" . $emailAddress);
-    fclose($fileLocation);
-
-    return false;
 }
 
 #adds a new user to medicalsoftware database (replacement for addCredentials function)
@@ -316,22 +227,37 @@ function addNewUser($firstName, $middleName, $lastName, $dob, $email, $username,
     $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     #sql query to store user's data to "allusers" table
-    $sql = "INSERT INTO allUsers (firstName, middleName, lastName, userType, dob, email) VALUES (trim('$firstName'), trim('$middleName'), 
-        trim('$lastName'), trim('$userType'), trim('$dob'), trim('$email'));";
-    try{$connection->query($sql);}
-    catch(PDOException $error){echo "Error executing query: " . $error->getMessage();}
+    $sql = "INSERT INTO allUsers (firstName, middleName, lastName, userType, dob, email) VALUES (trim('$firstName'), 
+        trim('$middleName'), trim('$lastName'), trim('$userType'), trim('$dob'), trim('$email'));";
+    $connection->query($sql);
 
     #grabs the new user's id number
     $id = $connection->lastInsertId();
 
     #set the sql query to store user's credentials to "credentials" table
     $sql = "INSERT INTO credentials VALUES (trim('$id'), trim('$username'), trim('$password'));";
-    try{$connection->query($sql);}
-    catch(PDOException $error){return $error->getMessage();}
+    $connection->query($sql);
 
+    #if usertype = provider, add new rows to provider-sepcific tables
+    if($userType == "provider"){
+        #add provider row to linked accounts table
+        $sql = "INSERT INTO linkedaccounts (providerid) VALUES ($id);";
+        $connection->query($sql);
+
+        #add provider row to checkin table
+        $sql = "INSERT INTO checkin (providerid) VALUES ($id);";
+        $connection->query($sql);
+
+        #add provider row to calendar table
+        $sql = "INSERT INTO calendar (providerid) VALUES ($id);";
+        $connection->query($sql);
+
+        #add provider row to text log table
+        $sql = "INSERT INTO textlog (providerid) VALUES ($id);";
+        $connection->query($sql);
+    }
     return true;
 }
-
 
 #grabs a single patient's data from user file and returns an html table
 function createInduvidualTable($userId, $patientId){
@@ -483,34 +409,6 @@ function createNewPatient($userId, $patientFirstName, $patientLastName, $patient
     fclose($fileHandle);
 }
 
-#replaced by new MySQL compatible function
-
-#Allows patient to sync their account to their provider
-function patientToProvider($userId, $linkId){
-    if(checkDuplicates($userId, "ProviderAccount") == false){
-        $fileHandle = accessUserDatabase($userId, "a");
-        if(file_exists("../users\user_data\#" . $linkId . "\data.txt") == true){
-            $linkData = "ProviderAccount=" . strval($linkId) . "\n";
-            fwrite($fileHandle, $linkData);
-            fclose($fileHandle);
-            
-            #adds patient's full name and database-referenced id to provider's account
-            $fileHandle = fopen("../users\user_data\#" . $linkId . "\linkedAccounts.txt", "a");
-            fwrite($fileHandle, userFullName($userId) . "=" . $userId . ".\n");
-            fclose($fileHandle);
-            
-            return true;
-        }
-        else{
-            fclose($fileHandle);
-            return "Provider ID does not exist.";
-        }
-    }
-    else{
-        return "Provider ID already linked to this account.";
-    }
-}
-
 #links patients account to providers account
 function linkToProvider($patientId, $providerId){
     #open config.ini.php file and get configuration
@@ -520,23 +418,67 @@ function linkToProvider($patientId, $providerId){
     $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
     $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    #check if provider has their own column or not
-    $column = "linked" . strval(trim($providerId));
-    $contents = $connection->prepare("SELECT $column FROM linkedaccounts;");
+    #check if provider exists, end execution if no match is found
+    $contents = $connection->prepare("SELECT id, usertype FROM allusers;");
     $contents->execute();
     $data = $contents->fetch(PDO::FETCH_ASSOC);
-
-    #-----------------need to check if provider exists and if patient has already been linked-------------------------------
-
-    #if column does not exist, add it, otherwise continue
-    if($data == NULL){
-        $contents = $connection->prepare("ALTER TABLE linkedaccounts ADD $column INT UNSIGNED;");
-        $contents->execute();
+    if($data['id'] != $providerId || $data['usertype'] != 'provider'){
+        return "Provider ID does not exist.";
     }
 
-    #add patients id into correct column and row
-    $contents = $connection->prepare("INSERT INTO test ($column) VALUES ($patientId);");
-    $contents->execute();
+    #check if patient has already linked to a provider account, if so, return error
+    $accountId = getSqlLinkedAccount($patientId);
+    if($accountId == false){
+        #find next column in provider's row in linkedaccounts table where no value has been assigned yet
+
+        #get table column names and store in $columns variable
+        $result = $connection->prepare("
+            SELECT
+                COLUMN_NAME, ORDINAL_POSITION, DATA_TYPE
+            FROM
+                INFORMATION_SCHEMA.COLUMNS
+            WHERE
+                TABLE_NAME = 'linkedaccounts'                
+            ORDER BY 2;
+        ");
+        $result->execute();
+        $columns = $result->fetchAll(PDO::FETCH_ASSOC);
+
+        #get all data from table and store in $tableData variable
+        $search = $connection->prepare("SELECT * FROM linkedaccounts");
+        $search->execute();
+        $tableData = $search->fetchAll(PDO::FETCH_ASSOC);
+
+        #adjust provider id to correctly correlate to database id
+        for($j = 0; $j < count($tableData); $j++){
+            if($providerId = $tableData[$j]['providerId']){
+                $adjustedId = $j;
+                break;
+            }
+        }
+
+        #finds column where data is NULL, replaces it with patient's id
+        for($i = 1; $i < count($columns); $i++){
+            #accesses the column value for provider's row in linkedaccounts table
+            $columnValue = $tableData[$adjustedId][$columns[$i]['COLUMN_NAME']];
+
+            #adds patients id to provider if it hasn't been linked to an account yet
+            if($columnValue == NULL){
+                $emptyColumn = $columns[$i]['COLUMN_NAME'];
+                $contents = $connection->prepare("
+                    UPDATE linkedaccounts 
+                    SET $emptyColumn = $patientId 
+                    WHERE providerId = $providerId
+                ;");
+                $contents->execute();
+                return true;
+            }
+        }
+        return "Database error: not enough columns in linkedaccounts table. Please contact admin to resolve issue.";
+    }
+    else{
+        return "Already linked to a provider's account. (Provider account number: $accountId)";
+    }    
 }
 
 #generates an html table with only patient's data from their linked provider's account

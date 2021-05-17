@@ -1,7 +1,10 @@
 <?php
 
-#function that opens connection and queries SQL to MySQL medicalsoftware database
-function accessMySQL(){
+#if some errors occured when adding rows to tables, this function resets them  or creates new tables
+#
+# -------------------------------- (all data is lost when tables are reset!!!) -------------------------------------------
+#
+function resetTables($reset){
     #open config.ini.php file and get configuration
     $ini = parse_ini_file("../config.ini.php");
 
@@ -9,36 +12,98 @@ function accessMySQL(){
     $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
     $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    #add queries here to modify tables in database manually
-    $sqlQueries = [
-    
-    "SELECT * FROM credentials WHERE username='Provider';"
-    
+    #sql queries to delete and replace tables in medicalsoftware database
+    $sqlQueries1 = [ 
+        "DROP TABLE linkedaccounts;",
+        "DROP TABLE calendar",
+        "DROP TABLE checkin",
+        "DROP TABLE textlog",
+        "DROP TABLE allusers",
+        "DROP TABLE credentials"        
     ];
 
-    #send SQL code to database
-    foreach($sqlQueries as $sql){
-        try{$connection->query($sql);}
-        catch(PDOException $error){echo "Error executing query: " . $error->getMessage();}
+    $sqlQueries2 = [
+        "CREATE TABLE linkedaccounts (
+            providerId INT UNSIGNED,
+            p1 INT UNSIGNED,
+            p2 INT UNSIGNED,
+            p3 INT UNSIGNED,
+            p4 INT UNSIGNED,
+            p5 INT UNSIGNED,
+            p6 INT UNSIGNED,
+            p7 INT UNSIGNED,
+            p8 INT UNSIGNED,
+            p9 INT UNSIGNED,
+            p10 INT UNSIGNED,
+            PRIMARY KEY (providerId)
+        );",
+        "CREATE TABLE allUsers (
+            id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+            firstName VARCHAR(100) NOT NULL,
+            middleName VARCHAR(100),
+            lastName VARCHAR(100) NOT NULL,
+            userType VARCHAR(10) NOT NULL,
+            dob DATE NOT NULL,
+            email VARCHAR(100) NOT NULL,
+            PRIMARY KEY (id)
+        );",
+        "CREATE TABLE credentials (
+            id INT UNSIGNED NOT NULL,
+            username VARCHAR(100),
+            securePassword VARCHAR(100),
+            PRIMARY KEY(id)
+        );",
+        "CREATE TABLE calendar ( 
+            providerId INT UNSIGNED,
+            p1 DATETIME,
+            p2 DATETIME,
+            p3 DATETIME,
+            p4 DATETIME,
+            p5 DATETIME,
+            p6 DATETIME,
+            p7 DATETIME,
+            p8 DATETIME,
+            p9 DATETIME,
+            p10 DATETIME,
+            PRIMARY KEY (providerId)
+        );",
+        "CREATE TABLE checkin (
+            providerId INT UNSIGNED,
+            p1 VARCHAR(50),
+            p2 VARCHAR(50),
+            p3 VARCHAR(50),
+            p4 VARCHAR(50),
+            p5 VARCHAR(50),
+            p6 VARCHAR(50),
+            p7 VARCHAR(50),
+            p8 VARCHAR(50),
+            p9 VARCHAR(50),
+            p10 VARCHAR(50),
+            PRIMARY KEY (providerId)
+        );",
+        "CREATE TABLE textlog (
+            providerId INT UNSIGNED,
+            m1 VARCHAR(50),
+            m2 VARCHAR(50),
+            m3 VARCHAR(50),
+            m4 VARCHAR(50),
+            m5 VARCHAR(50),
+            m6 VARCHAR(50),
+            m7 VARCHAR(50),
+            m8 VARCHAR(50),
+            m9 VARCHAR(50),
+            m10 VARCHAR(50),
+            PRIMARY KEY (providerId)
+        );"
+    ];
+
+    if($reset == true){
+        $sqlQueries = array_merge($sqlQueries1, $sqlQueries2);
     }
-}
+    elseif($reset == false){
+        $sqlQueries = $sqlQueries2;
+    }
 
-#if some errors occured when adding rows to tables, this function resets them (all data is lost!!!)
-function resetTables(){
-    #open config.ini.php file and get configuration
-    $ini = parse_ini_file("../config.ini.php");
-
-    #open connection to medicalsoftware database and set error mode to exception
-    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
-    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    #sql query to store user's data to "allusers" table
-    $sqlQueries = [ 
-    "CREATE TABLE calendar ('1.id' INT UNSIGNED, '1.date' DATETIME);",
-    "CREATE TABLE checkin ('1.id' INT UNSIGNED, '1.date' DATETIME);",
-    "CREATE TABLE linkedaccounts ('1.linked' INT UNSIGNED);",
-    "CREATE TABLE textlog ('1.sender' INT UNSIGNED, '1.message' VARCHAR(20));"
-    ];
     foreach($sqlQueries as $sql){
         try{$connection->query($sql);}
         catch(PDOException $error){echo "Error executing query: " . $error->getMessage();}
@@ -47,8 +112,7 @@ function resetTables(){
 
 #-------------------------------------------- functions in testing phase -------------------------------------------------------
 
-#adds a new user to medicalsoftware database
-function addNewUser($firstName, $lastName, $dob, $email, $username, $password, $userType){
+function sqlTest($browserInput){
     #open config.ini.php file and get configuration
     $ini = parse_ini_file("../config.ini.php");
 
@@ -56,51 +120,35 @@ function addNewUser($firstName, $lastName, $dob, $email, $username, $password, $
     $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
     $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    #sql query to store user's data to "allusers" table
-    $sql = "INSERT INTO allUsers (firstName, lastName, userType, dob, email) VALUES ($firstName, $lastName, $userType, $dob, $email);";
-    try{$connection->query($sql);}
-    catch(PDOException $error){echo "Error executing query: " . $error->getMessage();}
+    
 
-    #grabs the new user's id number
-    $id = $connection->lastInsertId();
+    #gather all instances where value in column matches patient's id
+    $result = $connection->prepare("
+        SELECT
+            COLUMN_NAME, ORDINAL_POSITION, DATA_TYPE
+        FROM
+            INFORMATION_SCHEMA.COLUMNS
+        WHERE
+            TABLE_NAME = 'linkedaccounts'
+        ORDER BY 2;
+    ");
+    $result->execute();
+    $columnData = $result->fetchAll(PDO::FETCH_ASSOC);
 
-    #set the sql query to store user's credentials to "credentials" table
-    $sql = "INSERT INTO credentials VALUES ($id, $username, $password);";
-    try{$connection->query($sql);}
-    catch(PDOException $error){echo "Error executing query: " . $error->getMessage();}
-}
+    $search = $connection->prepare("SELECT * FROM linkedaccounts");
+    $search->execute();
+    $result = $search->fetchAll(PDO::FETCH_ASSOC);
 
-function testInsertion($testData){
-    #open config.ini.php file and get configuration
-    $ini = parse_ini_file("../config.ini.php");
-
-    #open connection to medicalsoftware database and set error mode to exception
-    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
-    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    #sql query to store user's data to "allusers" table
-    $sql = "INSERT INTO test (text) VALUES ('" . $testData . "');";
-    try{$connection->query($sql);}
-    catch(PDOException $error){echo "Error executing query: " . $error->getMessage();}
-}
-
-#returns user type based on user id
-function sqlUserType($id){
-    #open config.ini.php file and get configuration
-    $ini = parse_ini_file("../config.ini.php");
-
-    #open connection to medicalsoftware database and set error mode to exception
-    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
-    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    #gathers results from searching table into an array
-    $contents = $connection->prepare("SELECT usertype FROM allusers WHERE id='$id';");
-    $contents->execute();
-    $data = $contents->fetch(PDO::FETCH_ASSOC);
-
-    #returns user type as a string (either 'provider' or 'patient')
-    foreach($data as $key=>$value){
-        echo $key."-".$value."<br>";		
+    #if no linked provider account, return error
+    if($columnData == NULL){
+        return "error";
     }
-    return false;
+    else{
+        return print_r($result);
+        
+        if($result[0][$columnData[1]['COLUMN_NAME']] == NULL){
+            return "Value = NULL";
+        }
+        return $result[0][$columnData[1]['COLUMN_NAME']];
+    }
 }

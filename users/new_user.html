@@ -42,7 +42,7 @@
                         echo " Spaces are not allowed inside username or password.";
                     }
                     else{
-                        if(checkSqlDuplicates('medicalsoftware', 'credentials', 'username', $_POST['newUsername']) == true){
+                        if(checkSqlDuplicates('credentials', 'username', $_POST['newUsername']) == true){
                             echo " Username is already taken.";
                         }
                         else{

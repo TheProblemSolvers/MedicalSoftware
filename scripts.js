@@ -165,7 +165,7 @@ let monthAndYear = document.getElementById("monthAndYear");
  
 //Function that creates calendar
  
-function printCalendar(month, year, appointmentArrary) {
+function printCalendar(month, year, appointmentArray) {
  
   //Declarations of month data for later use
  
@@ -322,20 +322,21 @@ function printCalendar(month, year, appointmentArrary) {
             container.appendChild(document.createElement("br"));
  
 
+for (q = 0, q < appointmentArray.length, ) {
+            if (date == appointmentArray[0][3]) {
 
-            if (date == appointmentArrary[0][3]) {
+              if(appointmentArray[0][2] > 12){
 
-              if(appointmentArrary[0][2] > 12){
-
-                appointmentArrary[0][2] = appointmentArrary[0][2] - 12;
+                appointmentArray[0][2] = appointmentArray[0][2] - 12;
 
               }
 
-              apptTime = `${appointmentArrary[0][2]}:${appointmentArrary[0][1]}`;
+              apptTime = `${appointmentArray[0][2]}:${appointmentArray[0][1]}`;
               container.appendChild(document.createTextNode(apptTime));
               apptTime.id = "apptText";
 
             }
+          }
 
             cell.appendChild(container);
  
