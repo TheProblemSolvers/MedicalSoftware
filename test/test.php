@@ -19,10 +19,22 @@ function resetTables($reset){
         "DROP TABLE checkin",
         "DROP TABLE textlog",
         "DROP TABLE allusers",
-        "DROP TABLE credentials"        
+        "DROP TABLE credentials"
     ];
 
     $sqlQueries2 = [
+        "CREATE TABLE patientdata (
+            providerId INT UNSIGNED,
+            firstname VARCHAR(50),
+            middlename VARCHAR(50),
+            lastname VARCHAR(50),
+            dob DATE,
+            sex VARCHAR(50),
+            currentmeds VARCHAR(50),
+            pasthealth VARCHAR(50),
+            familyhealth VARCHAR(50),
+            notes VARCHAR(50)   
+        )",
         "CREATE TABLE linkedaccounts (
             providerId INT UNSIGNED,
             p1 INT UNSIGNED,

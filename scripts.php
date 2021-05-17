@@ -106,25 +106,6 @@ function getPatientId($lineContents){
     return $patientId;
 }
 
-#gets patients first and last name based on patients id
-function patientFullName($userId, $patientId){
-    $fileHandle = accessUserDatabase($userId, "r");
-    $lineContents = getPatientData($fileHandle);
-    while(feof($fileHandle) == false){
-        if($patientId == getPatientId($lineContents)){
-            $startRead = strpos($lineContents, "=") + 1;
-            $firstName = substr($lineContents, $startRead);
-            $lineContents = fgets($fileHandle);
-            $startRead = strpos($lineContents, "=") + 1;
-            $lastName = substr($lineContents, $startRead);
-            return trim($firstName . " " . $lastName);
-        }
-        else{
-            $lineContents = fgets($fileHandle);
-        }
-    }
-}
-
 #checks to make sure all characters in data are valid, 
 #returns false if invalid characters are present
 function checkCharacters($data){
