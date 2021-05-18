@@ -17,23 +17,63 @@
         </div>
         
         <div class="content">
-        <h1>New Patient</h1>
-        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-            <label for="newPatientFirstName">First Name</label>
-            <input type="text" id="newPatientFirstName" name="newPatientFirstName" required>
-            <label for="newPatientLastName">Last Name</label>
-            <input type="text" id="newPatientLasttName" name="newPatientLastName" required>
-            <label for="newPatientNotes">Patient Notes:</label>
-            <textarea id="newPatientNotes" name="newPatientNotes" required></textarea>
-            <input type="submit" value="Create new patient">
-        </form>
-        <?php
-        require("../scripts.php");
-        if($_SERVER["REQUEST_METHOD"] == "POST"){
-            createNewPatient($_COOKIE['userId'], $_POST['newPatientFirstName'], $_POST['newPatientLastName'], $_POST['newPatientNotes']); 
-            header("Location: provider_database.html");
-        }
-        ?>
-    </div>
+            <div class="newPatientForm">
+                <h1>New Patient</h1>
+                <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+                    <label for="fName">First Name:</label>
+                    <input class="inputText" type="text" id="fName" name="fName" required>
+
+                    <label for="mName">Middle Name:</label>
+                    <input class="inputText" type="text" id="mName" name="mName">
+
+                    <label for="lName">Last Name:</label>
+                    <input class="inputText" type="text" id="lName" name="lName" required>
+
+                    <label for="dob">DOB:</label>
+                    <input type="date" id="dob" name="dob" required>
+
+                    <label for="height">Height:</label>
+                    <input class="inputNumber" type="number" id="height" name="height" required>
+                    <label for="height">in.</label>
+
+                    <label for="weight">Weight:</label>
+                    <input class="inputNumber" type="number" id="weight" name="weight" required>
+                    <label for="weight">lbs.</label>
+
+                    <label for="male"><small>Male</small></label>
+                    <input type="radio" id="male" name="sex" value="Male" required>
+                    <label for="female"><small>Female</small></label>
+                    <input type="radio" id="female" name="sex" value="Female"><br><br>
+
+                    <label class="textLabel" for="currMeds">Current Medications:</label>
+                    <textarea class="textarea" id="currMeds" name="currMeds"></textarea><br>
+
+                    <label class="textLabel" for="currHealth">Current Health Conditions:</label>
+                    <textarea class="textarea" id="curHealth" name="currHealth"></textarea><br>
+
+                    <label class="textLabel" for="pastHealth">Past Health Conditions:</label>
+                    <textarea class="textarea" id="pastHealth" name="pastHealth"></textarea><br>
+
+                    <label class="textLabel" for="familyHealth">Family Health History:</label>
+                    <textarea class="textarea" id="familyHealth" name="familyHealth"></textarea><br>
+                    
+                    <label class="textLabel" for="notes">Patient Notes:</label>
+                    <textarea class="textarea" id="notes" name="notes" required></textarea><br><br>
+
+                    <input type="submit" value="Create new patient">
+                </form>
+                <?php
+                require("../scripts.php");
+                if($_SERVER["REQUEST_METHOD"] == "POST"){
+                    $success = createNewPatient($_COOKIE['userId'], $_POST['fName'], $_POST['mName'], $_POST['lName'], $_POST['dob'], 
+                        $_POST['height'], $_POST['weight'], $_POST['sex'], $_POST['currMeds'], $_POST['currHealth'], 
+                        $_POST['pastHealth'], $_POST['familyHealth'], $_POST['notes']); 
+                    if($success == true){
+                        header("Location: provider_database.html");
+                    }
+                }
+                ?>
+            </div>
+        </div>
     </body>
 </html>

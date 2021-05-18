@@ -8,7 +8,34 @@ link this stylesheet to any other html page using this line of code:
 */
  
 /* This is just a test to see what this turns them into */
- 
+
+
+/*-------------------------------Modifies form of provider_addNewPatient.html----------------------------*/
+.textarea{
+  width:90%;
+  height: 40px;
+  display: block;
+}
+
+.inputText{
+  width:80px;
+}
+
+.inputNumber{
+  width:40px;
+}
+
+.textLabel{
+  width:5%;
+}
+
+.newPatientForm{
+  text-align: left;
+  margin-left: 5%;
+}
+
+/*-------------------------------End of provider_addNewPatient.html modifiers----------------------------*/
+
 #apptText {
   color: rebeccapurple;
 }

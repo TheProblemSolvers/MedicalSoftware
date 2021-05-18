@@ -389,10 +389,13 @@ function printCalendar(month, year, appointmentArray) {
  
 }
 
-const btn1 = document.getElementsByClassName('button');
-const btn = document.getElementById('navBtn');
-const navDiv = document.getElementById('bigNav');
-btn.addEventListener("click", () => {
-  navDiv.classList.toggle('active');
-  btn1.style.transform = "translateY(-500px)";
-})
+
+// btn.addEventListener("click", () => {
+//   navDiv.classList.toggle('active');
+//   btn1.style.transform = "translateY(-500px)";
+// })
+function shift(){
+  const btn = document.getElementById('navBtn');
+  btn.style.transform = "translateX(-500px)";
+  document.getElementById("testing").innerHTML = "Success!";
+}

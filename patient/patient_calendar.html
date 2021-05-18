@@ -26,7 +26,7 @@
 
         <?php 
             require("../scripts.php");
-            if(getLinkedAccount($_COOKIE['userId']) == false){
+            if(getSqlLinkedAccount($_COOKIE['userId']) == false){
                 echo "<p class='errorMessage'>No provider account linked. <br>Please link a providers account to continue.</p>";
             }
         ?>
@@ -51,7 +51,7 @@
  
         </script>
 
-        // |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+        <!-- -------------------------- End of do not touch line ---------------------------------- -->
 
         <div class="content">
 
