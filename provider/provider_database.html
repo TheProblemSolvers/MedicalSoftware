@@ -40,7 +40,7 @@
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             echo searchDatabase($_COOKIE["userId"], $_POST["patientSearch"]);
         }
-        echo createPatientTable($_COOKIE["userId"]);
+        echo getDatabaseTable($_COOKIE["userId"]);
         ?><br>
         <button onclick="document.location='#patientSearch'">Back to top</button>
     </div>

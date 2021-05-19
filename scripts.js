@@ -2,6 +2,11 @@
 function setPatientIdCookie(id){
   document.cookie = "patientId=" + id;
 }
+
+//sets a coookie with the given data
+function setCookie(tag, data){
+  document.cookie = toString(tag) + "=" + toString(data);
+}
  
 function authenticateLogin(validate){
   var providerUsername = "Username";

@@ -271,43 +271,95 @@ function createInduvidualTable($userId, $patientId){
     return $htmlTable;
 }
 
-#grabs all patient data from user file and returns a full table in html
-function createPatientTable($userId){
-    $fileHandle = accessUserDatabase($userId, "r");
-    $lineContents = getPatientData($fileHandle);
+// #grabs all patient data from user file and returns a full table in html
+// function createPatientTable($userId){
+//     $fileHandle = accessUserDatabase($userId, "r");
+//     $lineContents = getPatientData($fileHandle);
+
+//     #defines the starting variables for the rest of the code to build the table off of
+//     $htmlTable = "<br><table><thead><tr><th>First Name</th><th>Last Name</th><th>Patient Notes</th></tr></thead><tbody><tr>";
+//     $htmlEndTable = "</tr></tbody></table>";
+//     $patientId = "1";
+    
+//     #read each patient's data, and once a new patient is found by the file pointer, 
+//     #end the table row and create a new one
+//     while(feof($fileHandle) == false){
+//         #creates a new row if the patient id number has changed
+//         if($patientId != getPatientId($lineContents)){
+//             $htmlTable = $htmlTable . "</tr><tr>";
+//             $patientId = getPatientId($lineContents);
+//         }
+//         #if the datatype is a first name, make it a link to the patient's file
+//         if(getDataType($lineContents) == "FirstName"){
+//             $startRead = strpos($lineContents, "=") + 1;
+//             $htmlTable = $htmlTable . "<td>" . "<a href='provider_singlePatientView.html' onclick='setPatientIdCookie(" . 
+//                 $patientId . ")'>" . substr($lineContents, $startRead) . "</a></td>";
+//             $lineContents = fgets($fileHandle);
+//         }
+//         #if the datatype is not a first name, just add it to the table
+//         else{
+//             $startRead = strpos($lineContents, "=") + 1;
+//             $htmlTable = $htmlTable . "<td>" . substr($lineContents, $startRead) . "</td>";
+//             $lineContents = fgets($fileHandle);
+//         }
+//     }
+
+//     #close the file and return the completed table
+//     $htmlTable = $htmlTable . $htmlEndTable;
+//     fclose($fileHandle);
+//     return $htmlTable;
+// }
+
+#generates html table from patient data stored in database from provider
+function getDatabaseTable($providerId){
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
+
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    #sends SQL command to get all records where providerid matches user id
+    $contents = $connection->prepare("SELECT * FROM patientdata WHERE providerId=$providerId;");
+    $contents->execute();
+    $patientData = $contents->fetchAll(PDO::FETCH_ASSOC);
+
+    #get all column names from patientdata table
+    $result = $connection->prepare(
+        "SELECT
+            COLUMN_NAME, ORDINAL_POSITION, DATA_TYPE
+        FROM
+            INFORMATION_SCHEMA.COLUMNS
+        WHERE
+            TABLE_NAME = 'patientdata'
+        ORDER BY 2;");
+    $result->execute();
+    $columns = $result->fetchAll(PDO::FETCH_ASSOC);
 
     #defines the starting variables for the rest of the code to build the table off of
-    $htmlTable = "<br><table><thead><tr><th>First Name</th><th>Last Name</th><th>Patient Notes</th></tr></thead><tbody><tr>";
+    $htmlTable = "<br><table><thead><tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>DOB</th><th>Height</th>
+                  <th>Weight</th><th>Sex</th></thead><tbody><tr>";
     $htmlEndTable = "</tr></tbody></table>";
-    $patientId = "1";
-    
-    #read each patient's data, and once a new patient is found by the file pointer, 
-    #end the table row and create a new one
-    while(feof($fileHandle) == false){
-        #creates a new row if the patient id number has changed
-        if($patientId != getPatientId($lineContents)){
-            $htmlTable = $htmlTable . "</tr><tr>";
-            $patientId = getPatientId($lineContents);
+    $htmlRows = "<tr>";
+
+    #generates HTML page from patient data recieved from SQL query
+    foreach($patientData as $rowData){
+        #only increment up to gender column, then go to next patient
+        for($i = 2; $i < 9; $i++){
+            if($columns[$i]['COLUMN_NAME'] == 'firstname'){
+                $encodedRowData = serialize($rowData);
+                $htmlRows .= "<td>" . "<button onclick='setCookie(" . "rowInfo ," . "$encodedRowData" . ")'>View</button>" . 
+                    strval($rowData[$columns[$i]['COLUMN_NAME']]) . "</td>";
+            }
+            else{
+                $htmlRows .= "<td>" . strval($rowData[$columns[$i]['COLUMN_NAME']]) . "</td>";
+            }
         }
-        #if the datatype is a first name, make it a link to the patient's file
-        if(getDataType($lineContents) == "FirstName"){
-            $startRead = strpos($lineContents, "=") + 1;
-            $htmlTable = $htmlTable . "<td>" . "<a href='provider_singlePatientView.html' onclick='setPatientIdCookie(" . 
-                $patientId . ")'>" . substr($lineContents, $startRead) . "</a></td>";
-            $lineContents = fgets($fileHandle);
-        }
-        #if the datatype is not a first name, just add it to the table
-        else{
-            $startRead = strpos($lineContents, "=") + 1;
-            $htmlTable = $htmlTable . "<td>" . substr($lineContents, $startRead) . "</td>";
-            $lineContents = fgets($fileHandle);
-        }
+        $htmlRows .= "</tr>";
     }
 
-    #close the file and return the completed table
-    $htmlTable = $htmlTable . $htmlEndTable;
-    fclose($fileHandle);
-    return $htmlTable;
+    #connects all HTML strings and returns to browser to display
+    return $htmlTable . $htmlRows . $htmlEndTable;
 }
 
 #searches user's database for patients matching search parameter and 
