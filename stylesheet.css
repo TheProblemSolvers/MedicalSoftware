@@ -1,3 +1,4 @@
+ 
 /*
   
 put css code here
@@ -8,34 +9,34 @@ link this stylesheet to any other html page using this line of code:
 */
  
 /* This is just a test to see what this turns them into */
-
-
+ 
+ 
 /*-------------------------------Modifies form of provider_addNewPatient.html----------------------------*/
 .textarea{
   width:90%;
   height: 40px;
   display: block;
 }
-
+ 
 .inputText{
   width:80px;
 }
-
+ 
 .inputNumber{
   width:40px;
 }
-
+ 
 .textLabel{
   width:5%;
 }
-
+ 
 .newPatientForm{
   text-align: left;
   margin-left: 5%;
 }
-
+ 
 /*-------------------------------End of provider_addNewPatient.html modifiers----------------------------*/
-
+ 
 #apptText {
   color: rebeccapurple;
 }
@@ -107,7 +108,7 @@ link this stylesheet to any other html page using this line of code:
   display: inline-block;
   font-size: 16px;
   }
-
+ 
   .buttons:hover {
     background-color: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
@@ -117,7 +118,7 @@ link this stylesheet to any other html page using this line of code:
     box-shadow: 0 5px #666;
     transform: translateY(4px);
   }
-
+ 
   /* These are for creating the sections of the website */
   #navBtn{
  
@@ -155,7 +156,7 @@ link this stylesheet to any other html page using this line of code:
     padding: 14px 16px;
     text-decoration: none;
   }
-
+ 
   .topnav a:hover {
     background-color: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
@@ -171,21 +172,7 @@ link this stylesheet to any other html page using this line of code:
     margin-left: auto;
     margin-right: auto;
   }
-  
-  .content a {
-    float: left;
-    display: block;
-    color: black;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    min-width: 100%;
-  }
-  .content a:hover {
-    background-color: rgb(0, 178, 223);
-    color: rgb(0, 0, 0);
-  }
-
+ 
   .footer {
     background-color: #ddd;    
     height: 40px;
@@ -313,7 +300,7 @@ link this stylesheet to any other html page using this line of code:
     table-layout: fixed;
     position: fixed;
     /* transition: transform 0.5s ease-in-out; */
-    margin-top: 2%;
+    /* margin-top: 2%; */
     margin-left: 5%;
     margin-right: 5%;
     font-family: Arial, Helvetica, sans-serif;
@@ -395,13 +382,35 @@ link this stylesheet to any other html page using this line of code:
     border-bottom: 20px solid #2980b9; 
  
     } */
-
-    #landerscanbepretty { 
-      border: solid thin; 
-      border-collapse: collapse; 
-    }
+ 
     #landers {
+      
+      background-color: yellow;
       margin-left: auto;
       margin-right: auto;
       width: 65%;
+      border: solid thin; 
+      border-collapse: collapse;
+      table-layout: fixed;
+      overflow: hidden;
+      margin-top: 125px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
+ 
     }
+ 
+    #landHead{
+      font-size: x-large;
+    }
+ 
+      
+  .content a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+ 
+  .content a:hover {
+    background-color: gold;
+  }
