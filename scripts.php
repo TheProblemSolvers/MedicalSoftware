@@ -128,12 +128,20 @@ function checkLength($data){
     }
 }
 
-#accesses the requested user data file and returns the users full name
+#gets user's full name using their id from allusers table
 function userFullName($userId){
-    $fileHandle = fopen("../users\user_data\#" . trim(strval($userId)) . "\data.txt", 'r');
-    $userFullName = trim(fgets($fileHandle));
-    fclose($fileHandle);
-    return $userFullName;
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
+
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    #gathers results from searching table into an array
+    $contents = $connection->prepare("SELECT firstName, lastName FROM allusers WHERE id='$userId';");
+    $contents->execute();
+    $fullName = $contents->fetch(PDO::FETCH_ASSOC);
+    return implode(" ", $fullName);
 }
 
 #checks for duplicates in specified MySQL database, table, and column
@@ -352,42 +360,25 @@ function searchDatabase($userId, $searchParameter){
     }    
 }
 
-#creates a new patient in the provider's database
-function createNewPatient($userId, $patientFirstName, $patientLastName, $patientNotes){
-    $fileName = "../users\user_data\#" . $userId . "\data.txt";
-    $fileHandle = fopen($fileName, "r");
-    
-    #finds the total number of lines in the opened file
-    $lineCount = 0;
-    while(feof($fileHandle) == false){
-        $lineContents = fgets($fileHandle);
-        $lineCount ++;
-    }
-    #calculates the position of the patient user id in file
-    $lineNumber = $lineCount - 2;
-    #following 4 lines of code from https://stackoverflow.com/users/1268048/phil,
-    #and they read the contents of a specific line in the .txt file
-    $file = new SplFileObject($fileName);
-    if (!$file->eof()) {
-        $file->seek($lineNumber);
-        $contents = $file->current(); #$contents holds the data in $lineNumber
-    }
-    fclose($fileHandle);
+#creates a new patient and adds their info to the patientdata table in medicalsoftware database
+function createNewPatient($providerId, $fName, $mName, $lName, $dob, $height, $weight, $sex, $currentMeds, $currentHealth, 
+    $pastHealth, $familyHealth, $notes){
 
-    #increment the patient's identification number by one
-    $startRead = strpos($lineContents, "p") + 1;
-    $endRead = strpos($lineContents, ".");
-    $patientId = strval(intval(substr($contents, $startRead, ($endRead - $startRead))) + 1);
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
 
-    #opens the users file for appending
-    $fileHandle = fopen($fileName, "a+");
-    #writes patient data to the file with correct labels
-    fwrite($fileHandle, "p" . $patientId . ".FirstName=" . trim($patientFirstName) . "\n");
-    fwrite($fileHandle, "p" . $patientId . ".LastName=" . trim($patientLastName) . "\n");
-    if($patientNotes != ""){
-        fwrite($fileHandle, "p" . $patientId . ".Notes=" . trim($patientNotes, "") . "\n");
-    }
-    fclose($fileHandle);
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    #check if provider exists, end execution if no match is found
+    $contents = $connection->prepare(
+    "INSERT INTO patientdata (providerid, firstname, middlename, lastname, dob, height, weight, sex, currenthealth, 
+        currentmeds, pasthealth, familyhealth, notes)
+    VALUES ($providerId, '$fName', '$mName', '$lName','$dob', '$height', '$weight', '$sex', '$currentHealth', 
+        '$currentMeds', '$pastHealth', '$familyHealth', '$notes');
+    ");
+    $contents->execute();
 }
 
 #links patients account to providers account
@@ -853,12 +844,12 @@ function storeApptData($patientId, $apptType, $addtlInfo, $date, $time){
 #gets a user's appointment from database and sends to browser so JavaScript can use data
 function getAppointmentDates($patientId){
     #returns an error message if no linked provider's account is found
-    if(getLinkedAccount($patientId) == false){
+    if(getSqlLinkedAccount($patientId) == false){
         return "No provider account linked. Please link to your provider's account.";
     }
 
     #access provider's database
-    $providerId = getLinkedAccount($patientId);
+    $providerId = getSqlLinkedAccount($patientId);
     $fileName = "../users\user_data\#" . trim($providerId) . "\calendar.txt";
     $fileHandle = fopen($fileName, "r");
 

@@ -24,17 +24,21 @@ function resetTables($reset){
 
     $sqlQueries2 = [
         "CREATE TABLE patientdata (
-            providerId INT UNSIGNED,
+            providerid INT UNSIGNED,
+            patientid INT UNSIGNED,
             firstname VARCHAR(50),
             middlename VARCHAR(50),
             lastname VARCHAR(50),
             dob DATE,
+            height INT UNSIGNED,
+            'weight' INT UNSIGNED,
             sex VARCHAR(50),
+            currenthealth VARCHAR(50),
             currentmeds VARCHAR(50),
             pasthealth VARCHAR(50),
             familyhealth VARCHAR(50),
             notes VARCHAR(50)   
-        )",
+        );",
         "CREATE TABLE linkedaccounts (
             providerId INT UNSIGNED,
             p1 INT UNSIGNED,
@@ -132,35 +136,9 @@ function sqlTest($browserInput){
     $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
     $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    
-
     #gather all instances where value in column matches patient's id
-    $result = $connection->prepare("
-        SELECT
-            COLUMN_NAME, ORDINAL_POSITION, DATA_TYPE
-        FROM
-            INFORMATION_SCHEMA.COLUMNS
-        WHERE
-            TABLE_NAME = 'linkedaccounts'
-        ORDER BY 2;
-    ");
+    $result = $connection->prepare("SELECT * FROM allusers;");
     $result->execute();
-    $columnData = $result->fetchAll(PDO::FETCH_ASSOC);
-
-    $search = $connection->prepare("SELECT * FROM linkedaccounts");
-    $search->execute();
-    $result = $search->fetchAll(PDO::FETCH_ASSOC);
-
-    #if no linked provider account, return error
-    if($columnData == NULL){
-        return "error";
-    }
-    else{
-        return print_r($result);
-        
-        if($result[0][$columnData[1]['COLUMN_NAME']] == NULL){
-            return "Value = NULL";
-        }
-        return $result[0][$columnData[1]['COLUMN_NAME']];
-    }
+    $data = $result->fetchAll(PDO::FETCH_ASSOC);
+    return print_r($data, true);
 }
