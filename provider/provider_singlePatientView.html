@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="../scripts.js"></script>
-        <link rel="stylesheet" type="text/css" href="../stylesheet.css">
         <title>Medical Software</title>
+        <link rel="stylesheet" type="text/css" href="../stylesheet.css">
     </head>
     <body>
         <div class="topnav">
@@ -14,19 +13,46 @@
 				<a href="provider_calendar.html">Calender</a>
 				<a href="provider_addNewPatient.html">Add New Patient</a>
             	<a href="provider_database.html">Database</a>
-            	<!-- <a href="provider_singlePatientView.html">Michael IDK</a> -->
+            	<!-- <a href="provider_singlePatientView.html">Michael IDK</a>     -->
         </div>
-      
-        <div class="content ">
-       <style>
-            table, th, td {
-                border: 1px solid black;
-                border-collapse: collapse;
-                padding: 5px;
-            }
-        </style>
-        <h1><?php require("../scripts.php"); echo patientFullName($_COOKIE["userId"], $_COOKIE["patientId"]); ?>'s File:</h1>
-        <p><?php echo createInduvidualTable($_COOKIE["userId"], $_COOKIE["patientId"]); ?></p>
-    </div>
+        
+        <div class="content">
+            <div class="newPatientForm">
+                <h1><?php require("../scripts.php"); echo relIdName($_COOKIE["patientId"]); ?>'s File:</h1>
+
+                <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+
+                    <?php echo createInduvidualTable($_COOKIE["userId"], $_COOKIE["patientId"]); ?>
+
+                    <label class='textLabel' for='currMeds'>Current Medications:</label>
+                    <textarea class='textarea' id='currMeds' name='currMeds'></textarea><br>
+
+                    <label class='textLabel' for='currHealth'>Current Health Conditions:</label>
+                    <textarea class='textarea' id='curHealth' name='currHealth'></textarea><br>
+
+                    <label class='textLabel' for='pastHealth'>Past Health Conditions:</label>
+                    <textarea class='textarea' id='pastHealth' name='pastHealth'></textarea><br>
+
+                    <label class='textLabel' for='familyHealth'>Family Health History:</label>
+                    <textarea class='textarea' id='familyHealth' name='familyHealth'></textarea><br>
+                    
+                    <label class='textLabel' for='notes'>Patient Notes:</label>
+                    <textarea class='textarea' id='notes' name='notes'></textarea><br><br>
+
+                    <input type="submit" value="Submit Changes">
+                    <button onclick="alert('Discard Changes?'); window.location.href='provider_database.html';">Back to Database</button>
+                </form>
+                <?php
+                if($_SERVER["REQUEST_METHOD"] == "POST"){
+                    $success = modifyPatient($_COOKIE['userId'], $_POST['fName'], $_POST['mName'], $_POST['lName'], $_POST['dob'], 
+                        $_POST['height'], $_POST['weight'], $_POST['sex'], $_POST['currMeds'], $_POST['currHealth'], 
+                        $_POST['pastHealth'], $_POST['familyHealth'], $_POST['notes']); 
+                    if($success == true){
+                        header("Location: provider_database.html");
+                    }
+                }
+                ?>
+            </div>
+        </div>
     </body>
 </html>

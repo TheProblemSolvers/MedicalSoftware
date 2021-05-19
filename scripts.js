@@ -1,6 +1,7 @@
 //sets a cookie for a page based on what link is clicked
 function setPatientIdCookie(id) {
   document.cookie = "patientId=" + id;
+  window.location.href = "provider_singlePatientView.html";
 }
  
 function authenticateLogin(validate) {

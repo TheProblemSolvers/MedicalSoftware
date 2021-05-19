@@ -13,6 +13,24 @@ $seperator = "*";
 
 /****************************  Basic Functions  *************************************/
 
+#gets a patient's name from patient data file based on a relative id passed to function
+function relIdName($relId){
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
+
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    #gathers first and last name from patientdata table based on relId
+    $contents = $connection->prepare("SELECT firstname, lastname FROM patientData WHERE relid='$relId';");
+    $contents->execute();
+    $nameArray = $contents->fetch(PDO::FETCH_ASSOC);
+
+    #return first and last name
+    return implode(" ", $nameArray);
+}
+
 #returns user type based on user id
 function sqlUserType($id){
     #open config.ini.php file and get configuration
@@ -248,67 +266,81 @@ function addNewUser($firstName, $middleName, $lastName, $dob, $email, $username,
     return true;
 }
 
-#grabs a single patient's data from user file and returns an html table
-function createInduvidualTable($userId, $patientId){
-    $fileHandle = accessUserDatabase($userId, "r");
-    $lineContents = getPatientData($fileHandle);
-    $htmlTable = "<table><thead><tr><th>First Name</th><th>Last Name</th><th>Patient Notes</th></tr></thead><tbody><tr>";
-    $htmlEndTable = "</tr></tbody></table>";
-    
-    #changes file pointer to correct patient in database
-    while($patientId != getPatientId($lineContents)){
-        $lineContents = fgets($fileHandle);
-    }
-
-    #compiles all of selected patient's data into a table
-    while($patientId == getPatientId($lineContents)){
-        $startRead = strpos($lineContents, "=") + 1;
-        $htmlTable = $htmlTable . "<td>" . substr($lineContents, $startRead) . "</td>";
-        $lineContents = fgets($fileHandle);
-    }
-    $htmlTable = $htmlTable . $htmlEndTable;
-    fclose($fileHandle);
-    return $htmlTable;
-}
-
-// #grabs all patient data from user file and returns a full table in html
-// function createPatientTable($userId){
+// #grabs a single patient's data from user file and returns an html table
+// function createInduvidualTable($userId, $patientId){
 //     $fileHandle = accessUserDatabase($userId, "r");
 //     $lineContents = getPatientData($fileHandle);
-
-//     #defines the starting variables for the rest of the code to build the table off of
-//     $htmlTable = "<br><table><thead><tr><th>First Name</th><th>Last Name</th><th>Patient Notes</th></tr></thead><tbody><tr>";
+//     $htmlTable = "<table><thead><tr><th>First Name</th><th>Last Name</th><th>Patient Notes</th></tr></thead><tbody><tr>";
 //     $htmlEndTable = "</tr></tbody></table>";
-//     $patientId = "1";
     
-//     #read each patient's data, and once a new patient is found by the file pointer, 
-//     #end the table row and create a new one
-//     while(feof($fileHandle) == false){
-//         #creates a new row if the patient id number has changed
-//         if($patientId != getPatientId($lineContents)){
-//             $htmlTable = $htmlTable . "</tr><tr>";
-//             $patientId = getPatientId($lineContents);
-//         }
-//         #if the datatype is a first name, make it a link to the patient's file
-//         if(getDataType($lineContents) == "FirstName"){
-//             $startRead = strpos($lineContents, "=") + 1;
-//             $htmlTable = $htmlTable . "<td>" . "<a href='provider_singlePatientView.html' onclick='setPatientIdCookie(" . 
-//                 $patientId . ")'>" . substr($lineContents, $startRead) . "</a></td>";
-//             $lineContents = fgets($fileHandle);
-//         }
-//         #if the datatype is not a first name, just add it to the table
-//         else{
-//             $startRead = strpos($lineContents, "=") + 1;
-//             $htmlTable = $htmlTable . "<td>" . substr($lineContents, $startRead) . "</td>";
-//             $lineContents = fgets($fileHandle);
-//         }
+//     #changes file pointer to correct patient in database
+//     while($patientId != getPatientId($lineContents)){
+//         $lineContents = fgets($fileHandle);
 //     }
 
-//     #close the file and return the completed table
+//     #compiles all of selected patient's data into a table
+//     while($patientId == getPatientId($lineContents)){
+//         $startRead = strpos($lineContents, "=") + 1;
+//         $htmlTable = $htmlTable . "<td>" . substr($lineContents, $startRead) . "</td>";
+//         $lineContents = fgets($fileHandle);
+//     }
 //     $htmlTable = $htmlTable . $htmlEndTable;
 //     fclose($fileHandle);
 //     return $htmlTable;
 // }
+
+#grabs data from patientdata and displays it in editable form elements
+function createInduvidualTable($relId){
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
+
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    #sends SQL command to get record where relId matches cookie stored in browser
+    $contents = $connection->prepare("SELECT * FROM patientdata WHERE relid=$relId;");
+    $contents->execute();
+    $patientData = $contents->fetchAll(PDO::FETCH_ASSOC);
+    $patientData = $patientData[0];
+
+    #get all column names from patientdata table
+    $result = $connection->prepare(
+        "SELECT
+            COLUMN_NAME, ORDINAL_POSITION, DATA_TYPE
+        FROM
+            INFORMATION_SCHEMA.COLUMNS
+        WHERE
+            TABLE_NAME = 'patientdata'
+        ORDER BY 2;");
+    $result->execute();
+    $columns = $result->fetchAll(PDO::FETCH_ASSOC);
+
+    #format name and dob data
+    $i = 0;
+    $j = 3;
+    $HTML[$i] = "<label for='name'>Name: </label><input type='text' id='name' name='name' style='width:250px' value='" . 
+        $patientData[$columns[$j]['COLUMN_NAME']] . " " . $patientData[$columns[$j + 1]['COLUMN_NAME']] . " " .
+        $patientData[$columns[$j + 2]['COLUMN_NAME']] . "' readonly>";
+    $i++;
+    $j += 3;
+    $HTML[$i] = "<label for='dob'>DOB: </label><input type='date' id='dob' name='dob' value='" . 
+        $patientData[$columns[$j]['COLUMN_NAME']] . "' readonly>";
+    $i++;
+    $j++;
+    $HTML[$i] = "<label for='height'>Height:</label><input class='inputNumber' type='number' id='height' name='height' value='" . 
+        $patientData[$columns[$j]['COLUMN_NAME']] . "' required><label for='height'>in.</label>";
+    $i++;
+    $j++;
+    $HTML[$i] = "<label for='weight'>Weight:</label><input class='inputNumber' type='number' id='weight' name='weight' value='" . 
+        $patientData[$columns[$j]['COLUMN_NAME']] . "' required><label for='weight'>lbs.</label>";
+    $i++;
+    $j++;
+    $HTML[$i] = "<label for='sex'>Sex: </label><input type='text' id='sex' name='sex' value='" . 
+        $patientData[$columns[$j]['COLUMN_NAME']] . "' readonly><br><br>";
+
+    return implode("\n", $HTML);
+}
 
 #generates html table from patient data stored in database from provider
 function getDatabaseTable($providerId){
@@ -345,10 +377,9 @@ function getDatabaseTable($providerId){
     #generates HTML page from patient data recieved from SQL query
     foreach($patientData as $rowData){
         #only increment up to gender column, then go to next patient
-        for($i = 2; $i < 9; $i++){
+        for($i = 3; $i < 10; $i++){
             if($columns[$i]['COLUMN_NAME'] == 'firstname'){
-                $encodedRowData = serialize($rowData);
-                $htmlRows .= "<td>" . "<button onclick='setCookie(" . "rowInfo ," . "$encodedRowData" . ")'>View</button>" . 
+                $htmlRows .= "<td>" . "<button onclick='setPatientIdCookie(" . $rowData['relid'] . ")'>View</button>" . 
                     strval($rowData[$columns[$i]['COLUMN_NAME']]) . "</td>";
             }
             else{

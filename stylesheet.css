@@ -141,7 +141,7 @@ link this stylesheet to any other html page using this line of code:
     }
  
     #navDiv{
-      transform: translateY(-40px);
+      transform: translateY(0px);
     }
     
     .topnav {
