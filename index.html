@@ -6,21 +6,51 @@
         <script src="scripts.js"></script>
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
     </head>
-    <body>
+    <body onload="appleBottomJeans();">
+ 
+        <style>
+            body {
+                opacity: 1;
+                transition-duration: 10s;
+                transition-property: opacity;
+            }
+ 
+            body.fade {
+                opacity: 0;
+            }
+        </style>
+ 
+        <script>
+ 
+        document.body.className = 'fade';
+        
+        document.body.classList.add('fade');
+          
+          document.addEventListener("DOMContentLoaded", () => {
+ 
+            window.setTimeout(function() {
+ 
+                document.body.classList.remove('fade');
+ 
+            }, 230);
+ 
+        });
+        </script>
+ 
         <div class="indexhome">
         <?php setcookie("userId", "", time() - 3600);?>
         <?php setcookie("patientId", "", time() - 3600);?>
-        <h1>Welcome!</h1>
-        <p>Please enter your credentials:</p>
+        <h1 class="omega">Welcome!</h1>
+        <p class="omega">Please enter your credentials:</p>
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" style="display: inline;">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username"><br>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password"><br><br>
-                <input type="submit" value="Login">
+                <p class="omega" for="username">Username:</p>
+                <input class="omega" type="text" id="username" name="username"><br>
+                <p class="omega" for="password">Password:</p>
+                <input class="omega" type="password" id="password" name="password"><br><br>
+                <input class="omega" type="submit" value="Login">
         </form>
-        <button onclick="window.location.href = 'admin_index.html'">Login as Admin</button>
-        <button onclick="location.href = 'users/new_user.html'">New User?</button>
+        <button class="omega buttons" onclick="window.location.href = 'admin_index.html'">Login as Admin</button>
+        <button class="omega buttons" onclick="location.href = 'users/new_user.html'">New User?</button>
         <p id="authenticationErrors"></p>
         <?php
         require("scripts.php"); 
@@ -33,7 +63,7 @@
             }
         }
         ?>
-        <button onclick="document.location='test/test.html'">MySQL</button>
+        <button class="omega buttons" onclick="document.location='test/test.html'">MySQL</button>
         </div>
     </body>
 </html>
