@@ -14,13 +14,13 @@
         <p>Please enter your credentials:</p>
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" style="display: inline;">
                 <label for="username">Username:</label>
-                <input type="text" id="username" name="username"><br>
+                <input type="text" id="username" name="username"><br><br>
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password"><br><br>
-                <input type="submit" value="Login">
+                <input class="buttons" type="submit" value="Login">
         </form>
-        <button onclick="window.location.href = 'admin_index.html'">Login as Admin</button>
-        <button onclick="location.href = 'users/new_user.html'">New User?</button>
+        <button class="buttons" onclick="window.location.href = 'admin_index.html'">Login as Admin</button>
+        <button class="buttons" onclick="location.href = 'users/new_user.html'">New User?</button>
         <p id="authenticationErrors"></p>
         <?php
         require("scripts.php"); 
@@ -33,7 +33,7 @@
             }
         }
         ?>
-        <button onclick="document.location='test/test.html'">MySQL</button>
+        <button class="buttons" onclick="document.location='test/test.html'">MySQL</button>
         </div>
     </body>
 </html>

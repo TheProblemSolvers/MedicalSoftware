@@ -6,7 +6,7 @@
 		<link rel="stylesheet" type="text/css" href="../stylesheet.css">
 	</head>
 	<body>
-	<div class="topnav">
+		<div class="topnav">
 		<a href="../index.html">Logout</a>
 		<a href="patient_lander.html">Home</a>
 		<a href="patient_checkin.html">Check-In</a>
@@ -14,16 +14,18 @@
 		<a href="patient_app_scheduler.html">Scheduler</a>
 		<a href="patient_profile.html">Your Profile</a>
 		<a href="patient_accountSync.html">Account Syncing</a>
-</div>
-<div class="content">
-	<h1><?php require("../scripts.php"); echo "Welcome, " . userFullName($_COOKIE['userId']) . "!";?></h1>
-	<p>Sync to a provider's account below:</p>
-	<p><?php echo "Your unique user ID: " . $_COOKIE['userId'];?></p>
-	<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-		<label for="providerId">Provider's ID:</label>
-		<input type="text" id="providerId" name="providerId">
-		<input type="submit" value="Sync Account">
-	</form>
+		<a href="patient_settings.html">Settings</a>
+		<a href="patient_textLog.html">TextLog</a>
+		</div>
+		<div class="content">
+			<h1><?php require("../scripts.php"); echo "Welcome, " . userFullName($_COOKIE['userId']) . "!";?></h1>
+			<p>Sync to a provider's account below:</p>
+			<p><?php echo "Your unique user ID: " . $_COOKIE['userId'];?></p>
+			<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+				<label for="providerId">Provider's ID:</label>
+				<input type="text" id="providerId" name="providerId">
+				<input type="submit" value="Sync Account">
+			</form>
 	<?php 
 		if($_SERVER["REQUEST_METHOD"] == "POST"){
 			$returnValue = linkToProvider($_COOKIE['userId'], $_POST['providerId']);
@@ -35,6 +37,9 @@
 			}
 		}
 	?>
-</div>
+		</div>
+		<div class="footer">
+			<p>Contact Us at sigmund Froyyd@gmail.com </p>
+  		</div>
 	</body>
 </html>	

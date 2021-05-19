@@ -97,7 +97,27 @@ link this stylesheet to any other html page using this line of code:
     font-family: Helvetica;
   }
   
-  
+.buttons {
+  background-color: #4CAF50; 
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  }
+
+  .buttons:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+  }
+  .buttons:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+
   /* These are for creating the sections of the website */
  
   .topnav {
@@ -112,16 +132,7 @@ link this stylesheet to any other html page using this line of code:
     padding: 14px 16px;
     text-decoration: none;
   }
-  .topnav .buttons {
-    font-size: 16px;
-    border: none;
-    outline: none;
-    color: white;
-    padding: 14px 16px;
-    font-family: inherit; 
-    margin: 0; 
- }
- 
+
   .topnav a:hover {
     background-color: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
@@ -131,19 +142,34 @@ link this stylesheet to any other html page using this line of code:
     background-color: #ddd;
     color: rgb(0, 0, 0);
     position: absolute;
+    min-height: calc(100vh - 40px);
     top: 40px;
-    bottom: 40px;
     width:100%;
     margin-left: auto;
     margin-right: auto;
   }
   
+  .content a {
+    float: left;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    min-width: 100%;
+  }
+  .content a:hover {
+    background-color: rgb(0, 178, 223);
+    color: rgb(0, 0, 0);
+  }
+
   .footer {
-    background-color: rgba(1, 22, 212,);
+    background-color: #ddd;    
     height: 40px;
-    position: absolute;
-    bottom: 0;
     width:100%;
+    position: fixed;
+    bottom: 0;
+    color: black; 
   }  
  
                         /* For Creating Seperate Columns and Such for information */
@@ -346,3 +372,13 @@ link this stylesheet to any other html page using this line of code:
     border-bottom: 20px solid #2980b9; 
  
     } */
+
+    #landerscanbepretty { 
+      border: solid thin; 
+      border-collapse: collapse; 
+    }
+    #landers {
+      margin-left: auto;
+      margin-right: auto;
+      width: 65%;
+    }

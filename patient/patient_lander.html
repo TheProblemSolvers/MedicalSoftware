@@ -15,10 +15,12 @@
             <a href="patient_profile.html">Your Profile</a>
             <a href="patient_accountSync.html">Account Syncing</a>
             <a href="patient_settings.html">Settings</a>
+            <a href="patient_textLog.html">Text Log</a>
 		</div>
 		<div class="content">     
             <h1><?php require("../scripts.php"); echo "Get Started, " . userFullName($_COOKIE['userId']);?></h1>   
-            <table>
+            
+            <table id="landers">
                 <style>table, td {border: 1px solid black;}</style>
                 <thead>
                     <tr><th colspan="2" scope="row">Directories</th></tr>
@@ -44,5 +46,8 @@
                 </tbody>
             </table>
         </div>
+        <div class="footer">
+			<p>Contact Us at sigmund Froyyd@gmail.com </p>
+  		</div>
     </body>
 </html>
