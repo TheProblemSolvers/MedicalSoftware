@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Medical Software</title>
-        <link rel="stylesheet" type="text/css" href="../stylesheet.css">
-    </head>
-    <body>
-        <div id="navDiv" class="topnav">
-            <a href="../index.html">Logout</a>
-            <a href="patient_lander.html">Home</a>
-            <a href="patient_checkin.html">Check-In</a>
-            <a href="patient_calendar.html">Calender</a>
-            <a href="patient_app_scheduler.html">Scheduler</a>
-            <a href="patient_profile.html">Your Profile</a>
-            <a href="patient_accountSync.html">Account Syncing</a>
-            <a href="patient_settings.html">Settings</a>
-            <a href="patient_textLog.html">Text Log</a>
-      </div>
-      
-      <div class="content">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Software</title>
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+</head>
+
+<body>
+    <div id="navDiv" class="topnav">
+        <a href="../index.html">Logout</a>
+        <a href="patient_lander.html">Home</a>
+        <a href="patient_checkin.html">Check-In</a>
+        <a href="patient_calendar.html">Calender</a>
+        <a href="patient_app_scheduler.html">Scheduler</a>
+        <a href="patient_profile.html">Your Profile</a>
+        <a href="patient_accountSync.html">Account Syncing</a>
+        <a href="patient_settings.html">Settings</a>
+        <a href="patient_textLog.html">Text Log</a>
+    </div>
+
+    <div class="content">
         <style>
-            table, th, td {
+            table,
+            th,
+            td {
                 border: 1px solid white;
                 border-collapse: collapse;
                 padding: 5px;
             }
         </style>
-        
-        <h1><?php require("../scripts.php"); echo userFullName($_COOKIE['userId']) . "'s Profile";?></h1>
+
+        <h1>
+            <?php require("../scripts.php"); echo userFullName($_COOKIE['userId']) . "'s Profile";?>
+        </h1>
         <?php
             echo generatePatientTable($_COOKIE['userId']);
         ?>
@@ -37,6 +43,7 @@
 
     <div class="footer">
         <p>Contact Us at sigmund Froyyd@gmail.com </p>
-      </div>
-    </body>
+    </div>
+</body>
+
 </html>

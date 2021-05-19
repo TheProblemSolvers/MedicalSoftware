@@ -422,24 +422,24 @@ function appleBottomJeans() {
 
   Array.from(indexElements).forEach(function (singleElement) {
 
-    // randNum = Math.random() * 10;
-    // pixelNum = Math.random() * 1000;
-    singleElement.style.transition = `transform 1s ease-in-out`;
-    singleElement.style.transform = `translateY(390px)`;
+    randNum = Math.random() * 10;
+    pixelNum = Math.random() * 1000;
+    singleElement.style.transition = `transform ${randNum}s ease-in-out`;
+    singleElement.style.transform = `translateY(${pixelNum}px)`;
 
   });
 
 }
 
-// async function appleBottomJeans2() {
+async function appleBottomJeans2() {
 
-//   for (i=0; i<10; i++) {
-//     setTimeout(() => {
-//       appleBottomJeans();
-//     }, Math.random()*10000);
-//   }
+  for (i = 0; i < 10; i++) {
+    setTimeout(() => {
+      appleBottomJeans();
+    }, Math.random() * 10000);
+  }
 
-// }
+}
 
 // function fontChan() {
 
