@@ -1,6 +1,7 @@
 //sets a cookie for a page based on what link is clicked
 function setPatientIdCookie(id) {
   document.cookie = "patientId=" + id;
+  window.location.href = "provider_singlePatientView.html";
 }
 
 function authenticateLogin(validate) {
@@ -424,8 +425,8 @@ function appleBottomJeans() {
 
     randNum = Math.random() * 10;
     pixelNum = Math.random() * 1000;
-    singleElement.style.transition = `transform ${randNum}s ease-in-out`;
-    singleElement.style.transform = `translateY(${pixelNum}px)`;
+    singleElement.style.transition = `transform 1s ease-in-out`;
+    singleElement.style.transform = `translateY(390px)`;
 
   });
 

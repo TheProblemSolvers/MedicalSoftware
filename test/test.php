@@ -24,20 +24,22 @@ function resetTables($reset){
 
     $sqlQueries2 = [
         "CREATE TABLE patientdata (
+            relid INT UNSIGNED NOT NULL AUTO_INCREMENT,
             providerid INT UNSIGNED,
             patientid INT UNSIGNED,
             firstname VARCHAR(50),
             middlename VARCHAR(50),
             lastname VARCHAR(50),
             dob DATE,
-            height INT UNSIGNED,
-            'weight' INT UNSIGNED,
+            height FLOAT(5),
+            weight FLOAT(5),
             sex VARCHAR(50),
             currenthealth VARCHAR(50),
             currentmeds VARCHAR(50),
             pasthealth VARCHAR(50),
             familyhealth VARCHAR(50),
-            notes VARCHAR(50)   
+            notes VARCHAR(50),
+            PRIMARY KEY (relid)   
         );",
         "CREATE TABLE linkedaccounts (
             providerId INT UNSIGNED,
