@@ -6,7 +6,7 @@
         <link rel="stylesheet" type="text/css" href="../stylesheet.css">
     </head>
     <body>
-        <div class="topnav">
+        <div id="navDiv" class="topnav">
             <a href="../index.html">Logout</a>
             <a href="patient_lander.html">Home</a>
             <a href="patient_checkin.html">Check-In</a>
@@ -15,7 +15,7 @@
             <a href="patient_profile.html">Your Profile</a>
             <a href="patient_accountSync.html">Account Syncing</a>
             <a href="patient_settings.html">Settings</a>
-		</div>
+        </div>
 		<div class="content">     
             <h1><?php require("../scripts.php"); echo "Get Started, " . userFullName($_COOKIE['userId']);?></h1>   
             <table>
@@ -44,5 +44,8 @@
                 </tbody>
             </table>
         </div>
+
+        <button id="navBtn" onclick="shiftNav()">☰</button>
+
     </body>
 </html>

@@ -7,7 +7,7 @@
 		<script src="../scripts.js"></script>
 	</head>
 	<body>
-		<div class="topnav">
+		<div id="navDiv" class="topnav">
             <a href="../index.html">Logout</a>
             <a href="patient_lander.html">Home</a>
             <a href="patient_checkin.html">Check-In</a>
@@ -15,7 +15,8 @@
             <a href="patient_app_scheduler.html">Scheduler</a>
             <a href="patient_profile.html">Your Profile</a>
             <a href="patient_accountSync.html">Account Syncing</a>
-		</div>
+            <a href="patient_settings.html">Settings</a>
+        </div>
 		<div class="content">
 			<style>
 				.patientText{
@@ -41,5 +42,8 @@
 				}
 			?>
 		</div>
+
+		<button id="navBtn" onclick="shiftNav()">☰</button>
+
 	</body>
 </html>	
