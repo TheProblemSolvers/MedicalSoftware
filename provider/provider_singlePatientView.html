@@ -18,39 +18,41 @@
         
         <div class="content">
             <div class="newPatientForm">
-                <h1><?php require("../scripts.php"); echo relIdName($_COOKIE["patientId"]); ?>'s File:</h1>
 
-                <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+                <h1><?php require("../scripts.php"); echo relIdName($_COOKIE["patientId"]);?>'s File</h1>
 
+                <form style='display:inline' method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
                     <?php echo createInduvidualTable($_COOKIE["userId"], $_COOKIE["patientId"]); ?>
-
-                    <label class='textLabel' for='currMeds'>Current Medications:</label>
-                    <textarea class='textarea' id='currMeds' name='currMeds'></textarea><br>
-
-                    <label class='textLabel' for='currHealth'>Current Health Conditions:</label>
-                    <textarea class='textarea' id='curHealth' name='currHealth'></textarea><br>
-
-                    <label class='textLabel' for='pastHealth'>Past Health Conditions:</label>
-                    <textarea class='textarea' id='pastHealth' name='pastHealth'></textarea><br>
-
-                    <label class='textLabel' for='familyHealth'>Family Health History:</label>
-                    <textarea class='textarea' id='familyHealth' name='familyHealth'></textarea><br>
-                    
-                    <label class='textLabel' for='notes'>Patient Notes:</label>
-                    <textarea class='textarea' id='notes' name='notes'></textarea><br><br>
-
                     <input type="submit" value="Submit Changes">
-                    <button onclick="alert('Discard Changes?'); window.location.href='provider_database.html';">Back to Database</button>
                 </form>
-                <?php
+                
+                <?php setcookie('updated', 'false');
+                
+                #if the form is not pending an update, display redirect button with save data warning
+                if($_COOKIE['updated'] == 'false'){
+                    echo <<<EOT
+                    <button id='returnToDatabase' onclick="alert('Discard Changes? (Original data will be preserved)'); 
+                    document.location.href='provider_database.html';">Back to Database</button>
+                    EOT;
+                } 
+
+                #when form is submitted, set updated cookie to true, then refresh page
                 if($_SERVER["REQUEST_METHOD"] == "POST"){
-                    $success = modifyPatient($_COOKIE['userId'], $_POST['fName'], $_POST['mName'], $_POST['lName'], $_POST['dob'], 
-                        $_POST['height'], $_POST['weight'], $_POST['sex'], $_POST['currMeds'], $_POST['currHealth'], 
-                        $_POST['pastHealth'], $_POST['familyHealth'], $_POST['notes']); 
+                    $success = modifyPatientData($_COOKIE['patientId'], $_POST['height'], $_POST['weight'], $_POST['currMeds'], 
+                        $_POST['currHealth'], $_POST['pastHealth'], $_POST['familyHealth'], $_POST['notes']); 
                     if($success == true){
-                        header("Location: provider_database.html");
+                        setcookie('updated','true');
+                        header("Refresh:0; url=#");
                     }
                 }
+
+                #if updated cookie is true, then display success message and make redirect button not display warning
+                if($_COOKIE['updated'] == 'true'){
+                    setcookie('updated', 'false');
+                    echo "<button onclick='window.location.href = `provider_database.html`'>Back to database</button><br><br>" . 
+                        relIdName($_COOKIE["patientId"]) . "'s file successfully updated";
+                }
+
                 ?>
             </div>
         </div>

@@ -38,8 +38,11 @@
         </script>
  
         <div class="indexhome">
-        <?php setcookie("userId", "", time() - 3600);?>
-        <?php setcookie("patientId", "", time() - 3600);?>
+        <?php   
+            setcookie("userId", "", time() - 3600); 
+            setcookie("patientId", "", time() - 3600);
+            setcookie("updated", "", time() - 3600);
+        ?>
         <h1 class="omega">Welcome!</h1>
         <p class="omega">Please enter your credentials:</p>
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" style="display: inline;">

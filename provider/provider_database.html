@@ -18,6 +18,8 @@
             	<a href="provider_database.html">Database</a>
             	<!-- <a href="provider_singlePatientView.html">Michael IDK</a> -->
         </div>
+
+        <?php setcookie("patientId", "", time() - 3600); setcookie('updated', 'false');?>
        
         <div class="content">
         <style>
@@ -39,7 +41,9 @@
         require("../scripts.php");
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             echo searchDatabase($_COOKIE["userId"], $_POST["patientSearch"]);
-        }
+        }?>
+        <br>
+        <?php
         echo getDatabaseTable($_COOKIE["userId"]);
         ?><br>
         <button onclick="document.location='#patientSearch'">Back to top</button>

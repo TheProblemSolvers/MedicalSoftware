@@ -4,6 +4,11 @@ function setPatientIdCookie(id) {
   window.location.href = "provider_singlePatientView.html";
 }
 
+function setCheckInCookie(id) {
+  document.cookie = "patientId=" + id;
+  return null;
+}
+
 function authenticateLogin(validate) {
   var providerUsername = "Username";
   var providerPassword = "password";  //Feel free to change username/password

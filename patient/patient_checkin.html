@@ -18,7 +18,7 @@
         </div>
 		  <div class="content"> 
 		<h1><?php require("../scripts.php"); echo "Check In, " . userFullName($_COOKIE['userId']) . ".";?></h1>
-		<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+		<form method="POST" style="display:inline" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
 			<p>Click Ready if you have arrived for your in-person appointment. 
 				If not, navigate back to the lander page.</p>
 			<input type="submit" id="checkIn" value="Ready">
@@ -27,7 +27,10 @@
 			if($_SERVER["REQUEST_METHOD"] == "POST"){
 				$returnVal = patientCheckIn($_COOKIE["userId"]);
 				if($returnVal == 1){
-					header("Location: patient_lander.html");
+					echo <<<EOT
+                    <button id='returnToLander' onclick="document.location.href='patient_lander.html';">Back to Lander</button>
+                    EOT;
+					echo "Provider has been notified of your arrival";
 				}
 				else{
 					echo $returnVal;
