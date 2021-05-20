@@ -1,60 +1,68 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Medical Software</title>
-        <script src="scripts.js"></script>
-        <link rel="stylesheet" type="text/css" href="stylesheet.css">
-    </head>
-    <body onload="appleBottomJeans(); //appleBottomJeans2();">
- 
-        <style>
-            body {
-                opacity: 1;
-                transition-duration: 1.3s;
-                transition-property: opacity;
-            }
- 
-            body.fade {
-                opacity: 0;
-            }
-        </style>
- 
-        <script>
- 
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Software</title>
+    <script src="scripts.js"></script>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+
+<body onload="appleBottomJeans();">
+
+    <style>
+        body {
+            opacity: 1;
+            transition-duration: 1.3s;
+            transition-property: opacity;
+        }
+
+        body.fade {
+            opacity: 0;
+        }
+    </style>
+
+    <script>
+
         document.body.className = 'fade';
-        
+
         document.body.classList.add('fade');
-          
-          document.addEventListener("DOMContentLoaded", () => {
- 
-            window.setTimeout(function() {
- 
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            window.setTimeout(function () {
+
                 document.body.classList.remove('fade');
- 
+
             }, 230);
- 
+
         });
-        </script>
- 
-        <div class="indexhome">
+    </script>
+    <div class="indexhome">
         <?php   
             setcookie("userId", "", time() - 3600); 
             setcookie("patientId", "", time() - 3600);
             setcookie("updated", "", time() - 3600);
         ?>
-        <h1 class="omega">Welcome!</h1>
-        <p class="omega">Please enter your credentials:</p>
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" style="display: inline;">
-                <p class="omega" for="username">Username:</p>
-                <input class="omega" type="text" id="username" name="username"><br>
-                <p class="omega" for="password">Password:</p>
-                <input class="omega" type="password" id="password" name="password"><br><br>
-                <input class="omega" type="submit" value="Login">
+            <div class="omega">
+
+                <h1>Welcome!</h1>
+                <p>Please enter your credentials:</p>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username"><br><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password"><br><br>
+                <input class="buttons" type="submit" value="Login">
+                <button class="buttons" onclick="window.location.href = 'admin_index.html'">Login as Admin</button>
+                <button class="buttons" onclick="location.href = 'users/new_user.html'">New User?</button>
+                <button class="buttons" onclick="document.location='test/test.html'">MySQL</button>
+                <br>
+                <br>
+
+            </div>
         </form>
-        <button class="omega buttons" onclick="window.location.href = 'admin_index.html'">Login as Admin</button>
-        <button class="omega buttons" onclick="location.href = 'users/new_user.html'">New User?</button>
-        <p id="authenticationErrors"></p>
+
         <?php
         require("scripts.php"); 
         if ($_SERVER["REQUEST_METHOD"] == "POST"){    
@@ -66,7 +74,8 @@
             }
         }
         ?>
-        <button class="omega buttons" onclick="document.location='test/test.html'">MySQL</button>
-        </div>
-    </body>
+
+    </div>
+</body>
+
 </html>
