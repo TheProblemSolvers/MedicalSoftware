@@ -22,6 +22,9 @@
 			<?php
 				require("../scripts.php");
 				echo readCheckinFile($_COOKIE["userId"]);
+				if($_SERVER['REQUEST_METHOD'] == 'POST'){
+					echo checkInPatient($_COOKIE['userId'], $_POST['form']);
+				}
 			?>
 		</div>
 	</body>
