@@ -54,12 +54,12 @@ link this stylesheet to any other html page using this line of code:
 }
  
 .wrapper {
-  max-width: 960px;
+    max-width: 960px;
     margin: 0 auto;
   }
  
   body {
-    background: #2980b9;
+    background-image: url("indexBackground.jpg");
     color: #FFF;
     font-family: Helvetica;
     text-align: center;
@@ -87,7 +87,7 @@ link this stylesheet to any other html page using this line of code:
  
     /* Index Should have special formatting because its a page unlike the rest */
   .indexhome {
-    background-color: #2980b9;
+    background-color: #9fd3e0;
     color: rgb(255, 255, 255);
     position: absolute;
     top: -350px;
@@ -99,20 +99,40 @@ link this stylesheet to any other html page using this line of code:
   }
   
 .buttons {
-  background-color: #4CAF50; 
+  background-color: #ddd; 
   border: none;
-  color: white;
-  padding: 15px 32px;
+  color: black;
+  padding: 15px 100px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 40px;
+  border-radius: 15px;
   }
+ 
+  .Sbuttons {
+    background-color: #ddd; 
+    border: none;
+    border-radius: 5px;
+    color: black;
+    padding: 5px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    }
  
   .buttons:hover {
     background-color: rgb(255, 255, 255);
     color: rgb(0, 0, 0);
   }
+ 
+  .Sbuttons:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+  }
+  
+ 
   .buttons:active {
     background-color: #3e8e41;
     box-shadow: 0 5px #666;
@@ -143,11 +163,12 @@ link this stylesheet to any other html page using this line of code:
     #navDiv{
       transform: translateY(-40px);
     }
-    
-    .topnav {
+  
+  .topnav {
     overflow: hidden;
     background-color: rgba(1, 22, 212,);
   }
+    
   .topnav a {
     float: left;
     display: block;
@@ -415,14 +436,17 @@ link this stylesheet to any other html page using this line of code:
   .content a:hover {
     background-color: gold;
   }
-
+ 
   .omega{
+ 
+    background-color: #2980b9;
     border: 1px solid black;
-    width: 80%;
+    width: 27%;
     margin-top: 10%;
     margin-right: auto;
     margin-left: auto;
     border-radius: 5px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
-
+    transform: translateY(-250px);
+ 
   }
