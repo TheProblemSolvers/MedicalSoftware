@@ -1,44 +1,44 @@
 <!DOCTYPE html>
 <html lang="en-US">
-
+ 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Software</title>
     <script src="scripts.js"></script>
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
 </head>
-
+ 
 <body onload="appleBottomJeans();">
-
+    <!-- <div class="sliding-background"></div> -->
     <style>
         body {
             opacity: 1;
             transition-duration: 1.3s;
             transition-property: opacity;
         }
-
+ 
         body.fade {
             opacity: 0;
         }
     </style>
-
+ 
     <script>
-
+ 
         document.body.className = 'fade';
-
+ 
         document.body.classList.add('fade');
-
+ 
         document.addEventListener("DOMContentLoaded", () => {
-
+ 
             window.setTimeout(function () {
-
+ 
                 document.body.classList.remove('fade');
-
+ 
             }, 230);
-
+ 
         });
     </script>
-    <div class="indexhome">
+    <div>
         <?php   
             setcookie("userId", "", time() - 3600); 
             setcookie("patientId", "", time() - 3600);
@@ -47,22 +47,30 @@
         <div class="omega">
             <h1>Welcome!</h1>
             <p>Please enter your credentials:</p>
-
+ 
             <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" style="display: inline;">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username"><br><br>
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password"><br><br>
+                <input class="buttons" type="submit" value="Login">
+                <br>
+                <br>
                 <input class="buttons" type="submit" value="Login">          
             </form>
-
+                <button class="Sbuttons" onclick="window.location.href = 'admin_index.html'">Login as Admin</button>
+                <button class="Sbuttons" onclick="location.href = 'users/new_user.html'">New User?</button>
+                <button class="Sbuttons" onclick="document.location='test/test.html'">MySQL</button>
+                <br>
+                <br>
+ 
             <button class="buttons" onclick="window.location.href = 'admin_index.html'">Login as Admin</button>
             <button class="buttons" onclick="location.href = 'users/new_user.html'">New User?</button>
             <button class="buttons" onclick="document.location='test/test.html'">MySQL</button>
             <br>
             <br>  
         </div>
-
+ 
         <?php
         require("scripts.php"); 
         if ($_SERVER["REQUEST_METHOD"] == "POST"){    
@@ -74,8 +82,6 @@
             }
         }
         ?>
-
-    </div>
 </body>
-
+ 
 </html>

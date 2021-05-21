@@ -430,7 +430,7 @@ function appleBottomJeans() {
     // randNum = Math.random() * 10;
     // pixelNum = Math.random() * 1000;
     singleElement.style.transition = `transform 1s ease-in-out`;
-    singleElement.style.transform = `translateY(390px)`;
+    singleElement.style.transform = `translateY(25px)`;
  
   });
  
