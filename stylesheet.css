@@ -57,14 +57,7 @@ link this stylesheet to any other html page using this line of code:
     max-width: 960px;
     margin: 0 auto;
   }
- 
-  body {
-    background-image: url("indexBackground.jpg");
-    color: #FFF;
-    font-family: Helvetica;
-    text-align: center;
-    margin: 0;
-  }
+
  
   #filler {
  
@@ -450,3 +443,33 @@ link this stylesheet to any other html page using this line of code:
     transform: translateY(-250px);
  
   }
+
+  body {
+
+    background: url("indexBackground.jpg");
+    color: #FFF;
+    font-family: Helvetica;
+    text-align: center;
+    margin: 0;
+    overflow: hidden;
+
+  }
+
+  /* .container {
+  }
+  
+  .sliding-background {
+    background: url("indexBackground.jpg") repeat-x;
+    height: 100%;
+    width: 5076px;
+    animation: slide 60s linear infinite;
+  }
+  
+  @keyframes slide{
+    0%{
+      transform: translate3d(0, 0, 0);
+    }
+    100%{
+      transform: translate3d(-1692px, 0, 0);
+    }
+  } */
