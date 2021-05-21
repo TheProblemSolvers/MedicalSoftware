@@ -38,8 +38,14 @@
 			</form>
 			<?php 
 				if($_SERVER["REQUEST_METHOD"] == "POST"){
-					addTextMessage($_COOKIE['userId'], $_COOKIE['userId'], $_POST['textContents']);
-					header("Refresh:0; url=#");
+					$returnVal = addTextMessage($_COOKIE['userId'], $_COOKIE['userId'], $_POST['textContents']);
+					if($returnVal == 1){
+						header("Refresh:0; url=#");
+					}
+					else{
+						echo "An error occured adding your message to textdata table";
+					}
+					
 				}
 			?>
 		</div>

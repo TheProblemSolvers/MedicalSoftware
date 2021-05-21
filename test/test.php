@@ -100,7 +100,7 @@ function resetTables($reset){
             PRIMARY KEY (providerId)
         );",
         "CREATE TABLE textlog (
-            providerId INT UNSIGNED,
+            patientId INT UNSIGNED,
             m1 VARCHAR(50),
             m2 VARCHAR(50),
             m3 VARCHAR(50),
@@ -111,6 +111,16 @@ function resetTables($reset){
             m8 VARCHAR(50),
             m9 VARCHAR(50),
             m10 VARCHAR(50),
+            m11 VARCHAR(50),
+            m12 VARCHAR(50),
+            m13 VARCHAR(50),
+            m14 VARCHAR(50),
+            m15 VARCHAR(50),
+            m16 VARCHAR(50),
+            m17 VARCHAR(50),
+            m18 VARCHAR(50),
+            m19 VARCHAR(50),
+            m20 VARCHAR(50),
             PRIMARY KEY (providerId)
         );"
     ];

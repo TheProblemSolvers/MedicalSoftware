@@ -277,10 +277,6 @@ function addNewUser($firstName, $middleName, $lastName, $dob, $email, $username,
         #add provider row to calendar table
         $sql = "INSERT INTO calendar (providerid) VALUES ($id);";
         $connection->query($sql);
-
-        #add provider row to text log table
-        $sql = "INSERT INTO textlog (providerid) VALUES ($id);";
-        $connection->query($sql);
     }
     return true;
 }
@@ -590,6 +586,10 @@ function linkToProvider($patientId, $providerId){
     $accountId = getSqlLinkedAccount($patientId);
 
     if($accountId == false){
+        #add patient's row to text log table
+        $sql = "INSERT INTO textlog (patientId) VALUES ($patientId);";
+        $connection->query($sql);
+
         #find next column in provider's row in linkedaccounts table where no value has been assigned yet
 
         #get table column names and store in $columns variable
@@ -875,98 +875,131 @@ function sendEmail($patientId, $subject, $body, $altBody){
 /* ------------------------------------------------------Text Log------------------------------------------------------------ */
 /* -------------------------------------------------------------------------------------------------------------------------- */
 
-#accesses patient's text log and displays conversation
+#accesses text log and displays patient's convo with provider
 function displayTextLog($patientId, $userType){
-    #opens text log, creates a new one if one doesn't exist
-    if(file_exists('../users\user_data\#' . $patientId . '\text_log.txt') == false){
-        $fileHandle = fopen('../users\user_data\#' . $patientId . '\text_log.txt', 'w');
-        fclose($fileHandle);
-    }
-    $fileHandle = fopen('../users\user_data\#' . $patientId . '\text_log.txt', 'r');
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
 
-    #compiles text string
-    $message = "";
-    while(feof($fileHandle) == false){
-        #sets the tags for the text line based on user type
-        if($userType == "provider"){
-            $patientTag = userFullName($patientId) . " Said: ";
-            $providerTag = "You Said: ";
-        }
-        if($userType == "patient"){
-            $providerId = getLinkedAccount($patientId);
-            $patientTag = "You Said: ";
-            $providerTag = "Dr. " . userFullName($providerId) . " Said: ";
-        }
-        #compiles list of text messaging
-        $lineContents = fgets($fileHandle);
-        $startRead = strpos($lineContents, ">") + 1;
-        $lineLength = strlen($lineContents);
-        if(substr($lineContents, $startRead, $lineLength - $startRead - 2) == ""){
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    #get table column names and store in $columns variable
+    $providerId = getSqlLinkedAccount($patientId);
+    $result = $connection->prepare("SELECT * FROM textlog WHERE patientId='$patientId';");
+    $result->execute();
+    $textLog = $result->fetch(PDO::FETCH_NUM);
+    
+    
+    #sets html element id's based on whether viewer is patient or provider
+    if($userType == "provider"){
+        $patientTag = userFullName($patientId) . " Said: ";
+        $providerTag = "You Said: ";
+    }
+    if($userType == "patient"){
+        $providerId = getSqlLinkedAccount($patientId);
+        $patientTag = "You Said: ";
+        $providerTag = "Dr. " . userFullName($providerId) . " Said: ";
+    }
+
+    #compiles text log string to send to browser
+    $html = "";
+    for($i = 1; $i < count($textLog); $i++){
+        #split message on seperation character, first element in array is sender id, second is message
+        $textData = explode('>', $textLog[$i]);
+
+        #if message is empty, proceed to next string of text
+        if(!array_key_exists(1, $textData)){
             continue;
         }
-        elseif(preg_match("/<" . $patientId . ">/", $lineContents) == 1){
-            $message = $message . "<p class='patientText'>" . $patientTag .  
-                substr($lineContents, $startRead, $lineLength - $startRead - 2) . "</p>";
+
+        #compile text log if message string is present
+        elseif($textData[0] == $patientId){
+            $html .= "<p id='patientText'>$patientTag $textData[1]</p>";
         }
-        else{
-            $message = $message . "<p class='providerText'>" . $providerTag . 
-                substr($lineContents, $startRead, $lineLength - $startRead - 2) . "</p>";
+        elseif($textData[0] == $providerId){
+            $html .= "<p id='providerText'>$providerTag $textData[1]</p>";
         }
     }
-    fclose($fileHandle);
-    return $message;
+    #return completed html to browser
+    return $html;
 }
 
-#adds a line of text to patient's text log
+#adds a line of text to patient's row in textlog table
 function addTextMessage($patientId, $userId, $message){
-    $fileHandle = fopen('../users\user_data\#' . $patientId . '\text_log.txt', 'a');
-    $line = "<" . $userId . ">" . $message . "<\n";
-    fwrite($fileHandle, $line);
-    fclose($fileHandle);
-}
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
 
-#displays a list of hyperlinked names for the provider to click and view induvidual text log
-function displayTextLogMenu($providerId){
-    $providerId = trim($providerId);
-    $fileHandle = accessUserDatabase($providerId, "r");
-    $list = "";
-    #loops through the provider's file and gathers first/last name, patient ID
-    while(feof($fileHandle) == false){
-        $lineContents = fgets($fileHandle);
-        $linkedAccountExists = false;
-        if(preg_match("/firstname/i", $lineContents) == 1){
-            $firstName = trim(substr($lineContents, strpos($lineContents, "=") + 1));
-            $lineContents = fgets($fileHandle);
-            $lastName = trim(substr($lineContents, strpos($lineContents, "=") + 1));
-            
-            #checks the provider's linked accounts text file and gather's patient's database-relative ID
-            $patientFullName = $firstName . " " . $lastName;
-            $fileHandle2 = fopen("../users\user_data\#" . $providerId . "\linkedAccounts.txt", "r");
-            while(feof($fileHandle2) == false){
-                $lineContents = fgets($fileHandle2);
-                if(preg_match("/" . $patientFullName . "/i", $lineContents) == true){
-                    $linkedAccountExists = true;
-                    $startRead = strpos($lineContents, "=") + 1;
-                    $endRead = strpos($lineContents, ".");
-                    $patientId = trim(substr($lineContents, $startRead, ($endRead - $startRead)));
-                }
-            }
-            fclose($fileHandle2);
-            #html link is only compiled if the patient has linked their account to the provider
-            if($linkedAccountExists == true){
-                $cookie = "patientId=" . $patientId;
-                $list = $list . "<a href='provider_textLog.html' onclick='setPatientIdCookie(" . 
-                $patientId .")'>" . $firstName . " " . $lastName . "</a><br>";
-            }
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    #gather text log data from textlog table
+    $providerId = getSqlLinkedAccount($patientId);
+    $result = $connection->prepare("SELECT * FROM textlog WHERE patientId='$patientId';");
+    $result->execute();
+    $tableData = $result->fetch(PDO::FETCH_ASSOC);
+
+    #get table column names and store in $columns variable
+    $result = $connection->prepare("
+        SELECT
+            COLUMN_NAME
+        FROM
+            INFORMATION_SCHEMA.COLUMNS
+        WHERE
+            TABLE_NAME = 'textlog';
+    ");
+    $result->execute();
+    $columns = $result->fetchAll(PDO::FETCH_ASSOC);
+
+    #format message properly
+    $message = "$userId>$message";
+
+    #finds column where data is NULL, replaces it with sender's id and message
+    for($i = 1; $i < count($columns); $i++){
+        #accesses the column value for patient's row in textlog table
+        $columnValue = $tableData[$columns[$i]['COLUMN_NAME']];
+
+        #adds message to patient's row in first empty column
+        if($columnValue == NULL){
+            $emptyColumn = $columns[$i]['COLUMN_NAME'];
+            $contents = $connection->prepare(
+                "UPDATE textlog 
+                SET $emptyColumn = '$message'
+                WHERE patientId = '$patientId';"
+            );
+            $contents->execute();
+            return true;
         }
     }
-    fclose($fileHandle);
-    if($list == ""){
-        return "No Patients Found";
+}
+
+#displays a list of hyperlinked names for the provider to click and view induvidual text chat
+function displayTextLogMenu($providerId){
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
+
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    #gathers all patient id's linked to provider
+    $result = $connection->prepare("SELECT * FROM linkedaccounts WHERE providerId='$providerId';");
+    $result->execute();
+    $linkedAccounts = $result->fetch(PDO::FETCH_ASSOC);
+
+    #compiles hyperlinked list of all linked patient's text logs
+    $html = "";
+    array_shift($linkedAccounts);
+    foreach($linkedAccounts as $patientId){
+        if($patientId != NULL){
+            $patientName = userFullName($patientId);
+            $html .= "<a href='provider_textLog.html' onclick='setPatientIdCookie($patientId)'>$patientName</a><br>";
+        }
     }
-    else{
-        return $list;
-    }
+
+    #returns html to browser
+    return $html;
 }
 
 /* -------------------------------------------------------------------------------------------------------------------------- */
