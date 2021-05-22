@@ -1,568 +1,260 @@
-/*-------------------------------Sets up standard fonts across all pages----------------------------*/ 
-
-@font-face {
-  font-family: comfortaaHeader;
-  src: url('Comfortaa-Bold.ttf');
-  font-size: 30px;
-}
-
-@font-face {
-  font-family: comfortaaStd;
-  src: url('Comfortaa-Regular.ttf');
-  font-size: 15px;
-}
-
-@font-face {
-  font-family: comfortaaSmall;
-  src: url('Comfortaa-Light.ttf');
-  font-size: 8px;
-}
- 
 /*-------------------------------Modifies form of provider_addNewPatient.html----------------------------*/
 
-.textarea{
-  width:90%;
-  height: 40px;
-  display: block;
+.textarea {
+    width: 90%;
+    height: 40px;
+    display: block;
 }
- 
-.inputText{
-  width:80px;
+
+.inputText {
+    width: 80px;
 }
- 
-.inputNumber{
-  width:40px;
+
+.inputNumber {
+    width: 40px;
 }
- 
-.textLabel{
-  width:5%;
+
+.textLabel {
+    width: 5%;
 }
- 
-.newPatientForm{
-  text-align: left;
-  margin-left: 5%;
+
+.newPatientForm {
+    text-align: left;
+    margin-left: 5%;
 }
- 
+
+
 /*-------------------------------Modifies message/tags of text log----------------------------*/
- 
-#patientText{
-  color:#2980b9;
+
+#patientText {
+    color: #2980b9;
 }
 
-#providerText{
-  color:#000;
+#providerText {
+    color: #000;
 }
 
-/*--------------------------------Modifies form elements of index.html-----------------------------*/
-
-#indexUsername{
-  border-top-style: hidden;
-  border-right-style: hidden;
-  border-left-style: hidden;
-  border-bottom-style: hidden;
-  background-color: white;
-  background-image: url("user-solid.svg");
-  background-size: 30px;
-  background-position: 10px 10px;
-  background-repeat: no-repeat;
-  font-family: comfortaaStd;
-  border:0px;
-  padding-left: 50px;
-  width:300px;
-  height:50px;
-}
-
-
-#indexPassword{
-  background-color: white;
-  background-image: url("lock-solid.svg");
-  background-size: 30px;
-  background-position: 10px 10px;
-  background-repeat: no-repeat;
-  font-family: comfortaaStd;
-  border:0px;
-  padding-left: 50px;
-  width:300px;
-  height:50px;
-}
-
-#indexUsername:focus{
-  border-bottom: 5px solid #FDC921;
-  outline:none;
-}
-
-#indexPassword:focus{
-  border-bottom: 5px solid #FDC921;
-  outline:none;
-}
 
 /*--------------------------------lander formatting-----------------------------*/
 
-.landerInfo{
-  background-color: #847979;
-  border: 1px solid #084C61;
-  width: 75%;
-  margin-top: 10%;
-  margin-right: auto;
-  margin-left: auto;
-  border-radius: 5px;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
+.landerInfo {
+    background-color: #847979;
+    border: 1px solid #084C61;
+    width: 75%;
+    margin-top: 10%;
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 5px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
 }
 
 #apptText {
-  color: rebeccapurple;
+    color: rebeccapurple;
 }
- 
-.errorMessage{
-  color: red;
+
+.errorMessage {
+    color: red;
 }
- 
-#emergency{
-  color: red;
+
+#emergency {
+    color: red;
 }
- 
-#patientCalendarHeader{
-  margin-left: 5.5%;
+
+#patientCalendarHeader {
+    margin-left: 5.5%;
 }
- 
+
 .wrapper {
     max-width: 960px;
     margin: 0 auto;
-  }
-
- 
-  #filler {
- 
-  background: #2980b9;
-  color: #FFF;
-  font-family: Helvetica;
-  text-align: left;
-  margin: 0;
-  
 }
- 
-  #appointment {
+
+#filler {
+    background: #2980b9;
+    color: #FFF;
+    font-family: Helvetica;
+    text-align: left;
+    margin: 0;
+}
+
+#appointment {
     background-color: #ddd;
     color: rgb(0, 0, 0);
     position: absolute;
-    width:20%;
+    width: 20%;
     margin-left: 5.5%;
-  }
- 
- 
-    /* Index Should have special formatting because its a page unlike the rest */
-  .indexhome {
-    background-color: #9fd3e0;
-    color: rgb(255, 255, 255);
-    position: absolute;
-    top: -350px;
-    /* bottom: 40px; */
-    width:100%;
+}
+
+
+/* For Creating Seperate Columns and Such for information */
+
+.row {
+    display: -webkit-flex;
+    display: flex;
+}
+
+.column {
+    flex: 1;
+    padding: 10px;
+}
+
+.column_middle {
+    flex: 2;
+    padding: 10px;
+}
+
+
+/* Turn off parallax scrolling for tablets and phones */
+
+@media only screen and (max-device-width: 1024px) {
+    .bgimg-1,
+    .bgimg-2,
+    .bgimg-3 {
+        background-attachment: scroll;
+    }
+}
+
+#landers {
+    background-color: yellow;
     margin-left: auto;
     margin-right: auto;
-    font-family: Helvetica;
-  }
-  
-.buttons {
-  font-family: comfortaaHeader;
-  background-color: #ddd; 
-  border: none;
-  color: black;
-  padding: 15px 100px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 40px;
-  border-radius: 15px;
-  }
- 
-  .Sbuttons {
-    font-family: comfortaaHeader;
-    background-color: #ddd; 
-    border: none;
-    border-radius: 5px;
-    color: black;
-    padding: 5px 8px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    }
- 
-  .buttons:hover {
-    background-color: rgb(255, 255, 255);
-    color: rgb(0, 0, 0);
-  }
- 
-  .Sbuttons:hover {
-    background-color: rgb(255, 255, 255);
-    color: rgb(0, 0, 0);
-  }
-  
- 
-  .buttons:active {
-    background-color: #3e8e41;
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
-  }
- 
-  /* These are for creating the sections of the website */
-  #navBtn{
- 
-    background-color: #4CAF50;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    /* padding: 15px 32px; */
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    position: absolute;
-    right: 0px;
-    padding: 10px;
-    width: auto;
-    height: auto;
-    transform: translateY(-46px);
- 
-    }
- 
-    #navDiv{
-      transform: translateY(-40px);
-    }
-  
-  .topnav {
+    width: 65%;
+    border: solid thin;
+    border-collapse: collapse;
+    table-layout: fixed;
     overflow: hidden;
-    background-color: rgba(1, 22, 212,);
-  }
-    
-  .topnav a {
-    float: left;
+    margin-top: 125px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
+}
+
+#landHead {
+    font-size: x-large;
+}
+
+.content a {
     display: block;
-    color: #ffffff;
+    color: black;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-  }
- 
-  .topnav a:hover {
-    background-color: rgb(255, 255, 255);
-    color: rgb(0, 0, 0);
-  }
- 
-  .content {
-    background: linear-gradient(to bottom right, #6798C0, #084C61);
-    color: rgb(0, 0, 0);
-    position: absolute;
-    min-height: calc(100vh - 40px);
-    top: 40px;
-    width:100%;
-    margin-left: auto;
-    margin-right: auto;
-  }
- 
-  .footer {
-    background-color: #ddd;    
-    height: 40px;
-    width:100%;
-    position: fixed;
-    bottom: 0;
-    color: black; 
-  }  
- 
-                        /* For Creating Seperate Columns and Such for information */
- 
-  .row {        
-    display: -webkit-flex;
-    display: flex;
-  }
- 
-  .column {
-    flex: 1;
-    padding: 10px;
-  }
- 
-  .column_middle {
-    flex: 2;
-    padding: 10px;
-  }
- 
-  .image1 {
-    background:url(https://static.wikia.nocookie.net/rezero/images/a/a0/Emilia_ep.41_%283%29.png/revision/latest?cb=20210120201244) center fixed ; }
- 
-  .image1-inner  {
-    padding-top: 30% ; 
-    padding-bottom: 30% ;
-  }
- 
-  .container { overflow: hidden; }
-  img {
+}
+
+.content a:hover {
+    background-color: gold;
+}
+
+body {
+    color: #FFF;
+    font-family: comfortaaStd;
+    text-align: center;
+    margin: 0;
+}
+
+
+/* Troll CSS Code */
+
+.image1 {
+    background: url(https://static.wikia.nocookie.net/rezero/images/a/a0/Emilia_ep.41_%283%29.png/revision/latest?cb=20210120201244) center fixed;
+}
+
+.image1-inner {
+    padding-top: 30%;
+    padding-bottom: 30%;
+}
+
+.container {
+    overflow: hidden;
+}
+
+img {
     flex: 1;
     height: 720px;
-  }
-  .slide:last-child img {
+}
+
+.slide:last-child img {
     position: relative;
     top: -240px;
-  }
-  .slide {
+}
+
+.slide {
     display: flex;
     width: 200%;
     height: 720px;
     overflow-y: hidden;
     animation: 20s infinite left ease-in;
-  }
-  .right { animation-name: right; }
-  @keyframes left {
-    from { margin-left: 0; }
-    to   { margin-left: -100%; }
-  }
-  @keyframes right {
-    from { margin-left: -100%; }
-    to   { margin-left: 0; }
-  }
-  
-  .bgimg-1, .bgimg-2, .bgimg-3 {
+}
+
+.right {
+    animation-name: right;
+}
+
+@keyframes left {
+    from {
+        margin-left: 0;
+    }
+    to {
+        margin-left: -100%;
+    }
+}
+
+@keyframes right {
+    from {
+        margin-left: -100%;
+    }
+    to {
+        margin-left: 0;
+    }
+}
+
+.bgimg-1,
+.bgimg-2,
+.bgimg-3 {
     position: relative;
     opacity: 0.65;
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-  
-  }
-  .bgimg-1 {
+}
+
+.bgimg-1 {
     background-image: url("img_parallax.jpg");
     min-height: 1000px;
-  }
-  
-  .bgimg-2 {
+}
+
+.bgimg-2 {
     background-image: url("img_parallax2.jpg");
     min-height: 400px;
-  }
-  
-  .bgimg-3 {
+}
+
+.bgimg-3 {
     background-image: url("img_parallax3.jpg");
     min-height: 400px;
-  }
- 
-  .caption {
+}
+
+.caption {
     position: absolute;
     left: 0;
     top: 50%;
     width: 100%;
     text-align: center;
     color: #000;
-  }
-  
-  .caption span.border {
+}
+
+.caption span.border {
     background-color: #111;
     color: #fff;
     padding: 18px;
     font-size: 25px;
     letter-spacing: 10px;
-  }
-  
-  h3 {
+}
+
+h3 {
     letter-spacing: 5px;
     text-transform: uppercase;
     font: 20px "Lato", sans-serif;
     color: #111;
-  }
-  
-  /* Turn off parallax scrolling for tablets and phones */
-  @media only screen and (max-device-width: 1024px) {
-    .bgimg-1, .bgimg-2, .bgimg-3 {
-      background-attachment: scroll;
-    }
-  }
- 
-  /* Calendar css */
- 
-  #calendars {
- 
-    width: 90%;
-    height: 75%;
-    border: 1px solid black;
-    border-radius: 10px 10px 0px 0px;
-    border-collapse: collapse;
-    table-layout: fixed;
-    position: fixed;
-    transform: translateY(-150px);
-    /* transition: transform 0.5s ease-in-out; */
-    /* margin-top: 2%; */
-    margin-left: 5%;
-    margin-right: auto;
-    font-family: Arial, Helvetica, sans-serif;
-    overflow: hidden;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
- 
-    }
- 
-    /* code for arrows */
-    .arrow {
- 
-    border: solid rgb(51, 138, 153);
-    border-width: 0 3px 3px 0;
-    display: inline-block;
-    padding: 3px;
- 
-    }
- 
-    /* code for left header arrow */
-    .left {
- 
-    transform: rotate(135deg);
-    -webkit-transform: rotate(135deg);
- 
-    }
- 
-    /* Centers both header arrows */
-    #arrowRightHeader, #arrowLeftHeader {
- 
-    text-align: center;
- 
-    }
- 
-    /* code for right header arrow */
-    .right {
- 
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
- 
-    }
- 
-    th.calendarHeader {
- 
-    /* border-bottom: 1px solid black;
-    border-top: 1px solid black; */
-    background-color: #2980b9;
-    font-size: 300%;
-    text-align: center;
- 
-    }
- 
- 
-    /* applies border and text alignment to table datas */
-    td.calendarData {
- 
-    border: 1px solid black;
-    font-size: x-large;
-    text-align: left;
-    vertical-align: top;
-    color:  #2980b9;;
- 
-    }
- 
-    /* applies font-size and elimination of white space */
-    th.calendarHeader, td.calendarData {
- 
-    padding: 12px 15px;
- 
-    }
- 
-    tr.calendarRow:nth-of-type(even) {
- 
-    background-color: #f3f3f3;
- 
-    }
- 
-    /* tr:last-of-type {
- 
-    border-bottom: 20px solid #2980b9; 
- 
-    } */
- 
-    #landers {
-      
-      background-color: yellow;
-      margin-left: auto;
-      margin-right: auto;
-      width: 65%;
-      border: solid thin; 
-      border-collapse: collapse;
-      table-layout: fixed;
-      overflow: hidden;
-      margin-top: 125px;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
- 
-    }
- 
-    #landHead{
-      font-size: x-large;
-    }
- 
-      
-  .content a {
-    display: block;
-    color: black;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
- 
-  .content a:hover {
-    background-color: gold;
-  }
- 
-  .omega{
- 
-    background-color: #6798C0;
-    border: 1px solid #084C61;
-    width: 27%;
-    margin-top: 10%;
-    margin-right: auto;
-    margin-left: auto;
-    border-radius: 5px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
-    animation: appleBottomJeans 1.8s, fade-in 2.2s;
-    /* max-height: ; */
-    /* animation-fill-mode: forwards; */
- 
-  }
+}
 
-  body {
 
-    background: url("indexBackground.jpg");
-    color: #FFF;
-    font-family:comfortaaStd;
-    text-align: center;
-    margin: 0;
-    overflow: hidden;
-
-  }
-/* 
-  .container {
-  } */
-  
-  .sliding-background {
-    background: url("indexBackground.jpg") repeat-x;
-    height: 100%;
-    width: 5076px;
-    animation: slide 60s linear infinite;
-  }
-  
-  @keyframes slide{
-    0%{
-      transform: translate3d(0, 0, 0);
-    }
-    100%{
-      transform: translate3d(-1692px, 0, 0);
-    }
-  }
-
-  @keyframes appleBottomJeans {
-    0% {
-      transform: translateY(-300px);
-    }
-    100% {transform: translateY(0px);}
-
-  }
-
-  @keyframes fade-in {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
+/* Troll CSS Code */
