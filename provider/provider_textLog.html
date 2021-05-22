@@ -7,14 +7,6 @@
 		<script src="../scripts.js"></script>
 	</head>
 	<body>
-        <style>
-            .patientText{
-                color:black;
-            }
-            .providerText{
-                color:white;
-            }
-        </style>
 		<button onclick="document.location='patient_lander.html'">Home Page</button>
         <h1><?php require("../scripts.php"); echo "You are viewing " . 
 				userFullName($_COOKIE['patientId']) . "'s Text Log";?></h1><br>

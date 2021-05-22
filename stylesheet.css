@@ -1,17 +1,25 @@
- 
-/*
-  
-put css code here
- 
-link this stylesheet to any other html page using this line of code:
-<link rel="stylesheet" type="text/css" href="stylesheet.css">
- 
-*/
- 
-/* This is just a test to see what this turns them into */
- 
+/*-------------------------------Sets up standard fonts across all pages----------------------------*/ 
+
+@font-face {
+  font-family: comfortaaHeader;
+  src: url('Comfortaa-Bold.ttf');
+  font-size: 30px;
+}
+
+@font-face {
+  font-family: comfortaaStd;
+  src: url('Comfortaa-Regular.ttf');
+  font-size: 15px;
+}
+
+@font-face {
+  font-family: comfortaaSmall;
+  src: url('Comfortaa-Light.ttf');
+  font-size: 8px;
+}
  
 /*-------------------------------Modifies form of provider_addNewPatient.html----------------------------*/
+
 .textarea{
   width:90%;
   height: 40px;
@@ -35,8 +43,72 @@ link this stylesheet to any other html page using this line of code:
   margin-left: 5%;
 }
  
-/*-------------------------------End of provider_addNewPatient.html modifiers----------------------------*/
+/*-------------------------------Modifies message/tags of text log----------------------------*/
  
+#patientText{
+  color:#2980b9;
+}
+
+#providerText{
+  color:#000;
+}
+
+/*--------------------------------Modifies form elements of index.html-----------------------------*/
+
+#indexUsername{
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;
+  background-color: white;
+  background-image: url("user-solid.svg");
+  background-size: 30px;
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  font-family: comfortaaStd;
+  border:0px;
+  padding-left: 50px;
+  width:300px;
+  height:50px;
+}
+
+
+#indexPassword{
+  background-color: white;
+  background-image: url("lock-solid.svg");
+  background-size: 30px;
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  font-family: comfortaaStd;
+  border:0px;
+  padding-left: 50px;
+  width:300px;
+  height:50px;
+}
+
+#indexUsername:focus{
+  border-bottom: 5px solid #FDC921;
+  outline:none;
+}
+
+#indexPassword:focus{
+  border-bottom: 5px solid #FDC921;
+  outline:none;
+}
+
+/*--------------------------------lander formatting-----------------------------*/
+
+.landerInfo{
+  background-color: #847979;
+  border: 1px solid #084C61;
+  width: 75%;
+  margin-top: 10%;
+  margin-right: auto;
+  margin-left: auto;
+  border-radius: 5px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
+}
+
 #apptText {
   color: rebeccapurple;
 }
@@ -92,6 +164,7 @@ link this stylesheet to any other html page using this line of code:
   }
   
 .buttons {
+  font-family: comfortaaHeader;
   background-color: #ddd; 
   border: none;
   color: black;
@@ -104,6 +177,7 @@ link this stylesheet to any other html page using this line of code:
   }
  
   .Sbuttons {
+    font-family: comfortaaHeader;
     background-color: #ddd; 
     border: none;
     border-radius: 5px;
@@ -177,7 +251,7 @@ link this stylesheet to any other html page using this line of code:
   }
  
   .content {
-    background-color: #ddd;
+    background: linear-gradient(to bottom right, #6798C0, #084C61);
     color: rgb(0, 0, 0);
     position: absolute;
     min-height: calc(100vh - 40px);
@@ -432,15 +506,17 @@ link this stylesheet to any other html page using this line of code:
  
   .omega{
  
-    background-color: #2980b9;
-    border: 1px solid black;
+    background-color: #6798C0;
+    border: 1px solid #084C61;
     width: 27%;
     margin-top: 10%;
     margin-right: auto;
     margin-left: auto;
     border-radius: 5px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
-    transform: translateY(-250px);
+    animation: appleBottomJeans 1.8s, fade-in 2.2s;
+    /* max-height: ; */
+    /* animation-fill-mode: forwards; */
  
   }
 
@@ -448,15 +524,15 @@ link this stylesheet to any other html page using this line of code:
 
     background: url("indexBackground.jpg");
     color: #FFF;
-    font-family: Helvetica;
+    font-family:comfortaaStd;
     text-align: center;
     margin: 0;
     overflow: hidden;
 
   }
-
-  /* .container {
-  }
+/* 
+  .container {
+  } */
   
   .sliding-background {
     background: url("indexBackground.jpg") repeat-x;
@@ -472,4 +548,21 @@ link this stylesheet to any other html page using this line of code:
     100%{
       transform: translate3d(-1692px, 0, 0);
     }
-  } */
+  }
+
+  @keyframes appleBottomJeans {
+    0% {
+      transform: translateY(-300px);
+    }
+    100% {transform: translateY(0px);}
+
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }

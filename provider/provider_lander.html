@@ -1,29 +1,39 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Medical Software</title>
-        <script src="../scripts.js"></script>
-        <link rel="stylesheet" type="text/css" href="../stylesheet.css">
-    </head>
-    <body>
-        <div class="topnav">
-            <a href="../index.html">Logout</a>
-            <a href="provider_lander.html">Home</a>
-				<a href="provider_checkin.html">Check-In</a>
-				<a href="provider_calendar.html">Calender</a>
-				<a href="provider_addNewPatient.html">Add New Patient</a>
-            	<a href="provider_database.html">Database</a>
-            	<!-- <a href="provider_singlePatientView.html">Michael IDK</a> -->
-        </div>
-        
-        <div class="content">
-        <h1><?php require("../scripts.php"); echo "Welcome, " . userFullName($_COOKIE['userId']) . "!";?></h1>
-        
-        <p>Get started:</p>
 
-            <table>
-             <style>table, td {border: 1px solid black;}</style>    
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Software</title>
+    <script src="../scripts.js"></script>
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+</head>
+
+<body>
+    <div class="topnav">
+        <a href="../index.html">Logout</a>
+        <a href="provider_lander.html">Home</a>
+        <a href="provider_checkin.html">Check-In</a>
+        <a href="provider_calendar.html">Calender</a>
+        <a href="provider_addNewPatient.html">Add New Patient</a>
+        <a href="provider_database.html">Database</a>
+        <!-- <a href="provider_singlePatientView.html">Michael IDK</a> -->
+    </div>
+
+    <div class="content">
+        <div class="landerInfo">
+            <h1>
+                <?php require("../scripts.php"); echo "Welcome, " . userFullName($_COOKIE['userId']) . "!";?>
+            </h1>
+
+            <p>Get started:</p>
+
+            <table id="landers">
+                <style>
+                    table,
+                    td {
+                        border: 1px solid black;
+                    }
+                </style>
                 <thead>
                     <tr>
                         <th colspan="2" scope="row">Directories</th>
@@ -31,9 +41,9 @@
                 </thead>
                 <tbody>
                     <tr>
-                    <!-- gotta replace all the onclick events with the proper directory links (they're just placeholders) -->
-                    <td><a href="provider_calendar.html">Calendar</a></td>
-                    <td><a href="provider_textLogMenu.html">Text Logs</a></td>
+                        <!-- gotta replace all the onclick events with the proper directory links (they're just placeholders) -->
+                        <td><a href="provider_calendar.html">Calendar</a></td>
+                        <td><a href="provider_textLogMenu.html">Text Logs</a></td>
                     </tr>
                     <tr>
                         <td><a onclick="alert('This feature does not yet exist.')" href="#">Video Call</a></td>
@@ -50,5 +60,7 @@
                 </tbody>
             </table>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

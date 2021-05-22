@@ -72,18 +72,18 @@ function resetTables($reset){
             PRIMARY KEY(id)
         );",
         "CREATE TABLE calendar ( 
-            providerId INT UNSIGNED,
-            p1 DATETIME,
-            p2 DATETIME,
-            p3 DATETIME,
-            p4 DATETIME,
-            p5 DATETIME,
-            p6 DATETIME,
-            p7 DATETIME,
-            p8 DATETIME,
-            p9 DATETIME,
-            p10 DATETIME,
-            PRIMARY KEY (providerId)
+            patientId INT UNSIGNED,
+            a1 DATETIME,
+            a2 DATETIME,
+            a3 DATETIME,
+            a4 DATETIME,
+            a5 DATETIME,
+            a6 DATETIME,
+            a7 DATETIME,
+            a8 DATETIME,
+            a9 DATETIME,
+            a10 DATETIME,
+            PRIMARY KEY (patientId)
         );",
         "CREATE TABLE checkin (
             providerId INT UNSIGNED,
