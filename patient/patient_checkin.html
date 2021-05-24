@@ -1,30 +1,34 @@
 <!DOCTYPE html>
 <html lang="en-US">
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Medical Software</title>
-		<link rel="stylesheet" type="text/css" href="../stylesheet.css">
-		<script src="scripts.js"></script>
-	</head>
-	<body>
-		<div id="navDiv" class="topnav">
-            <a href="../index.html">Logout</a>
-            <a href="patient_lander.html">Home</a>
-            <a href="patient_checkin.html">Check-In</a>
-            <a href="patient_calendar.html">Calender</a>
-            <a href="patient_app_scheduler.html">Scheduler</a>
-            <a href="patient_profile.html">Your Profile</a>
-            <a href="patient_accountSync.html">Account Syncing</a>
-            <a href="patient_settings.html">Settings</a>
-        </div>
-		  <div class="content"> 
-		<h1><?php require("../scripts.php"); echo "Check In, " . userFullName($_COOKIE['userId']) . ".";?></h1>
-		<form method="POST" style="display:inline" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-			<p>Click Ready if you have arrived for your in-person appointment. 
-				If not, navigate back to the lander page.</p>
-			<input type="submit" id="checkIn" value="Ready">
-		</form>
-		<?php
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Software</title>
+    <link rel="stylesheet" type="text/css" href="../universal-style.css">
+    <link rel="stylesheet" type="text/css" href="../nav-content-footer.css">
+    <script src="scripts.js"></script>
+</head>
+
+<body>
+    <div id="navDiv" class="topnav">
+        <a href="../index.html">Logout</a>
+        <a href="patient_lander.html">Home</a>
+        <a href="patient_checkin.html">Check-In</a>
+        <a href="patient_calendar.html">Calender</a>
+        <a href="patient_app_scheduler.html">Scheduler</a>
+        <a href="patient_profile.html">Your Profile</a>
+        <a href="patient_accountSync.html">Account Syncing</a>
+        <a href="patient_settings.html">Settings</a>
+    </div>
+    <div class="content">
+        <h1>
+            <?php require("../scripts.php"); echo "Check In, " . userFullName($_COOKIE['userId']) . ".";?>
+        </h1>
+        <form method="POST" style="display:inline" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+            <p>Click Ready if you have arrived for your in-person appointment. If not, navigate back to the lander page.</p>
+            <input type="submit" id="checkIn" value="Ready">
+        </form>
+        <?php
 			if($_SERVER["REQUEST_METHOD"] == "POST"){
 				$returnVal = patientCheckIn($_COOKIE["userId"]);
 				if($returnVal == 1){
@@ -38,16 +42,16 @@
 				}
 			}
 		?>
-	
-	</div>
 
-	<button id="navBtn" onclick="shiftNav()">☰</button>
+    </div>
 
-	
-	<div class="footer">
-		<p>Contact Us at sigmund Froyyd@gmail.com </p>
-	  </div>
-	  
-	</body>
+    <button id="navBtn" onclick="shiftNav()">☰</button>
 
-</html>		
+
+    <div class="footer">
+        <p>Contact Us at sigmund Froyyd@gmail.com </p>
+    </div>
+
+</body>
+
+</html>

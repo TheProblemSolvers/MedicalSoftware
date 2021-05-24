@@ -1,38 +1,41 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Medical Software</title>
-        <script src="../scripts.js"></script>
-        <link rel="stylesheet" type="text/css" href="../stylesheet.css">
-    </head>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Software</title>
+    <script src="../scripts.js"></script>
+    <link rel="stylesheet" type="text/css" href="../universal-style.css">
+    <link rel="stylesheet" type="text/css" href="../nav-content-footer.css">
+    <link rel="stylesheet" type="text/css" href="../calendar-style.css">
 
-    <div id="navDiv" class="topnav">
-        <a href="../index.html">Logout</a>
-        <a href="patient_lander.html">Home</a>
-        <a href="patient_checkin.html">Check-In</a>
-        <a href="patient_calendar.html">Calender</a>
-        <a href="patient_app_scheduler.html">Scheduler</a>
-        <a href="patient_profile.html">Your Profile</a>
-        <a href="patient_accountSync.html">Account Syncing</a>
-        <a href="patient_settings.html">Settings</a>
-    </div>
+</head>
 
-        <br>
-        <br>
-        <br>
+<div id="navDiv" class="topnav">
+    <a href="../index.html">Logout</a>
+    <a href="patient_lander.html">Home</a>
+    <a href="patient_checkin.html">Check-In</a>
+    <a href="patient_calendar.html">Calender</a>
+    <a href="patient_app_scheduler.html">Scheduler</a>
+    <a href="patient_profile.html">Your Profile</a>
+    <a href="patient_accountSync.html">Account Syncing</a>
+    <a href="patient_settings.html">Settings</a>
+</div>
 
-        <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+<br>
+<br>
+<br>
 
-        <?php 
+<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+
+<?php 
             require("../scripts.php");
             if(getSqlLinkedAccount($_COOKIE['userId']) == false){
                 echo "<p class='errorMessage'>No provider account linked. <br>Please link a providers account to continue.</p>";
             }
         ?>
 
-        <?php
+<?php
             if($_SERVER['REQUEST_METHOD'] == "POST"){
                 echo "<br>" . storeApptData($_COOKIE['userId'], $_POST['apptType'], $_POST['addInfo'], 
                     $_POST['calInput'], $_POST['timeInput']);
@@ -40,32 +43,31 @@
             }
         ?>
 
-<!-- --------------------------data transfer testing---------------------------------- -->
+    <!-- --------------------------data transfer testing---------------------------------- -->
 
-        <p id="testing"></p>
+    <p id="testing"></p>
 
-        <?php $appointmentArray = getAppointmentDates($_COOKIE['userId']); ?>
+    <?php $appointmentArray = getAppointmentDates($_COOKIE['userId']); ?>
 
-        <script type="text/javascript">
+    <script type="text/javascript">
+        var appointmentArray = << ? php echo json_encode($appointmentArray); ? > ;
+    </script>
 
-                var appointmentArray = <?php echo json_encode($appointmentArray); ?>;
- 
-        </script>
+    <!-- -------------------------- End of do not touch line ---------------------------------- -->
 
-        <!-- -------------------------- End of do not touch line ---------------------------------- -->
+    <div class="content">
 
-        <div class="content">
+        <body onload="printCalendar(currentMonth, currentYear, appointmentArray);"></body>
 
-            <body onload="printCalendar(currentMonth, currentYear, appointmentArray);"></body>
+    </div>
 
-        </div>
+    <input type="button" onclick="showApp()">
 
-        <input type="button" onclick="showApp()">
+    <button id="navBtn" onclick="shiftNav()">☰</button>
 
-        <button id="navBtn" onclick="shiftNav()">☰</button>
 
-       
-        <div class="footer">
-			<p>Contact Us at sigmund Froyyd@gmail.com </p>
-  		</div>
+    <div class="footer">
+        <p>Contact Us at sigmund Froyyd@gmail.com </p>
+    </div>
+
 </html>
