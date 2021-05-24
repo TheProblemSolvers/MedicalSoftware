@@ -1,38 +1,52 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Medical Software</title>
-        <link rel="stylesheet" type="text/css" href="../stylesheet.css">
-    </head>
-    <body>
-        <div class="topnav">
-            <a href="../index.html">Logout</a>
-            <a href="provider_lander.html">Home</a>
-				<a href="provider_checkin.html">Check-In</a>
-				<a href="provider_calendar.html">Calender</a>
-				<a href="provider_addNewPatient.html">Add New Patient</a>
-            	<a href="provider_database.html">Database</a>
-            	<!-- <a href="provider_singlePatientView.html">Michael IDK</a>     -->
-        </div>
-        
-        <div class="content">
-            <div class="newPatientForm">
 
-                <h1><?php require("../scripts.php"); echo relIdName($_COOKIE["patientId"]);?>'s File</h1>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Software</title>
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+</head>
 
-                <form style='display:inline' method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-                    <?php echo createInduvidualTable($_COOKIE["userId"], $_COOKIE["patientId"]); ?>
-                    <input type="submit" value="Submit Changes">
-                </form>
-                
-                <?php setcookie('updated', 'false');
+<body>
+    <div class="topnav">
+        <a href="../index.html">Logout</a>
+        <a href="provider_lander.html">Home</a>
+        <a href="provider_checkin.html">Check-In</a>
+        <a href="provider_calendar.html">Calender</a>
+        <a href="provider_addNewPatient.html">Add New Patient</a>
+        <a href="provider_database.html">Database</a>
+        <!-- <a href="provider_singlePatientView.html">Michael IDK</a>     -->
+    </div>
+
+    <div class="content">
+        <div class="newPatientForm">
+
+            <h1>
+                <?php require("../scripts.php"); echo relIdName($_COOKIE["patientId"]);?>'s File
+            </h1>
+
+            <script>
+                //warns user if they are going to discard changes
+                function changeWarning() {
+                    if (window.confirm('Discard Changes? (Original data will be preserved.)') == true) {
+                        document.location.href = 'provider_database.html';
+                    } else {
+                        return false;
+                    }
+                }
+            </script>
+
+            <form style='display:inline' method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+                <?php echo createInduvidualTable($_COOKIE["patientId"]); ?>
+                <input type="submit" value="Submit Changes">
+            </form>
+
+            <?php setcookie('updated', 'false');
                 
                 #if the form is not pending an update, display redirect button with save data warning
                 if($_COOKIE['updated'] == 'false'){
                     echo <<<EOT
-                    <button id='returnToDatabase' onclick="alert('Discard Changes? (Original data will be preserved)'); 
-                    document.location.href='provider_database.html';">Back to Database</button>
+                    <button id='returnToDatabase' onclick="changeWarning();">Back to Database</button>
                     EOT;
                 } 
 
@@ -54,7 +68,8 @@
                 }
 
                 ?>
-            </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

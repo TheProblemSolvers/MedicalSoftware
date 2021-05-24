@@ -15,11 +15,12 @@ function resetTables($reset){
     #sql queries to delete and replace tables in medicalsoftware database
     $sqlQueries1 = [ 
         "DROP TABLE linkedaccounts;",
-        "DROP TABLE calendar",
-        "DROP TABLE checkin",
-        "DROP TABLE textlog",
-        "DROP TABLE allusers",
-        "DROP TABLE credentials"
+        "DROP TABLE calendar;",
+        "DROP TABLE checkin;",
+        "DROP TABLE textlog;",
+        "DROP TABLE allusers;",
+        "DROP TABLE patientdata;",
+        "DROP TABLE credentials;"
     ];
 
     $sqlQueries2 = [
@@ -121,7 +122,7 @@ function resetTables($reset){
             m18 VARCHAR(50),
             m19 VARCHAR(50),
             m20 VARCHAR(50),
-            PRIMARY KEY (providerId)
+            PRIMARY KEY (patientId)
         );"
     ];
 

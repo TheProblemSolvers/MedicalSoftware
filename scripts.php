@@ -336,12 +336,12 @@ function createInduvidualTable($relId){
         $patientData[$columns[$j]['COLUMN_NAME']] . "'readonly><br><br>";
     $i++;
     $j++;
-    $HTML[$i] = "<label class='textLabel' for='currMeds'>Current Medications:</label><textarea class='textarea' id='currMeds'" . 
-        "name='currMeds'>" . $patientData[$columns[$j]['COLUMN_NAME']] . "</textarea><br>";
-    $i++;
-    $j++;
     $HTML[$i] = "<label class='textLabel' for='currHealth'>Current Health Conditions:</label><textarea class='textarea'" . 
         "id='curHealth' name='currHealth'>" . $patientData[$columns[$j]['COLUMN_NAME']] . "</textarea><br>";
+    $i++;
+    $j++;
+    $HTML[$i] = "<label class='textLabel' for='currMeds'>Current Medications:</label><textarea class='textarea' id='currMeds'" . 
+    "name='currMeds'>" . $patientData[$columns[$j]['COLUMN_NAME']] . "</textarea><br>";
     $i++;
     $j++;
     $HTML[$i] = "<label class='textLabel' for='pastHealth'>Past Health Conditions:</label><textarea class='textarea'" . 
@@ -371,8 +371,8 @@ function modifyPatientData($relId, $height, $weight, $currMeds, $currHealth, $pa
     #sends SQL command to get record where relId matches cookie stored in browser
     $contents = $connection->prepare(
         "UPDATE patientdata
-        SET height = '$height', weight = '$weight', currenthealth = '$currHealth', pasthealth = '$pastHealth', 
-            currentmeds = '$currMeds', familyhealth = '$familyHealth', notes = '$notes'
+        SET height = '$height', weight = '$weight', currenthealth = '$currHealth', currentmeds = '$currMeds',
+            pasthealth = '$pastHealth', familyhealth = '$familyHealth', notes = '$notes'
         WHERE relid=$relId;"
     );
     $contents->execute();
