@@ -1,42 +1,48 @@
 <!DOCTYPE html>
 <html lang="en-US">
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Medical Software</title>
-		<link rel="stylesheet" type="text/css" href="../stylesheet.css">
-		<script src="../scripts.js"></script>
-		<script src="scripts.js"></script>
-	</head>
-	<body>
-		<div id="navDiv" class="topnav">
-            <a href="../index.html">Logout</a>
-            <a href="patient_lander.html">Home</a>
-            <a href="patient_checkin.html">Check-In</a>
-            <a href="patient_calendar.html">Calender</a>
-            <a href="patient_app_scheduler.html">Scheduler</a>
-            <a href="patient_profile.html">Your Profile</a>
-            <a href="patient_accountSync.html">Account Syncing</a>
-            <a href="patient_settings.html">Settings</a>
-        </div>
-		<div class="content">
-			<style>
-				.patientText{
-					color:black;
-				}
-				.providerText{
-					color:white;
-				}
-			</style>
-			<h1><?php require("../scripts.php"); echo userFullName($_COOKIE['userId']) . "'s Text Log";?></h1><br>
-			<?php 
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Software</title>
+    <link rel="stylesheet" type="text/css" href="../universal-style.css">
+    <link rel="stylesheet" type="text/css" href="../nav-content-footer.css">
+    <script src="../scripts.js"></script>
+    <script src="scripts.js"></script>
+</head>
+
+<body>
+    <div id="navDiv" class="topnav">
+        <a href="../index.html">Logout</a>
+        <a href="patient_lander.html">Home</a>
+        <a href="patient_checkin.html">Check-In</a>
+        <a href="patient_calendar.html">Calender</a>
+        <a href="patient_app_scheduler.html">Scheduler</a>
+        <a href="patient_profile.html">Your Profile</a>
+        <a href="patient_accountSync.html">Account Syncing</a>
+        <a href="patient_settings.html">Settings</a>
+    </div>
+    <div class="content">
+        <style>
+            .patientText {
+                color: black;
+            }
+            
+            .providerText {
+                color: white;
+            }
+        </style>
+        <h1>
+            <?php require("../scripts.php"); echo userFullName($_COOKIE['userId']) . "'s Text Log";?>
+        </h1><br>
+        <?php 
 				echo displayTextLog($_COOKIE['userId'], "patient");
 			?><br><br>
-			<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-				<label for="textContents">Send Message:</label>
-				<input type="text" id="textContents" name="textContents" placeholder="Write message here...">
-				<input type="submit" value="Send">
-			</form>
-			<?php 
+        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+            <label for="textContents">Send Message:</label>
+            <input type="text" id="textContents" name="textContents" placeholder="Write message here...">
+            <input type="submit" value="Send">
+        </form>
+        <?php 
 				if($_SERVER["REQUEST_METHOD"] == "POST"){
 					$returnVal = addTextMessage($_COOKIE['userId'], $_COOKIE['userId'], $_POST['textContents']);
 					if($returnVal == 1){
@@ -48,12 +54,13 @@
 					
 				}
 			?>
-		</div>
+    </div>
 
-		<button id="navBtn" onclick="shiftNav()">☰</button>
+    <button id="navBtn" onclick="shiftNav()">☰</button>
 
-	</body>
-	<div class="footer">
-		<p>Contact Us at sigmund Froyyd@gmail.com </p>
-	  </div>
-</html>	
+</body>
+<div class="footer">
+    <p>Contact Us at sigmund Froyyd@gmail.com </p>
+</div>
+
+</html>

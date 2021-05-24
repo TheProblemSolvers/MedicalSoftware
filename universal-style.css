@@ -1,0 +1,26 @@
+/*-------------------------------Sets up standard fonts across all pages----------------------------*/
+
+@font-face {
+    font-family: comfortaaHeader;
+    src: url('Comfortaa-Bold.ttf');
+    font-size: 30px;
+}
+
+@font-face {
+    font-family: comfortaaStd;
+    src: url('Comfortaa-Regular.ttf');
+    font-size: 15px;
+}
+
+@font-face {
+    font-family: comfortaaSmall;
+    src: url('Comfortaa-Light.ttf');
+    font-size: 8px;
+}
+
+body {
+    color: #FFF;
+    font-family: comfortaaStd;
+    text-align: center;
+    margin: 0;
+}

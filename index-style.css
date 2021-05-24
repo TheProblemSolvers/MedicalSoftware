@@ -1,0 +1,134 @@
+#indexUsername {
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: hidden;
+    background-color: white;
+    background-image: url("user-solid.svg");
+    background-size: 30px;
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    font-family: comfortaaStd;
+    border: 0px;
+    padding-left: 50px;
+    width: 300px;
+    height: 50px;
+}
+
+#indexPassword {
+    background-color: white;
+    background-image: url("lock-solid.svg");
+    background-size: 30px;
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    font-family: comfortaaStd;
+    border: 0px;
+    padding-left: 50px;
+    width: 300px;
+    height: 50px;
+}
+
+#indexUsername:focus {
+    border-bottom: 5px solid #FDC921;
+    outline: none;
+}
+
+#indexPassword:focus {
+    border-bottom: 5px solid #FDC921;
+    outline: none;
+}
+
+.buttons {
+    font-family: comfortaaHeader;
+    background-color: #ddd;
+    border: none;
+    color: black;
+    padding: 15px 100px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 40px;
+    border-radius: 15px;
+}
+
+.buttons:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+.buttons:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+.Sbuttons {
+    font-family: comfortaaHeader;
+    background-color: #ddd;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    padding: 5px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.Sbuttons:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+.omega {
+    background-color: #6798C0;
+    border: 1px solid #084C61;
+    width: 27%;
+    margin-top: 10%;
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 5px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
+    animation: appleBottomJeans 1.8s, fade-in 2.2s;
+    animation-fill-mode: forwards;
+}
+
+.container {
+    overflow: hidden;
+}
+
+.sliding-background {
+    margin-top: -8px;
+    background: url("indexBackground.jpg") repeat;
+    height: 100%;
+    width: 5076px;
+    animation: slide 150s linear infinite;
+    position: fixed;
+}
+
+@keyframes slide {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-1692px, 0, 0);
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes appleBottomJeans {
+    0% {
+        transform: translateY(-300px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
