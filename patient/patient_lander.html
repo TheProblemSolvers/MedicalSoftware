@@ -1,15 +1,17 @@
-
-
 <!DOCTYPE html>
+
 <html lang="en-US">
- 
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Software</title>
     <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+    <link rel="stylesheet" type="text/css" href="../universal-style.css">
+    <link rel="stylesheet" type="text/css" href="../nav-content-footer.css">
+
     <script src="../scripts.js"></script>
 </head>
- 
+
 <body>
     <div id="navDiv" class="topnav">
         <a href="../index.html">Logout</a>
@@ -26,23 +28,21 @@
         <h1>
             <?php require("../scripts.php"); echo "Get Started, " . userFullName($_COOKIE['userId']);?>
         </h1>
- 
+
         <table id="landers">
             <style>
-                
                 table,
                 td {
- 
                     border: 1px solid black;
                 }
             </style>
- 
+
             <thead>
                 <th id="landHead" colspan="2" scope="row">
-                        Directories
+                    Directories
                 </th>
             </thead>
- 
+
             <tbody>
                 <tr>
                     <!-- gotta replace all the ../index.html with the proper directory links (they're just placeholders) -->
@@ -64,12 +64,12 @@
             </tbody>
         </table>
     </div>
- 
+
     <button id="navBtn" onclick="shiftNav()">☰</button>
- 
+
     <div class="footer">
         <p>Contact Us at sigmund Froyyd@gmail.com </p>
     </div>
 </body>
- 
+
 </html>
