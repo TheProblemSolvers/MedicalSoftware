@@ -573,8 +573,16 @@ function linkToProvider($patientId, $providerId){
     #check if provider exists, end execution if no match is found
     $contents = $connection->prepare("SELECT id, usertype FROM allusers;");
     $contents->execute();
-    $data = $contents->fetch(PDO::FETCH_ASSOC);
-    if($data['id'] != $providerId || $data['usertype'] != 'provider'){
+    $data = $contents->fetchAll(PDO::FETCH_ASSOC);
+    $flag = false;
+    foreach($data as $userInfo){
+        if($userInfo['id'] == $providerId && $userInfo['usertype'] == 'provider'){
+            $flag = true;
+        }
+    }
+
+    #if the flag was not set to true by preceeding loop, then return error message
+    if($flag == false){
         return "Provider ID does not exist.";
     }
 
@@ -589,7 +597,7 @@ function linkToProvider($patientId, $providerId){
         $connection->query($sql);
 
         #add patient's row to calendar table
-        $sql = "INSERT INTO calendar (patientid) VALUES ($id);";
+        $sql = "INSERT INTO calendar (patientid) VALUES ($patientId);";
         $connection->query($sql);
 
         #find next column in provider's row in linkedaccounts table where no value has been assigned yet
@@ -612,9 +620,9 @@ function linkToProvider($patientId, $providerId){
         $search->execute();
         $tableData = $search->fetchAll(PDO::FETCH_ASSOC);
 
-        #adjust provider id to correctly correlate to row number where their provider id is stored
+        #adjust provider id to correctly correlate to row number where their provider id is stored in linkedaccounts table
         for($j = 0; $j < count($tableData); $j++){
-            if($providerId = $tableData[$j]['providerId']){
+            if($providerId == $tableData[$j]['providerId']){
                 $adjustedId = $j;
                 break;
             }

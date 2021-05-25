@@ -150,7 +150,7 @@ function sqlTest($browserInput){
     $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     #gather all instances where value in column matches patient's id
-    $result = $connection->prepare("SELECT * FROM allusers;");
+    $result = $connection->prepare($browserInput);
     $result->execute();
     $data = $result->fetchAll(PDO::FETCH_ASSOC);
     return print_r($data, true);
