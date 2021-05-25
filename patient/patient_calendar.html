@@ -47,7 +47,9 @@
 
     <p id="testing"></p>
 
-    <?php $appointmentArray = getAppointmentDates($_COOKIE['userId']); ?>
+    <?php $appointmentArray = getAppointmentDates($_COOKIE['userId']); 
+    echo $appointmentArray;
+    ?>
 
     <script type="text/javascript">
         var appointmentArray = << ? php echo json_encode($appointmentArray); ? > ;

@@ -1016,116 +1016,116 @@ function displayTextLogMenu($providerId){
 /* ---------------------------------------------Appointment Scheduling------------------------------------------------------- */
 /* -------------------------------------------------------------------------------------------------------------------------- */
 
-#parses data from the format the appointment date is sent to the browser in
-function parseApptData($apptDate){
-    #parses cookie data into seperate numbers for simple use, then returns all data as an array
-    #date format:  <(patientId)>(minute)A(hour)B(day)C(month)D(year)
-    $patientId = trim(substr($apptDate, strpos($apptDate, "<") + 1, strpos($apptDate, ">") - 1));
-    $apptMinute = trim(substr($apptDate, strpos($apptDate, ">") + 1, 2));
-    $apptHour = trim(substr($apptDate, strpos($apptDate, "A") + 1, 2));
-    $apptDay = trim(substr($apptDate, strpos($apptDate, "B") + 1, 2));
-    $apptMonth = trim(substr($apptDate, strpos($apptDate, "C") + 1, 2));
-    $apptYear = trim(substr($apptDate, strpos($apptDate, "D") + 1, 4));
-    return array($patientId, $apptMinute, $apptHour, $apptDay, $apptMonth, $apptYear);
-}
-
-#seperates day, month, and year from HTML date format
-function seperateHTMLDate($date){
-    #finds where year data stops, and stores year data
-    $endRead = strpos($date, "-");
-    $apptYear = substr($date, 0, $endRead);
-
-    #finds where month data starts, and stores month data
-    $startRead = $endRead + 1;
-    $endRead = strpos($date, "-", $endRead + 1);
-    $apptMonth = substr($date, $startRead, ($endRead - $startRead));
-
-    #finds where day data starts, and stores day data
-    $startRead = $endRead + 1;
-    $apptDay = substr($date, $startRead);
-
-    #returns data in array format to calling function
-    return array($apptDay, $apptMonth, $apptYear);
-}
-
-#seperates hour and minute from HTML time format
-function seperateHTMLTime($time){
-    $endRead = strpos($time, ":");
-    $hour = substr($time, 0, $endRead);
-    $minute = substr($time, $endRead + 1);
-    return array($minute, $hour);
-}
-
-#takes appointment date and time and stores it into provider's database
+#takes appointment date and time and stores it into patient's appointment row in calendar table
 function storeApptData($patientId, $apptType, $addtlInfo, $date, $time){
-    #returns an error message if no linked provider's account is found
-    if(getLinkedAccount($patientId) == false){
-        return "No provider account linked. Please link to your provider's account.";
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
+
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    #formats appointment data in a way that is easy to parse
+    $apptData = "$date<<<$time<<<$apptType<<<$addtlInfo";
+    $time = explode(":", $time);
+    $date = explode("-", $date);
+
+    #get row of data corresponding to patient's id number
+    $result = $connection->prepare("SELECT * FROM calendar WHERE patientid=$patientId;");
+    $result->execute();
+    $rowData = $result->fetch(PDO::FETCH_ASSOC);
+
+    #get table column names and store in $columns variable
+    $result = $connection->prepare(
+        "SELECT
+            COLUMN_NAME
+        FROM
+            INFORMATION_SCHEMA.COLUMNS
+        WHERE
+            TABLE_NAME = 'calendar';
+    ");
+    $result->execute();
+    $columns = $result->fetchAll(PDO::FETCH_ASSOC);
+
+    #finds column where data is NULL, replaces it with sender's id and message
+    for($i = 1; $i < count($rowData); $i++){
+        #accesses the column value for patient's row in textlog table
+        $columnValue = $rowData[$columns[$i]['COLUMN_NAME']];
+
+        #adds message to patient's row in first empty column
+        if($columnValue == NULL){
+            #inserts appointment data into correct row in calendar table
+            $column = $columns[$i]['COLUMN_NAME'];
+            $result = $connection->prepare(
+                "UPDATE calendar SET $column='$apptData' WHERE patientid=$patientId;"
+            );
+            $result->execute();
+
+            #turns military time into std time for success message to patient/confirmation email
+            $timeTag = "AM";
+            if($time[0] > 12){
+                $time[0] = $time[0] - 12;
+                $timeTag = "PM";
+            }
+
+            #compiles confirmation message to email to patient
+            $confirmationMessage = "Appointment has been made for " . userFullName($patientId) . " on " . $date[1] . 
+                "/" . $date[2] . "/" . $date[0] . " at " . $time[0] . ":" . $time[1] . " " . $timeTag;
+            sendEmail($patientId, "Appointment Confirmation", $confirmationMessage, $confirmationMessage);
+
+            #returns success message with date and time of appointment to browser
+            return $confirmationMessage;
+        }
     }
-
-    #compile data into format server can easily read
-    $date = seperateHTMLDate($date);
-    $time = seperateHTMLTime($time);
-    $apptData = "<" . $patientId . ">" . $time[0] . "A" . $time[1] . "B" . $date[0] . "C" . $date[1] . "D" . $date[2] . "\n";
-
-    #access provider's database
-    $providerId = getLinkedAccount($patientId);
-    $fileName = "../users\user_data\#" . trim($providerId) . "\calendar.txt";
-
-    #checks if appointment slot is availible
-    $startRead = strpos($apptData, ">") + 1;
-    if(checkDuplicates($fileName, substr($apptData, $startRead)) == true){
-        return "Appointment slot is taken.";
-    }
-
-    #open file, write data, close it
-    $fileHandle = fopen($fileName, "a");
-    fwrite($fileHandle, $apptData);
-    fclose($fileHandle);
-
-    #turns military time into std time for success message to patient
-    $timeTag = "AM";
-    if($time[1] > 12){
-        $time[1] = $time[1] - 12;
-        $timeTag = "PM";
-    }
-
-    #compiles confirmation message to email to patient
-    $confirmationMessage = "Appointment has been made for " . userFullName($patientId) . " on " . $date[1] . 
-        "/" . $date[0] . "/" . $date[2] . " at " . $time[1] . ":" . $time[0] . " " . $timeTag;
-    sendEmail($patientId, "Appointment Confirmation", $confirmationMessage, $confirmationMessage);
-
-    #returns success message with date and time of appointment
-    return $confirmationMessage;
+    return "Database error has occured. Please contact admin with following details: Not enough columns in calendar table.";
 }
 
-#gets a user's appointment from database and sends to browser so JavaScript can use data
+#gets all appointments from a patient from calendar table and sends to browser as array
 function getAppointmentDates($patientId){
     #returns an error message if no linked provider's account is found
     if(getSqlLinkedAccount($patientId) == false){
         return "No provider account linked. Please link to your provider's account.";
     }
 
-    #access provider's database
-    $providerId = getSqlLinkedAccount($patientId);
-    $fileName = "../users\user_data\#" . trim($providerId) . "\calendar.txt";
-    $fileHandle = fopen($fileName, "r");
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
 
-    #searches for the patient's id in beginning of appointment data string
-    $i = 0;
-    while(feof($fileHandle) == false){
-        $lineContents = fgets($fileHandle);
-        if(preg_match("/<" . $patientId . ">/", $lineContents) == true){
-            $apptArray[$i] = parseApptData($lineContents);
-            $i++;
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    #grab all appointment dates for given patient
+    $result = $connection->prepare("SELECT * FROM calendar WHERE patientid=$patientId;");
+    $result->execute();
+    $rowData = $result->fetch(PDO::FETCH_NUM);
+
+    #converts gibberish array into useful mulidimensional array
+    #data form from calendar table: $date<<<$time<<<$apptType<<<$addtlInfo
+    $flag = 1;
+    for($i = 1; $i < count($rowData); $i++){
+        if($rowData[$i] != NULL){
+            $apptData = explode("<<<", $rowData[$i]);
+            $apptDate = explode("-", $apptData[0]);
+            $apptDay = $apptDate[1];
+            $apptMonth = $apptDate[2];
+            $apptYear = $apptDate[0];
+    
+            $apptTime = explode(":", $apptData[1]);
+            $apptMinute = $apptTime[1];
+            $apptHour = $apptTime[0];
+    
+            $apptArray[$i - 1] = [$apptMinute, $apptHour, $apptDay, $apptMonth, $apptYear, $apptData[2], $apptData[3]];
+        } else{
+            $flag += 1;
         }
     }
 
-    #if appointments were found, return array if not, return message
-    if($apptArray == null){
-        return "No appointment found";
+    #if every data value in patient's row in calendar was NULL, then return null
+    if($flag == count($rowData)){
+        return NULL;
     }
     else{
         return $apptArray;
     }
+    
 }
