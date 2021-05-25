@@ -1,50 +1,3 @@
-/*-------------------------------Sets up standard fonts across all pages----------------------------*/
-
-@font-face {
-    font-family: comfortaaHeader;
-    src: url('Comfortaa-Bold.ttf');
-    font-size: 30px;
-}
-
-@font-face {
-    font-family: comfortaaStd;
-    src: url('Comfortaa-Regular.ttf');
-    font-size: 15px;
-}
-
-@font-face {
-    font-family: comfortaaSmall;
-    src: url('Comfortaa-Light.ttf');
-    font-size: 8px;
-}
-
-
-/*-------------------------------Modifies form of provider_addNewPatient.html----------------------------*/
-
-.textarea {
-    width: 90%;
-    height: 40px;
-    display: block;
-}
-
-.inputText {
-    width: 80px;
-}
-
-.inputNumber {
-    width: 40px;
-}
-
-.textLabel {
-    width: 5%;
-}
-
-.newPatientForm {
-    text-align: left;
-    margin-left: 5%;
-}
-
-
 /*-------------------------------Modifies message/tags of text log----------------------------*/
 
 #patientText {
@@ -56,101 +9,10 @@
 }
 
 
-/*--------------------------------Modifies form elements of index.html-----------------------------*/
-
-#indexUsername {
-    border-bottom: 5px solid #ffffff;
-    border-top: 5px solid #ffffff;
-    border-right-style: hidden;
-    border-left-style: hidden;
-    background-color: white;
-    background-image: url("user-solid.svg");
-    background-size: 30px;
-    background-position: absolute;
-    background-position-x: 10px;
-    background-position-y: 50%;
-    background-repeat: no-repeat;
-    border-radius: 5px;
-    font-family: comfortaaStd;
-    border: 0px;
-    padding-left: 50px;
-    width: 300px;
-    height: 50px;
-}
-
-#indexPassword {
-    border-bottom: 5px solid #ffffff;
-    border-top: 5px solid #ffffff;
-    border-right-style: hidden;
-    border-left-style: hidden;
-    background-color: white;
-    background-image: url("lock-solid.svg");
-    background-size: 30px;
-    background-position: absolute;
-    background-position-x: 10px;
-    background-position-y: 50%;
-    background-repeat: no-repeat;
-    border-radius: 5px;
-    font-family: comfortaaStd;
-    border: 0px;
-    padding-left: 50px;
-    width: 300px;
-    height: 50px;
-}
-
-#indexUsername:hover {
-    border-bottom: 5px solid #FEE485;
-    border-top: 5px solid #ffffff;
-    height: 40px;
-    outline: none;
-}
-
-#indexPassword:hover {
-    border-bottom: 5px solid #FEE485;
-    border-top: 5px solid #ffffff;
-    height: 40px;
-    outline: none;
-}
-
-#indexUsername:focus {
-    border-bottom: 5px solid #FDD235;
-    border-top: 5px solid #ffffff;
-    height: 40px;
-    outline: none;
-}
-
-#indexPassword:focus {
-    border-bottom: 5px solid #FDD235;
-    border-top: 5px solid #ffffff;
-    height: 40px;
-    outline: none;
-}
-
-
 /*--------------------------------lander formatting-----------------------------*/
-
-.landerInfo {
-    background-color: #3DA5D9;
-    border: 3px solid #2364AA;
-    width: 75%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 5px;
-    box-shadow: 0 0 100px rgba(0, 0, 0, 0.30);
-}
 
 #apptText {
     color: rebeccapurple;
-}
-
-.errorMessage {
-    color: red;
-}
-
-#emergency {
-    color: red;
 }
 
 #patientCalendarHeader {
@@ -205,6 +67,18 @@
     .bgimg-3 {
         background-attachment: scroll;
     }
+}
+
+.landerInfo {
+    background-color: #3DA5D9;
+    border: 3px solid #2364AA;
+    width: 75%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.30);
 }
 
 #landers {

@@ -1,62 +1,65 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Medical Software</title>
-        <link rel="stylesheet" type="text/css" href="../stylesheet.css">
-    </head>
-    <body>
-        <div class="topnav">
-            <a href="../index.html">Logout</a>
-            <a href="provider_lander.html">Home</a>
-				<a href="provider_checkin.html">Check-In</a>
-				<a href="provider_calendar.html">Calender</a>
-				<a href="provider_addNewPatient.html">Add New Patient</a>
-            	<a href="provider_database.html">Database</a>
-            	<!-- <a href="provider_singlePatientView.html">Michael IDK</a>     -->
-        </div>
-        
-        <div class="content">
-            <div class="newPatientForm">
-                <h1>Create New Patient</h1>
-                <form method="POST" style="display:inline" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-                    <label for="fullName">Full Name: </label>
-                    <input class="inputText" style="width:300px" type="text" id="fullName" name="fullName" required>
 
-                    <label for="dob">DOB: </label>
-                    <input type="date" id="dob" name="dob" required>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Software</title>
+    <link rel="stylesheet" type="text/css" href="../add-new-patient.css">
+    <link rel="stylesheet" type="text/css" href="../universal-style.css">
+</head>
 
-                    <label for="height"> Height: </label>
-                    <input class="inputNumber" type="number" id="height" name="height" required>
-                    <label for="height">in.</label>
+<body>
+    <div class="topnav">
+        <a href="../index.html">Logout</a>
+        <a href="provider_lander.html">Home</a>
+        <a href="provider_checkin.html">Check-In</a>
+        <a href="provider_calendar.html">Calender</a>
+        <a href="provider_addNewPatient.html">Add New Patient</a>
+        <a href="provider_database.html">Database</a>
+        <!-- <a href="provider_singlePatientView.html">Michael IDK</a>     -->
+    </div>
 
-                    <label for="weight"> Weight: </label>
-                    <input class="inputNumber" type="number" id="weight" name="weight" required>
-                    <label for="weight">lbs.</label>
+    <div class="content">
+        <div class="newPatientForm">
+            <h1>Create New Patient</h1>
+            <form method="POST" style="display:inline" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+                <label for="fullName">Full Name: </label>
+                <input class="inputText" style="width:300px" type="text" id="fullName" name="fullName" required>
 
-                    <label for="male"><small>Male</small></label>
-                    <input type="radio" id="male" name="sex" value="Male" required>
-                    <label for="female"><small>Female</small></label>
-                    <input type="radio" id="female" name="sex" value="Female"><br><br>
+                <label for="dob">DOB: </label>
+                <input type="date" id="dob" name="dob" required>
 
-                    <label class="textLabel" for="currMeds">Current Medications:</label>
-                    <textarea class="textarea" id="currMeds" name="currMeds"></textarea><br>
+                <label for="height"> Height: </label>
+                <input class="inputNumber" type="number" id="height" name="height" required>
+                <label for="height">in.</label>
 
-                    <label class="textLabel" for="currHealth">Current Health Conditions:</label>
-                    <textarea class="textarea" id="curHealth" name="currHealth"></textarea><br>
+                <label for="weight"> Weight: </label>
+                <input class="inputNumber" type="number" id="weight" name="weight" required>
+                <label for="weight">lbs.</label>
 
-                    <label class="textLabel" for="pastHealth">Past Health Conditions:</label>
-                    <textarea class="textarea" id="pastHealth" name="pastHealth"></textarea><br>
+                <label for="male"><small>Male</small></label>
+                <input type="radio" id="male" name="sex" value="Male" required>
+                <label for="female"><small>Female</small></label>
+                <input type="radio" id="female" name="sex" value="Female"><br><br>
 
-                    <label class="textLabel" for="familyHealth">Family Health History:</label>
-                    <textarea class="textarea" id="familyHealth" name="familyHealth"></textarea><br>
-                    
-                    <label class="textLabel" for="notes">Patient Notes:</label>
-                    <textarea class="textarea" id="notes" name="notes"></textarea><br>
+                <label class="textLabel" for="currMeds">Current Medications:</label>
+                <textarea class="textarea" id="currMeds" name="currMeds"></textarea><br>
 
-                    <input type="submit" value="Create new patient">
-                </form>
-                <?php
+                <label class="textLabel" for="currHealth">Current Health Conditions:</label>
+                <textarea class="textarea" id="curHealth" name="currHealth"></textarea><br>
+
+                <label class="textLabel" for="pastHealth">Past Health Conditions:</label>
+                <textarea class="textarea" id="pastHealth" name="pastHealth"></textarea><br>
+
+                <label class="textLabel" for="familyHealth">Family Health History:</label>
+                <textarea class="textarea" id="familyHealth" name="familyHealth"></textarea><br>
+
+                <label class="textLabel" for="notes">Patient Notes:</label>
+                <textarea class="textarea" id="notes" name="notes"></textarea><br>
+
+                <input type="submit" value="Create new patient">
+            </form>
+            <?php
                 require("../scripts.php");
                 if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $success = createNewPatient($_COOKIE['userId'], $_POST['fullName'], $_POST['dob'], 
@@ -74,7 +77,8 @@
                     }
                 }
                 ?>
-            </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>
