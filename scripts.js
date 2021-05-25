@@ -9,6 +9,8 @@ function setCheckInCookie(id) {
     return null;
 }
 
+
+
 function authenticateLogin(validate) {
     var providerUsername = "Username";
     var providerPassword = "password"; //Feel free to change username/password

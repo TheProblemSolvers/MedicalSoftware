@@ -2,34 +2,39 @@
 
 <!DOCTYPE html>
 <html lang="en-US">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Medical Software</title>
-        <script src="../scripts.js"></script>
-        <link rel="stylesheet" type="text/css" href="../stylesheet.css">
-    </head>
-    <body>
-        <div class="topnav">
-            <a href="../index.html">Logout</a>
-            <a href="provider_lander.html">Home</a>
-				<a href="provider_checkin.html">Check-In</a>
-				<a href="provider_calendar.html">Calender</a>
-				<a href="provider_addNewPatient.html">Add New Patient</a>
-            	<a href="provider_database.html">Database</a>
-            	<!-- <a href="provider_singlePatientView.html">Michael IDK</a> -->
-        </div>
 
-        <?php setcookie("patientId", "", time() - 3600); setcookie('updated', 'false');?>
-       
-        <div class="content">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Software</title>
+    <script src="../scripts.js"></script>
+    <link rel="stylesheet" type="text/css" href="../universal-style.css">
+    <link rel="stylesheet" type="text/css" href="../nav-content-footer.css">
+</head>
+
+<body>
+    <div class="topnav">
+        <a href="../index.html">Logout</a>
+        <a href="provider_lander.html">Home</a>
+        <a href="provider_checkin.html">Check-In</a>
+        <a href="provider_calendar.html">Calender</a>
+        <a href="provider_addNewPatient.html">Add New Patient</a>
+        <a href="provider_database.html">Database</a>
+        <!-- <a href="provider_singlePatientView.html">Michael IDK</a> -->
+    </div>
+
+    <?php setcookie("patientId", "", time() - 3600); setcookie('updated', 'false');?>
+
+    <div class="content">
         <style>
-            table, th, td {
+            table,
+            th,
+            td {
                 border: 1px solid white;
                 border-collapse: collapse;
                 padding: 5px;
             }
-            </style>
-        
+        </style>
+
         <h1>Patient Records</h1>
         <button onclick="document.location='provider_addNewPatient.html'">Add a new patient</button><br><br>
         <form id="patientSearch" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
@@ -46,7 +51,8 @@
         <?php
         echo getDatabaseTable($_COOKIE["userId"]);
         ?><br>
-        <button onclick="document.location='#patientSearch'">Back to top</button>
+            <button onclick="document.location='#patientSearch'">Back to top</button>
     </div>
-    </body>
+</body>
+
 </html>
