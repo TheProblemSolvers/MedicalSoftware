@@ -34,9 +34,16 @@
         <h1>
             <?php require("../scripts.php"); echo userFullName($_COOKIE['userId']) . "'s Text Log";?>
         </h1><br>
+
         <?php 
-				echo displayTextLog($_COOKIE['userId'], "patient");
-			?><br><br>
+            if(getSqlLinkedAccount($_COOKIE['userId']) == false){
+                echo "Please link a provider's account to access this feature.";
+            } else{
+                echo displayTextLog($_COOKIE['userId'], "patient");
+            }
+        ?>
+
+        <br><br>
         <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
             <label for="textContents">Send Message:</label>
             <input type="text" id="textContents" name="textContents" placeholder="Write message here...">

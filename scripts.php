@@ -273,10 +273,6 @@ function addNewUser($firstName, $middleName, $lastName, $dob, $email, $username,
         #add provider row to checkin table
         $sql = "INSERT INTO checkin (providerid) VALUES ($id);";
         $connection->query($sql);
-
-        #add provider row to calendar table
-        $sql = "INSERT INTO calendar (providerid) VALUES ($id);";
-        $connection->query($sql);
     }
     return true;
 }
@@ -586,8 +582,14 @@ function linkToProvider($patientId, $providerId){
     $accountId = getSqlLinkedAccount($patientId);
 
     if($accountId == false){
+        #if there is no linked account, do everything to link account and enable patient-provider features
+
         #add patient's row to text log table
         $sql = "INSERT INTO textlog (patientId) VALUES ($patientId);";
+        $connection->query($sql);
+
+        #add patient's row to calendar table
+        $sql = "INSERT INTO calendar (patientid) VALUES ($id);";
         $connection->query($sql);
 
         #find next column in provider's row in linkedaccounts table where no value has been assigned yet
