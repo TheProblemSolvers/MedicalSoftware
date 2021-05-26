@@ -87,6 +87,41 @@ function getSqlLinkedAccount($patientId){
     return false;
 }
 
+#returns an array of all patients linked to provider
+function getAllLinked($providerId){
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
+
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    #grabs row data from provider's row in linkedaccounts table
+    $result = $connection->prepare("SELECT * FROM linkedaccounts WHERE providerid='$providerId'");
+    $result->execute();
+    $linkedAccounts = $result->fetch(PDO::FETCH_NUM);
+
+    #removes all null values from array and returns numerically indexed array of all patients
+    array_shift($linkedAccounts);
+    $length = count($linkedAccounts);
+    for($i = 0; $i < $length; $i++){
+        if($linkedAccounts[$i] == NULL){
+            unset($linkedAccounts[$i]);
+        }
+    }
+
+    #reindexes array after removing key/value pairs
+    $i = 0;
+    $accounts = NULL;
+    foreach($linkedAccounts as $patientId){
+        $accounts[$i] = $patientId;
+        $i++;
+    }
+
+    #return array of patients, otherwise NULL
+    return $accounts;
+}
+
 #gets user's email from allusers table
 function getEmail($id){
     #open config.ini.php file and get configuration
@@ -1127,5 +1162,20 @@ function getAppointmentDates($patientId){
     else{
         return $apptArray;
     }
-    
+}
+
+#gathers all appointment data for patients linked to a given provider
+function getAllAppts($providerId){
+    #compile list of all linked patients, if none are linked, return error
+    $patientIds = getAllLinked($providerId);
+    if($patientIds == NULL){
+        return NULL;
+    }
+
+    #for each patient, compile all appointments
+    foreach($patientIds as $patientId){
+        $allAppts[$patientId] = getAppointmentDates($patientId);
+    }
+    #return multidimenstional array w following syntax: array[patientId][apptNumber][apptDataType]
+    return $allAppts;
 }

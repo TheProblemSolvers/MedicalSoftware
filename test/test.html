@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>MySQL Query</title>
-    </head>
-    <body>
-        <button onclick="document.location='../index.html'">Back to Login</button><br><br>
-        <h1>MySQL Testing/Setup</h1><br>
-        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-            <label for="test">Enter characters: </label>
-            <input type="text" id="test" name="test">
-            <input type="submit" value="MySQL Query"><br><br>
-            <label for="reset">Reset Tables:</label>
-            <input type="radio" id="reset" name="reset" value="Reset Tables">
-            <label for="create">Create Tables:</label>
-            <input type="radio" id="create" name="reset" value="Create Tables">
-            <label for="noreset">Do nothing:</label>
-            <input type="radio" id="noreset" name="reset" value="No" checked>
-        </form><br><br>
-        <?php require("test.php");
+
+<head>
+    <title>MySQL Query</title>
+</head>
+
+<body>
+    <button onclick="document.location='../index.html'">Back to Login</button><br><br>
+    <h1>MySQL Testing/Setup</h1><br>
+    <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+        <label for="test">Enter characters: </label>
+        <input type="text" id="test" name="test">
+        <input type="submit" value="MySQL Query"><br><br>
+        <label for="reset">Reset Tables:</label>
+        <input type="radio" id="reset" name="reset" value="Reset Tables">
+        <label for="create">Create Tables:</label>
+        <input type="radio" id="create" name="reset" value="Create Tables">
+        <label for="noreset">Do nothing:</label>
+        <input type="radio" id="noreset" name="reset" value="No" checked>
+    </form><br><br>
+    <?php require("test.php");
+        require("../scripts.php");
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             if($_POST["reset"] == "Reset Tables"){
                 echo resetTables(true);
@@ -28,5 +31,6 @@
             echo sqlTest($_POST['test']);
         }
         ?><br><br>
-    </body>
+</body>
+
 </html>

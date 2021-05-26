@@ -83,10 +83,10 @@
 
                 <p id="testing"></p>
 
-                <?php $appointmentArray = getAppointmentDates($_COOKIE['userId']); ?>
+                <?php $appointmentsArray = getAllAppts($_COOKIE['userId']); ?>
 
                 <script type="text/javascript">
-                    var appointmentArray = << ? php echo json_encode($appointmentArray); ? > ;
+                    var appointmentsArray = << ? php echo json_encode($appointmentsArray); ? > ;
                 </script>
 
                 <!-- --------------------------data transfer testing---------------------------------- -->
