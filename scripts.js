@@ -173,7 +173,7 @@ let monthAndYear = document.getElementById("monthAndYear");
 
 //Function that creates calendar
 
-function printCalendar(month, year, appointmentsArray) {
+function printCalendar(month, year) {
 
     //Declarations of month data for later use
 
@@ -349,35 +349,35 @@ function printCalendar(month, year, appointmentsArray) {
 
                 // }
 
-                Array.from(appointmentsArray).forEach(patientId => {
+                // Array.from(appointmentsArray).forEach(patientId => {
 
-                    patientId.forEach(appointmentNumber => {
+                //     patientId.forEach(appointmentNumber => {
 
 
-                        let minute = appointmentNumber[0];
-                        let hour = appointmentNumber[1];
-                        let day = appointmentNumber[2];
+                //         let minute = appointmentNumber[0];
+                //         let hour = appointmentNumber[1];
+                //         let day = appointmentNumber[2];
 
-                        if (date == day) {
+                //         if (date == day) {
 
-                            if (hour > 12) {
+                //             if (hour > 12) {
 
-                                hour = hour - 12;
+                //                 hour = hour - 12;
 
-                            }
+                //             }
 
-                            apptTime = `${hour}:${minute}`;
-                            container.appendChild(document.createTextNode(apptTime));
-                            break;
+                //             apptTime = `${hour}:${minute}`;
+                //             container.appendChild(document.createTextNode(apptTime));
+                //             break;
 
-                        } else {
+                //         } else {
 
-                            cell.style.backgroundColor = "magenta"
-                        }
+                //             cell.style.backgroundColor = "magenta"
+                //         }
 
-                    })
+                //     })
 
-                });
+                // });
 
 
                 cell.appendChild(container);
