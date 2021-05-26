@@ -97,9 +97,11 @@ function getAllLinked($providerId){
     $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     #grabs row data from provider's row in linkedaccounts table
-    $result = $connection->prepare("SELECT * FROM linkedaccounts WHERE providerid='$providerId'");
+    $result = $connection->prepare("SELECT * FROM linkedaccounts WHERE providerId='$providerId'");
     $result->execute();
     $linkedAccounts = $result->fetch(PDO::FETCH_NUM);
+
+    #if no accounts have been linked, 
 
     #removes all null values from array and returns numerically indexed array of all patients
     array_shift($linkedAccounts);
@@ -1165,7 +1167,14 @@ function getAppointmentDates($patientId){
 }
 
 #gathers all appointment data for patients linked to a given provider
-function getAllAppts($providerId){
+function getAllAppts($userId){
+    #gathers necessary variables depending on whether patient id or provider id was passed
+    if(sqlUserType($userId) == 'patient'){
+        $providerId = getSqlLinkedAccount($userId);
+    } else {
+        $providerId = $userId;
+    }
+
     #compile list of all linked patients, if none are linked, return error
     $patientIds = getAllLinked($providerId);
     if($patientIds == NULL){

@@ -50,7 +50,7 @@
     <?php $appointmentsArray = getAllAppts($_COOKIE['userId']);?>
 
     <script type="text/javascript">
-        var appointmentsArray = << ? php echo json_encode($appointmentsArray); ? > ;
+        var appointmentsArray = <?php echo json_encode($appointmentsArray); ?>;
     </script>
 
     <!-- -------------------------- End of do not touch line ---------------------------------- -->
