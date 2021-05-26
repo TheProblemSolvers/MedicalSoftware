@@ -173,7 +173,7 @@ let monthAndYear = document.getElementById("monthAndYear");
 
 //Function that creates calendar
 
-function printCalendar(month, year, appointmentArray) {
+function printCalendar(month, year, appointmentsArray) {
 
     //Declarations of month data for later use
 
@@ -325,29 +325,60 @@ function printCalendar(month, year, appointmentArray) {
 
                 container.appendChild(document.createElement("br"));
 
-                for (let q = 0; q < appointmentArray.length; q++) {
+                // for (let q = 0; q < appointmentArray.length; q++) {
 
-                    if (date == appointmentArray[q][3]) {
+                //     if (date == appointmentArray[q][3]) {
 
-                        if (appointmentArray[q][2] > 12) {
+                //         if (appointmentArray[q][2] > 12) {
 
-                            appointmentArray[q][2] = appointmentArray[q][2] - 12;
+                //             appointmentArray[q][2] = appointmentArray[q][2] - 12;
 
+                //         }
+
+                //         apptTime = `${appointmentArray[q][2]}:${appointmentArray[q][1]}`;
+                //         container.appendChild(document.createTextNode(apptTime));
+                //         break;
+
+                //     } else if (q == appointmentArray.length - 1) {
+
+                //         // container.appendChild(document.createTextNode("M"));
+                //         cell.style.backgroundColor = "magenta"
+
+                //     }
+
+
+                // }
+
+                Array.from(appointmentsArray).forEach(patientId => {
+
+                    patientId.forEach(appointmentNumber => {
+
+
+                        let minute = appointmentNumber[0];
+                        let hour = appointmentNumber[1];
+                        let day = appointmentNumber[2];
+
+                        if (date == day) {
+
+                            if (hour > 12) {
+
+                                hour = hour - 12;
+
+                            }
+
+                            apptTime = `${hour}:${minute}`;
+                            container.appendChild(document.createTextNode(apptTime));
+                            break;
+
+                        } else {
+
+                            cell.style.backgroundColor = "magenta"
                         }
 
-                        apptTime = `${appointmentArray[q][2]}:${appointmentArray[q][1]}`;
-                        container.appendChild(document.createTextNode(apptTime));
-                        break;
+                    })
 
-                    } else if (q == appointmentArray.length - 1) {
+                });
 
-                        // container.appendChild(document.createTextNode("M"));
-                        cell.style.backgroundColor = "magenta"
-
-                    }
-
-
-                }
 
                 cell.appendChild(container);
 
