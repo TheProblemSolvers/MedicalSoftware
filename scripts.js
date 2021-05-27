@@ -170,10 +170,9 @@ let months = ["January", "February", "March", "April", "May", "June", "July", "A
 
 let monthAndYear = document.getElementById("monthAndYear");
 
-
 //Function that creates calendar
 
-function printCalendar(month, year) {
+function printCalendar(month, year, chungus) {
 
     //Declarations of month data for later use
 
@@ -325,60 +324,34 @@ function printCalendar(month, year) {
 
                 container.appendChild(document.createElement("br"));
 
-                // for (let q = 0; q < appointmentArray.length; q++) {
+                for (const patientId in chungus) {
 
-                //     if (date == appointmentArray[q][3]) {
+                    const value = chungus[patientId[0]]
 
-                //         if (appointmentArray[q][2] > 12) {
+                    for (let y = 0; y < 3; y++) {
 
-                //             appointmentArray[q][2] = appointmentArray[q][2] - 12;
+                        let minute = value[y][0];
+                        let hour = value[y][1];
+                        let day = value[y][2];
 
-                //         }
+                        if (date == day) {
 
-                //         apptTime = `${appointmentArray[q][2]}:${appointmentArray[q][1]}`;
-                //         container.appendChild(document.createTextNode(apptTime));
-                //         break;
+                            if (hour > 12) {
 
-                //     } else if (q == appointmentArray.length - 1) {
+                                hour = hour - 12;
 
-                //         // container.appendChild(document.createTextNode("M"));
-                //         cell.style.backgroundColor = "magenta"
+                            }
 
-                //     }
+                            apptTime = `${hour}:${minute}`;
+                            var thing = container.appendChild(document.createTextNode(apptTime));
+                            break;
 
+                        } else {
 
-                // }
-
-                // Array.from(appointmentsArray).forEach(patientId => {
-
-                //     patientId.forEach(appointmentNumber => {
-
-
-                //         let minute = appointmentNumber[0];
-                //         let hour = appointmentNumber[1];
-                //         let day = appointmentNumber[2];
-
-                //         if (date == day) {
-
-                //             if (hour > 12) {
-
-                //                 hour = hour - 12;
-
-                //             }
-
-                //             apptTime = `${hour}:${minute}`;
-                //             container.appendChild(document.createTextNode(apptTime));
-                //             break;
-
-                //         } else {
-
-                //             cell.style.backgroundColor = "magenta"
-                //         }
-
-                //     })
-
-                // });
-
+                            cell.style.backgroundColor = "magenta"
+                        }
+                    }
+                }
 
                 cell.appendChild(container);
 

@@ -51,7 +51,7 @@
     <?php $appointmentsArray = getAllAppts($_COOKIE['userId']);?>
 
     <script type="text/javascript">
-        var appointmentsArray = <?php echo json_encode($appointmentsArray); ?>;
+        var appointmentsArray = <?php echo json_encode($appointmentsArray);?>;
     </script>
 
     <!-- -------------------------- End of do not touch line ---------------------------------- -->
@@ -61,8 +61,6 @@
         <body onload="printCalendar(currentMonth, currentYear, appointmentsArray);"></body>
 
     </div>
-
-    <input type="button" onclick="showApp()">
 
     <button id="navBtn" onclick="shiftNav()">☰</button>
 
