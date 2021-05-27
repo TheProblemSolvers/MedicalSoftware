@@ -1143,8 +1143,8 @@ function getAppointmentDates($patientId){
         if($rowData[$i] != NULL){
             $apptData = explode("<<<", $rowData[$i]);
             $apptDate = explode("-", $apptData[0]);
-            $apptDay = $apptDate[1];
-            $apptMonth = $apptDate[2];
+            $apptDay = $apptDate[2];
+            $apptMonth = $apptDate[1];
             $apptYear = $apptDate[0];
     
             $apptTime = explode(":", $apptData[1]);
@@ -1186,5 +1186,5 @@ function getAllAppts($userId){
         $allAppts[$patientId] = getAppointmentDates($patientId);
     }
     #return multidimenstional array w following syntax: array[patientId][apptNumber][apptDataType]
-    return $allAppts;
+    return print_r($allAppts, true);
 }
