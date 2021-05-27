@@ -1,0 +1,106 @@
+.newUserDiv {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: #99CFEB;
+    border: 5px solid #458CD9;
+    border-radius: 5px;
+    box-shadow: 12px 12px 30px 5px grey;
+    padding: 15px;
+    height: 400px;
+}
+
+.greeting {
+    position: relative;
+    z-index: 5;
+    text-align: left;
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: white;
+}
+
+.leftInfo {
+    margin-left: 0%;
+    width: 35%;
+    float: left;
+}
+
+.rightInfo {
+    margin-right: 0%;
+    width: 35%;
+    float: right;
+}
+
+.username {
+    border-bottom: 5px solid white;
+    border-top: 5px solid white;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    background-color: white;
+    background-image: url("../icons/user-solid.svg");
+    background-size: 15px;
+    background-position: absolute;
+    background-position-x: 10px;
+    background-position-y: 50%;
+    background-repeat: no-repeat;
+    font-family: comfortaaStd;
+    padding-left: 50px;
+    width: 300px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.password {
+    border-bottom: 5px solid white;
+    border-top: 5px solid white;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    background-color: white;
+    background-image: url("../icons/lock-solid.svg");
+    background-size: 15px;
+    background-position: absolute;
+    background-position-x: 10px;
+    background-position-y: 50%;
+    background-repeat: no-repeat;
+    font-family: comfortaaStd;
+    padding-left: 50px;
+    width: 300px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.stdInput {
+    padding-left: 10px;
+    border-bottom: 5px solid white;
+    border-top: 5px solid white;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    background-color: white;
+    font-family: comfortaaStd;
+    width: 300px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.sliding-background {
+    background: url("../images/indexBackground.jpg") repeat;
+    height: 100%;
+    width: 5076px;
+    animation: slide 150s linear infinite;
+    position: fixed;
+}
+
+.container {
+    overflow: hidden;
+}
+
+@keyframes slide {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-1692px, 0, 0);
+    }
+}

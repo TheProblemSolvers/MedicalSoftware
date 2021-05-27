@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Software</title>
+    <link rel="stylesheet" type="text/css" href="style/css/universal-style.css">
+    <link rel="stylesheet" type="text/css" href="style/css/nav-content-footer.css">
+    <link rel="stylesheet" type="text/css" href="style/css/new-user.css">
+    <script src="scripts.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="sliding-background"></div>
+
+    </div>
+
+    <div id="navDiv" class="topnav">
+        <a href="index.html">Back to Login</a>
+    </div>
+    <button id="navBtn" onclick="shiftNav()">☰</button>
+
+
+
+    <div class="newUserDiv">
+        <div class="greeting">
+            <h1>Welcome, New User!</h1>
+            <p>Make a new account below:</p>
+        </div>
+
+        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+
+            <div class="leftInfo">
+                <input type="text" id="firstName" placeholder="First Name" class="stdInput" name="firstName" required><br><br>
+                <input type="text" id="middleName" placeholder="Middle Name" class="stdInput" name="middeName" value=""><br><br>
+                <input type="text" id="lastName" placeholder="Last Name" class="stdInput" name="lastName" required><br><br>
+                <input type="email" id="emailAddress" placeholder="Email" class="stdInput" name="emailAddress" required><br><br>
+            </div>
+
+            <div class="rightInfo">
+                <input type="text" name="newUsername" placeholder="Username" class="username" id="newUsername" required><br><br>
+                <input type="password" name="newPassword" placeholder="Password" class="password" id="newPassword" required><br><br>
+                <input type="date" name="dob" id="dob" required><br><br>
+                <input type="radio" id="provider" name="userType" value="provider" required>
+                <label for="provider">Provider</label><br>
+                <input type="radio" id="patient" name="userType" value="patient" required>
+                <label for="patient">Patient</label><br><br>
+            </div>
+
+            <input type="submit" value="Create New User"><br><br>
+
+        </form>
+
+        <?php
+                require("scripts.php");
+                if ($_SERVER["REQUEST_METHOD"] == "POST"){
+                    if(checkLength($_POST['newUsername']) || checkLength($_POST['newPassword']) == true){
+                        echo " Username and password must be at least 6 characters long.";
+                    }
+                    else{
+                        if(checkCharacters(trim($_POST['newUsername'])) == false || checkCharacters(trim($_POST['newPassword'])) == false){
+                            echo " Spaces are not allowed inside username or password.";
+                        }
+                        else{
+                            if(checkSqlDuplicates('credentials', 'username', $_POST['newUsername']) == true){
+                                echo " Username is already taken.";
+                            }
+                            else{
+                                $error = addNewUser($_POST['firstName'], $_POST['middleName'], $_POST['lastName'], $_POST['dob'],
+                                    $_POST['emailAddress'], $_POST['newUsername'], $_POST['newPassword'], $_POST['userType']);
+    
+                                if($error == true){
+                                    echo "Account successfully created!";
+                                    echo <<< EOT
+                                    <br><br><button onclick="document.location.href='index.html'">Return to Login</button>
+                                    EOT;
+                                
+                                }
+                                else{echo "An error has occured";}
+                            }
+                        }
+                    }
+                }
+                ?>
+
+    </div>
+</body>
+
+</html>

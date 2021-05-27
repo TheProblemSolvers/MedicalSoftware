@@ -4,15 +4,15 @@
     border-right-style: hidden;
     border-left-style: hidden;
     background-color: white;
-    background-image: url("user-solid.svg");
+    background-image: url("../icons/user-solid.svg");
     background-size: 30px;
     background-position: absolute;
     background-position-x: 10px;
     background-position-y: 50%;
     background-repeat: no-repeat;
     font-family: comfortaaStd;
-    border: 0px;
     padding-left: 50px;
+    border: 0px;
     width: 300px;
     height: 50px;
     border-radius: 5px;
@@ -24,15 +24,15 @@
     border-right-style: hidden;
     border-left-style: hidden;
     background-color: white;
-    background-image: url("lock-solid.svg");
+    background-image: url("../icons/lock-solid.svg");
     background-size: 30px;
     background-position: absolute;
     background-position-x: 10px;
     background-position-y: 50%;
     background-repeat: no-repeat;
     font-family: comfortaaStd;
-    border: 0px;
     padding-left: 50px;
+    border: 0px;
     width: 300px;
     height: 50px;
     border-radius: 5px;
@@ -120,8 +120,7 @@
 }
 
 .sliding-background {
-    margin-top: -8px;
-    background: url("indexBackground.jpg") repeat;
+    background: url("../images/indexBackground.jpg") repeat;
     height: 100%;
     width: 5076px;
     animation: slide 150s linear infinite;

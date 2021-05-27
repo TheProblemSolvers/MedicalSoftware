@@ -1186,5 +1186,5 @@ function getAllAppts($userId){
         $allAppts[$patientId] = getAppointmentDates($patientId);
     }
     #return multidimenstional array w following syntax: array[patientId][apptNumber][apptDataType]
-    return print_r($allAppts, true);
+    return $allAppts;
 }

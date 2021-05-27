@@ -27,8 +27,6 @@
 <br>
 <br>
 
-<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
-
 <?php 
             require("../scripts.php");
             if(getSqlLinkedAccount($_COOKIE['userId']) == false){
@@ -36,37 +34,28 @@
             }
         ?>
 
-<?php
-            if($_SERVER['REQUEST_METHOD'] == "POST"){
-                echo "<br>" . storeApptData($_COOKIE['userId'], $_POST['apptType'], $_POST['addInfo'], 
-                    $_POST['calInput'], $_POST['timeInput']);
-                //header("Refresh:0; url=#");
-            }
-        ?>
+<!-- --------------------------data transfer testing---------------------------------- -->
 
-    <!-- --------------------------data transfer testing---------------------------------- -->
+<p id="testing"></p>
 
-    <p id="testing"></p>
+<?php $appointmentsArray = getAllAppts($_COOKIE['userId']);?>
 
-    <?php $appointmentsArray = getAllAppts($_COOKIE['userId']);?>
+<script type="text/javascript">
+    var appointmentsArray = <?php echo json_encode($appointmentsArray);?>;
+</script>
 
-    <script type="text/javascript">
-        var appointmentsArray = <?php echo json_encode($appointmentsArray);?>;
-    </script>
+<!-- -------------------------- End of do not touch line ---------------------------------- -->
 
-    <!-- -------------------------- End of do not touch line ---------------------------------- -->
+<div class="content">
 
-    <div class="content">
+    <body onload="printCalendar(currentMonth, currentYear, appointmentsArray);"></body>
 
-        <body onload="printCalendar(currentMonth, currentYear, appointmentsArray);"></body>
+</div>
 
-    </div>
+<button id="navBtn" onclick="shiftNav()">☰</button>
 
-    <button id="navBtn" onclick="shiftNav()">☰</button>
-
-
-    <div class="footer">
-        <p>Contact Us at sigmund Froyyd@gmail.com </p>
-    </div>
+<div class="footer">
+    <p>Contact Us at sigmund Froyyd@gmail.com </p>
+</div>
 
 </html>
