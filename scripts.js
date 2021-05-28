@@ -126,7 +126,7 @@ function nextMonth() {
 
     currentMonth = (currentMonth + 1) % 12;
 
-    printCalendar(currentMonth, currentYear, appointmentArray);
+    printCalendar(currentMonth, currentYear, appointmentsArray);
 
 }
 
@@ -138,7 +138,7 @@ function previousMonth() {
 
     currentMonth = (currentMonth === 0) ? 11 : (currentMonth - 1) % 12;
 
-    printCalendar(currentMonth, currentYear, appointmentArray);
+    printCalendar(currentMonth, currentYear, appointmentsArray);
 
 }
 
