@@ -22,7 +22,7 @@
     <div id="navDiv" class="topnav">
         <a href="index.html">Back to Login</a>
     </div>
-    <button id="navBtn" onclick="shiftNav()">☰</button>
+    <button id="navBtn" onclick="shiftNav(true)">☰</button>
 
 
 
@@ -44,14 +44,22 @@
             <div class="rightInfo">
                 <input type="text" name="newUsername" placeholder="Username" class="username" id="newUsername" required><br><br>
                 <input type="password" name="newPassword" placeholder="Password" class="password" id="newPassword" required><br><br>
-                <input type="date" name="dob" id="dob" required><br><br>
-                <input type="radio" id="provider" name="userType" value="provider" required>
-                <label for="provider">Provider</label><br>
-                <input type="radio" id="patient" name="userType" value="patient" required>
-                <label for="patient">Patient</label><br><br>
-            </div>
 
-            <input type="submit" value="Create New User"><br><br>
+                <div class="smallLeft">
+                    <input type="date" class="stdInput" style="width:150px;" name="dob" id="dob" required><br><br>
+                </div>
+
+                <div class="smallRight">
+                    <input type="radio" id="provider" name="userType" value="provider" required>
+                    <label for="provider">Provider</label><br>
+                    <input class="smallInputs" type="radio" id="patient" name="userType" value="patient" required>
+                    <label for="patient">Patient</label><br><br>
+                </div>
+
+                <input class="submit" type="submit" value="Create New User"><br><br>
+
+
+            </div>
 
         </form>
 

@@ -2,35 +2,63 @@
     position: relative;
     z-index: 5;
     text-align: center;
-    margin-left: 5%;
-    margin-right: 5%;
-    background-color: #99CFEB;
-    border: 5px solid #458CD9;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    background-color: #99cfeb;
+    border: 5px solid #458cd9;
     border-radius: 5px;
     box-shadow: 12px 12px 30px 5px grey;
     padding: 15px;
-    height: 400px;
+    height: 360px;
+    width: 750px;
+    animation: appleBottomJeans 1.8s, fade-in 2.2s;
+    animation-fill-mode: forwards;
 }
 
 .greeting {
     position: relative;
     z-index: 5;
     text-align: left;
-    margin-left: 5%;
+    margin-left: 15px;
     margin-right: 5%;
-    background-color: white;
 }
 
 .leftInfo {
-    margin-left: 0%;
-    width: 35%;
+    width: 350px;
     float: left;
 }
 
 .rightInfo {
-    margin-right: 0%;
-    width: 35%;
+    width: 400px;
     float: right;
+}
+
+.smallLeft {
+    float: left;
+    margin-left: 3px;
+    width: 200px;
+}
+
+.smallRight {
+    text-align: left;
+    float: right;
+    width: 150px;
+}
+
+.submit {
+    font-family: comfortaaStd;
+    background-color: #ddd;
+    border: none;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    border-radius: 5px;
+    margin-top: 3px;
+    height: 42px;
+    width: 350px;
 }
 
 .username {
@@ -84,6 +112,27 @@
     border-radius: 5px;
 }
 
+.stdInput:focus {
+    border-bottom: 5px solid #FDC921;
+    border-top: 5px solid white;
+    height: 30px;
+    outline: none;
+}
+
+.username:focus {
+    border-bottom: 5px solid #FDC921;
+    border-top: 5px solid white;
+    height: 30px;
+    outline: none;
+}
+
+.password:focus {
+    border-bottom: 5px solid #FDC921;
+    border-top: 5px solid white;
+    height: 30px;
+    outline: none;
+}
+
 .sliding-background {
     background: url("../images/indexBackground.jpg") repeat;
     height: 100%;
@@ -102,5 +151,23 @@
     }
     100% {
         transform: translate3d(-1692px, 0, 0);
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes appleBottomJeans {
+    0% {
+        transform: translateY(-300px);
+    }
+    100% {
+        transform: translateY(0px);
     }
 }

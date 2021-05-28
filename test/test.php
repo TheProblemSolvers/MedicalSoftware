@@ -157,5 +157,5 @@ function sqlTest($browserInput){
 }
 
 function test($browserInput){
-    return getAllAppts($browserInput);
+    return "Call a function first";
 }

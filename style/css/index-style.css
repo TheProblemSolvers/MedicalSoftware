@@ -99,13 +99,12 @@
     margin-left: auto;
     margin-right: auto;
     width: 350px;
-    text-align: left;
 }
 
 .omega {
-    background-color: #6798C0;
-    border: 1px solid #084C61;
-    width: 27%;
+    background-color: #99cfeb;
+    border: 5px solid #458cd9;
+    width: 400px;
     margin-top: 10%;
     margin-right: auto;
     margin-left: auto;
