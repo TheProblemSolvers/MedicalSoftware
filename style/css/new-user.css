@@ -1,0 +1,196 @@
+/*---------------------------------Division Modifiers----------------------------------*/
+
+.newUserDiv {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    background-color: #99cfeb;
+    border: 5px solid #458cd9;
+    border-radius: 5px;
+    box-shadow: 12px 12px 30px 5px grey;
+    padding: 15px;
+    height: 375px;
+    width: 750px;
+    /* animation: appleBottomJeans 1.8s, fade-in 2.2s;
+    animation-fill-mode: forwards; */
+}
+
+.greeting {
+    position: relative;
+    z-index: 5;
+    text-align: left;
+    margin-left: 15px;
+    margin-right: 5%;
+}
+
+.leftInfo {
+    width: 350px;
+    float: left;
+}
+
+.rightInfo {
+    width: 400px;
+    float: right;
+}
+
+.smallLeft {
+    float: left;
+    margin-left: 3px;
+    width: 200px;
+}
+
+.smallRight {
+    text-align: left;
+    float: right;
+    width: 150px;
+}
+
+.returnMessage {
+    float: right;
+}
+
+
+/*---------------------------------Input Modifiers----------------------------------*/
+
+.submit {
+    font-family: comfortaaStd;
+    background-color: #ddd;
+    border: none;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    border-radius: 5px;
+    margin-top: 3px;
+    height: 42px;
+    width: 350px;
+}
+
+.username {
+    border-bottom: 5px solid white;
+    border-top: 5px solid white;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    background-color: white;
+    background-image: url("../icons/user-solid.svg");
+    background-size: 15px;
+    background-position: absolute;
+    background-position-x: 10px;
+    background-position-y: 50%;
+    background-repeat: no-repeat;
+    font-family: comfortaaStd;
+    padding-left: 50px;
+    width: 300px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.password {
+    border-bottom: 5px solid white;
+    border-top: 5px solid white;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    background-color: white;
+    background-image: url("../icons/lock-solid.svg");
+    background-size: 15px;
+    background-position: absolute;
+    background-position-x: 10px;
+    background-position-y: 50%;
+    background-repeat: no-repeat;
+    font-family: comfortaaStd;
+    padding-left: 50px;
+    width: 300px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.stdInput {
+    padding-left: 10px;
+    border-bottom: 5px solid white;
+    border-top: 5px solid white;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    background-color: white;
+    font-family: comfortaaStd;
+    width: 300px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.sliding-background {
+    background: url("../images/indexBackground.jpg") repeat;
+    height: 100%;
+    width: 5076px;
+    animation: slide 150s linear infinite;
+    position: fixed;
+}
+
+.container {
+    overflow: hidden;
+}
+
+
+/*---------------------------------Animation Modifiers----------------------------------*/
+
+.submit:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+.submit:active {
+    background-color: #c9dfeb;
+    box-shadow: 0 2px #666;
+    transform: translate(2px, 2px);
+}
+
+.stdInput:focus {
+    border-bottom: 5px solid #FDC921;
+    border-top: 5px solid white;
+    height: 30px;
+    outline: none;
+}
+
+.username:focus {
+    border-bottom: 5px solid #FDC921;
+    border-top: 5px solid white;
+    height: 30px;
+    outline: none;
+}
+
+.password:focus {
+    border-bottom: 5px solid #FDC921;
+    border-top: 5px solid white;
+    height: 30px;
+    outline: none;
+}
+
+@keyframes slide {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-1692px, 0, 0);
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes appleBottomJeans {
+    0% {
+        transform: translateY(-300px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}

@@ -156,36 +156,6 @@ function sqlTest($browserInput){
     return print_r($data, true);
 }
 
-function stdTest($browserInput){
-        #open config.ini.php file and get configuration
-        $ini = parse_ini_file("../config.ini.php");
-
-        #open connection to medicalsoftware database and set error mode to exception
-        $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
-        $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        #grabs row data from provider's row in linkedaccounts table
-        $result = $connection->prepare("SELECT * FROM linkedaccounts WHERE providerid=$browserInput");
-        $result->execute();
-        $linkedAccounts = $result->fetch(PDO::FETCH_NUM);
-
-        #removes all null values from array and returns numerically indexed array of all patients
-        array_shift($linkedAccounts);
-        $length = count($linkedAccounts);
-        for($i = 0; $i < $length; $i++){
-            if($linkedAccounts[$i] == NULL){
-                unset($linkedAccounts[$i]);
-            }
-        }
-
-        #reindexes array after removing key/value pairs
-        $i = 0;
-        $accounts = NULL;
-        foreach($linkedAccounts as $patientId){
-            $accounts[$i] = $patientId;
-            $i++;
-        }
-
-        #return array of patients, otherwise NULL
-        return $accounts;
+function test($browserInput){
+    return "Call a function first";
 }

@@ -4,15 +4,15 @@
     border-right-style: hidden;
     border-left-style: hidden;
     background-color: white;
-    background-image: url("user-solid.svg");
+    background-image: url("../icons/user-solid.svg");
     background-size: 30px;
     background-position: absolute;
     background-position-x: 10px;
     background-position-y: 50%;
     background-repeat: no-repeat;
     font-family: comfortaaStd;
-    border: 0px;
     padding-left: 50px;
+    border: 0px;
     width: 300px;
     height: 50px;
     border-radius: 5px;
@@ -24,15 +24,15 @@
     border-right-style: hidden;
     border-left-style: hidden;
     background-color: white;
-    background-image: url("lock-solid.svg");
+    background-image: url("../icons/lock-solid.svg");
     background-size: 30px;
     background-position: absolute;
     background-position-x: 10px;
     background-position-y: 50%;
     background-repeat: no-repeat;
     font-family: comfortaaStd;
-    border: 0px;
     padding-left: 50px;
+    border: 0px;
     width: 300px;
     height: 50px;
     border-radius: 5px;
@@ -72,9 +72,20 @@
 }
 
 .buttons:active {
-    background-color: #3e8e41;
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
+    background-color: #c9dfeb;
+    box-shadow: 0 2px #666;
+    transform: translate(2px, 2px);
+}
+
+.Sbuttons:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+.Sbuttons:active {
+    background-color: #c9dfeb;
+    box-shadow: 0 2px #666;
+    transform: translate(2px, 2px);
 }
 
 .Sbuttons {
@@ -99,13 +110,12 @@
     margin-left: auto;
     margin-right: auto;
     width: 350px;
-    text-align: left;
 }
 
 .omega {
-    background-color: #6798C0;
-    border: 1px solid #084C61;
-    width: 27%;
+    background-color: #99cfeb;
+    border: 5px solid #458cd9;
+    width: 400px;
     margin-top: 10%;
     margin-right: auto;
     margin-left: auto;
@@ -120,8 +130,7 @@
 }
 
 .sliding-background {
-    margin-top: -8px;
-    background: url("indexBackground.jpg") repeat;
+    background: url("../images/indexBackground.jpg") repeat;
     height: 100%;
     width: 5076px;
     animation: slide 150s linear infinite;
