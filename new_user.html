@@ -58,12 +58,7 @@
 
                 <input class="submit" type="submit" value="Create New User"><br><br>
 
-
-            </div>
-
-        </form>
-
-        <?php
+                <?php
                 require("scripts.php");
                 if ($_SERVER["REQUEST_METHOD"] == "POST"){
                     if(checkLength($_POST['newUsername']) || checkLength($_POST['newPassword']) == true){
@@ -94,6 +89,10 @@
                     }
                 }
                 ?>
+
+            </div>
+
+        </form>
 
     </div>
 </body>

@@ -72,9 +72,20 @@
 }
 
 .buttons:active {
-    background-color: #3e8e41;
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
+    background-color: #c9dfeb;
+    box-shadow: 0 2px #666;
+    transform: translate(2px, 2px);
+}
+
+.Sbuttons:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+.Sbuttons:active {
+    background-color: #c9dfeb;
+    box-shadow: 0 2px #666;
+    transform: translate(2px, 2px);
 }
 
 .Sbuttons {

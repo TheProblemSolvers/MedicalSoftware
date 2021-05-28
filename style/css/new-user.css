@@ -1,3 +1,5 @@
+/*---------------------------------Division Modifiers----------------------------------*/
+
 .newUserDiv {
     position: relative;
     z-index: 5;
@@ -10,10 +12,10 @@
     border-radius: 5px;
     box-shadow: 12px 12px 30px 5px grey;
     padding: 15px;
-    height: 360px;
+    height: 375px;
     width: 750px;
-    animation: appleBottomJeans 1.8s, fade-in 2.2s;
-    animation-fill-mode: forwards;
+    /* animation: appleBottomJeans 1.8s, fade-in 2.2s;
+    animation-fill-mode: forwards; */
 }
 
 .greeting {
@@ -45,6 +47,13 @@
     float: right;
     width: 150px;
 }
+
+.returnMessage {
+    float: right;
+}
+
+
+/*---------------------------------Input Modifiers----------------------------------*/
 
 .submit {
     font-family: comfortaaStd;
@@ -112,6 +121,32 @@
     border-radius: 5px;
 }
 
+.sliding-background {
+    background: url("../images/indexBackground.jpg") repeat;
+    height: 100%;
+    width: 5076px;
+    animation: slide 150s linear infinite;
+    position: fixed;
+}
+
+.container {
+    overflow: hidden;
+}
+
+
+/*---------------------------------Animation Modifiers----------------------------------*/
+
+.submit:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+.submit:active {
+    background-color: #c9dfeb;
+    box-shadow: 0 2px #666;
+    transform: translate(2px, 2px);
+}
+
 .stdInput:focus {
     border-bottom: 5px solid #FDC921;
     border-top: 5px solid white;
@@ -131,18 +166,6 @@
     border-top: 5px solid white;
     height: 30px;
     outline: none;
-}
-
-.sliding-background {
-    background: url("../images/indexBackground.jpg") repeat;
-    height: 100%;
-    width: 5076px;
-    animation: slide 150s linear infinite;
-    position: fixed;
-}
-
-.container {
-    overflow: hidden;
 }
 
 @keyframes slide {
