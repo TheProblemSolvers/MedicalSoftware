@@ -135,7 +135,7 @@
     background: url("../images/indexBackground.jpg") repeat;
     height: 100%;
     width: 5076px;
-    /* animation: slide 150s linear infinite; */
+    animation: slide 150s linear infinite;
     position: fixed;
 }
 
