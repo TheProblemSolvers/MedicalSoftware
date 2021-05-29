@@ -4,8 +4,9 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Software</title>
-    <link rel="stylesheet" type="text/css" href="../universal-style.css">
-    <link rel="stylesheet" type="text/css" href="../nav-content-footer.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/universal-style.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/nav-content-footer.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/text-log.css">
     <script src="../scripts.js"></script>
 </head>
 
@@ -20,16 +21,16 @@
         <a href="patient_accountSync.html">Account Syncing</a>
         <a href="patient_settings.html">Settings</a>
     </div>
-    <div class="content">
-        <style>
-            .patientText {
-                color: black;
-            }
-            
-            .providerText {
-                color: white;
-            }
-        </style>
+
+    <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()">☰</button>
+
+    <div class="container">
+
+        <div class="sliding-background"></div>
+
+    </div>
+
+    <div class="island">
         <h1>
             <?php require("../scripts.php"); echo userFullName($_COOKIE['userId']) . "'s Text Log";?>
         </h1><br>

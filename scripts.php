@@ -962,10 +962,10 @@ function displayTextLog($patientId, $userType){
 
         #compile text log if message string is present
         elseif($textData[0] == $patientId){
-            $html .= "<p id='patientText'>$patientTag $textData[1]</p>";
+            $html .= "<div class='patientMessage'><p class='patientTag'>$patientTag</p><p class='patientText'>$textData[1]</p></div>";
         }
         elseif($textData[0] == $providerId){
-            $html .= "<p id='providerText'>$providerTag $textData[1]</p>";
+            $html .= "<div class='providerMessage'><p class='providerTag'>$providerTag</p><p class='providerText'>$textData[1]</p></div>";
         }
     }
     #return completed html to browser

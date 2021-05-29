@@ -43,13 +43,14 @@
 
 <script type="text/javascript">
     var appointmentsArray = <?php echo json_encode($appointmentsArray);?>;
+    var userId = <?php echo $_COOKIE['userId'];?>;
 </script>
 
 <!-- -------------------------- End of do not touch line ---------------------------------- -->
 
 <div class="content">
 
-    <body onload="printCalendar(currentMonth, currentYear, appointmentsArray);"></body>
+    <body onload="printCalendar(currentMonth, currentYear, appointmentsArray, userId);"></body>
 
 </div>
 

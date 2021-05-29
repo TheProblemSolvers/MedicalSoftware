@@ -1,0 +1,79 @@
+/* --------------------------Page Apperance Modifiers------------------------------ */
+
+.island {
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #99cfeb;
+    border: 5px solid #458cd9;
+    border-radius: 5px;
+    width: 700px;
+    height: 350px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
+}
+
+.sliding-background {
+    background: url("../images/indexBackground.jpg") repeat;
+    height: 100%;
+    width: 5076px;
+    animation: slide 150s linear infinite;
+    position: fixed;
+}
+
+.container {
+    overflow: hidden;
+}
+
+
+/* --------------------------Text Division Modifiers------------------------------ */
+
+.patientMessage {
+    float: right;
+    text-align: left;
+    background-image: url("");
+    border: 5px solid black;
+    border-radius: 5px;
+    width: 500px;
+}
+
+.providerMessage {
+    float: left;
+    text-align: left;
+    background-color: aquamarine;
+    border: 5px solid black;
+    border-radius: 5px;
+    width: 500px;
+}
+
+
+/* --------------------------Text Tag Modifiers------------------------------ */
+
+.patientTag {
+    color: black;
+}
+
+.providerTag {
+    color: black;
+}
+
+.patientText {
+    color: black;
+}
+
+.providerText {
+    color: black;
+}
+
+
+/* --------------------------Animation Modifiers------------------------------ */
+
+@keyframes slide {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-1692px, 0, 0);
+    }
+}
