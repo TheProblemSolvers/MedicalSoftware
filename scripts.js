@@ -429,7 +429,7 @@ function shiftNav() {
 
         const navDiv = document.getElementById('navDiv');
         const navBtn = document.getElementById('navBtn');
-        navBtn.innerHTML = '☰';
+        navBtn.innerHTML = '<i class="fas fa-compress"></i>';
         navDiv.style.transition = "transform 0.5s ease-in-out"
         navDiv.style.transform = "translateY(-46px)";
 
@@ -443,7 +443,7 @@ function shiftNav() {
 
         const navDiv = document.getElementById('navDiv');
         const navBtn = document.getElementById('navBtn');
-        navBtn.innerHTML = '🗙';
+        navBtn.innerHTML = '<i class="fas fa-expand"></i>';
         navDiv.style.transform = "translateY(-0px)";
 
         const footDiv = document.getElementById('footer');
