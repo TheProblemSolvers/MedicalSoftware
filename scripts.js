@@ -324,17 +324,26 @@ function printCalendar(month, year, chungus) {
 
                 container.appendChild(document.createElement("br"));
 
+
                 for (const patientId in chungus) {
 
-                    const value = chungus[patientId[0]]
+                    const value = chungus[patientId]
 
-                    for (let y = 0; y < 3; y++) {
+                    if (!value) {
+                        break;
+                    }
+
+                    for (let y = 0; y < value.length; y++)
+
+                    {
 
                         let minute = value[y][0];
                         let hour = value[y][1];
-                        let day = value[y][2];
+                        let apptDay = value[y][2];
+                        let apptMonth = value[y][3];
+                        let apptYear = value[y][4];
 
-                        if (date == day) {
+                        if (date == apptDay) {
 
                             if (hour > 12) {
 
@@ -343,14 +352,22 @@ function printCalendar(month, year, chungus) {
                             }
 
                             apptTime = `${hour}:${minute}`;
-                            var thing = container.appendChild(document.createTextNode(apptTime));
+                            container.appendChild(document.createTextNode(apptTime));
                             break;
 
-                        } else {
-
-                            cell.style.backgroundColor = "magenta"
                         }
+
                     }
+
+                }
+
+                let containerContents = container.innerHTML;
+
+                if (!(containerContents.length > 6)) {
+
+                    cell.style.backgroundColor = "magenta";
+                    // container.appendChild(document.createTextNode(containerContents));
+
                 }
 
                 cell.appendChild(container);
