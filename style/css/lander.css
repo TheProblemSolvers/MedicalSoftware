@@ -1,0 +1,58 @@
+.island {
+    background-color: #99cfeb;
+    border: 5px solid #458cd9;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#landers {
+    background-color: yellow;
+    margin-left: auto;
+    margin-right: auto;
+    width: 65%;
+    border: solid thin;
+    border-collapse: collapse;
+    table-layout: fixed;
+    overflow: hidden;
+    margin-top: 125px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
+}
+
+#landHead {
+    font-size: x-large;
+}
+
+.content a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.content a:hover {
+    background-color: gold;
+}
+
+.container {
+    overflow: hidden;
+}
+
+.sliding-background {
+    background: url("../images/indexBackground.jpg") repeat;
+    height: 100%;
+    width: 5076px;
+    /* animation: slide 150s linear infinite; */
+    position: fixed;
+}
+
+@keyframes slide {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-1692px, 0, 0);
+    }
+}

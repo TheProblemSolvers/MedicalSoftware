@@ -72,14 +72,23 @@
                             if(checkSqlDuplicates('credentials', 'username', $_POST['newUsername']) == true){
                                 echo " Username is already taken.";
                             }
+                            elseif(checkSqlDuplicates('allusers', 'email', $_POST['emailAddress']) == true){
+                                echo " Email is already in use.";
+                            }
                             else{
-                                $error = addNewUser($_POST['firstName'], $_POST['middleName'], $_POST['lastName'], $_POST['dob'],
-                                    $_POST['emailAddress'], $_POST['newUsername'], $_POST['newPassword'], $_POST['userType']);
+                                if(isset($_POST['middleName']) == false){
+                                    $error = addNewUser($_POST['firstName'], NULL, $_POST['lastName'], $_POST['dob'],
+                                        $_POST['emailAddress'], $_POST['newUsername'], $_POST['newPassword'], $_POST['userType']);
+                                }
+                                else{
+                                    $error = addNewUser($_POST['firstName'], $_POST['middleName'], $_POST['lastName'], $_POST['dob'],
+                                        $_POST['emailAddress'], $_POST['newUsername'], $_POST['newPassword'], $_POST['userType']);
+                                }
     
                                 if($error == true){
-                                    echo "Account successfully created!";
+                                    echo "Account successfully created! ";
                                     echo <<< EOT
-                                    <br><br><button onclick="document.location.href='index.html'">Return to Login</button>
+                                    <button class="smallButton" onclick="document.location.href='index.html'">Return to Login</button>
                                     EOT;
                                 
                                 }

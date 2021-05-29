@@ -19,7 +19,7 @@
 #navDiv {
     transform: translateY(-46px);
     overflow: hidden;
-    background: #2980b9;
+    background: #3DA5D9;
     height: 40px;
     z-index: 0;
     position: relative;
@@ -40,7 +40,7 @@
 }
 
 .content {
-    background: linear-gradient(to bottom right, #6798C0, #084C61);
+    background: #FFF6D6;
     color: rgb(0, 0, 0);
     position: absolute;
     min-height: calc(100vh - 40px);

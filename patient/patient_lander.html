@@ -7,54 +7,64 @@
     <title>Medical Software</title>
     <link rel="stylesheet" type="text/css" href="../style/css/universal-style.css">
     <link rel="stylesheet" type="text/css" href="../style/css/nav-content-footer.css">
-    <link rel="stylesheet" type="text/css" href="../style/css/index-style.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/lander.css">
     <script src="../scripts.js"></script>
 </head>
 
 <body>
+
+
+    <div id="navDiv" class="topnav">
+        <a href="../index.html">Logout</a>
+    </div>
+
+    <button id="navBtn" onclick="shiftNav()">☰</button>
+
     <div class="content">
-        <h1>
-            <?php require("../scripts.php"); echo "Get Started, " . userFullName($_COOKIE['userId']);?>
-        </h1>
+        <div class="island">
+            <h1>
+                <?php require("../scripts.php"); echo "Get Started, " . userFullName($_COOKIE['userId']);?>
+            </h1>
 
-        <table id="landers">
-            <style>
-                table,
-                td {
-                    border: 1px solid black;
-                }
-            </style>
+            <table id="landers">
+                <style>
+                    table,
+                    td {
+                        border: 1px solid black;
+                    }
+                </style>
 
-            <thead>
-                <th id="landHead" colspan="2" scope="row">
-                    Directories
-                </th>
-            </thead>
+                <thead>
+                    <th id="landHead" colspan="2" scope="row">
+                        Directories
+                    </th>
+                </thead>
 
-            <tbody>
-                <tr>
-                    <!-- gotta replace all the ../index.html with the proper directory links (they're just placeholders) -->
-                    <td><a href="patient_calendar.html">Calendar</a></td>
-                    <td><a href="patient_textLog.html">Text Message</a></td>
-                </tr>
-                <tr>
-                    <td><a onclick="alert('This feature does not yet exist.')" href="#">Video Call</a></td>
-                    <td><a href="patient_app_scheduler.html">Schedule App.</a></td>
-                </tr>
-                <tr>
-                    <td><a href="patient_profile.html">My Profile</a></td>
-                    <td><a href="patient_checkin.html">Check In</a></td>
-                </tr>
-                <tr>
-                    <td><a href="patient_settings.html" href="#">Settings</a></td>
-                    <td><a href="patient_accountSync.html">Sync Accounts</a></td>
-                </tr>
-            </tbody>
-        </table>
+                <tbody>
+                    <tr>
+                        <!-- gotta replace all the ../index.html with the proper directory links (they're just placeholders) -->
+                        <td><a href="patient_calendar.html">Calendar</a></td>
+                        <td><a href="patient_textLog.html">Text Message</a></td>
+                    </tr>
+                    <tr>
+                        <td><a onclick="alert('This feature does not yet exist.')" href="#">Video Call</a></td>
+                        <td><a href="patient_app_scheduler.html">Schedule Appointment</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="patient_profile.html">My Profile</a></td>
+                        <td><a href="patient_checkin.html">Check In</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="patient_settings.html" href="#">Settings</a></td>
+                        <td><a href="patient_accountSync.html">Sync Accounts</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="footer">
-        <p>Contact Us at sigmund Froyyd@gmail.com </p>
+        <p>Contact us at pltwmedicalsoftware@gmail.com</p>
     </div>
 </body>
 

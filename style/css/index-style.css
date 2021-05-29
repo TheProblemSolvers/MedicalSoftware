@@ -113,16 +113,18 @@
 }
 
 .omega {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
     background-color: #99cfeb;
     border: 5px solid #458cd9;
     width: 400px;
-    margin-top: 10%;
-    margin-right: auto;
-    margin-left: auto;
     border-radius: 5px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
-    animation: appleBottomJeans 1.8s, fade-in 2.2s;
-    animation-fill-mode: forwards;
+    /* animation: appleBottomJeans 1.8s, fade-in 2.2s;
+    animation-fill-mode: forwards; */
 }
 
 .container {
@@ -133,7 +135,7 @@
     background: url("../images/indexBackground.jpg") repeat;
     height: 100%;
     width: 5076px;
-    animation: slide 150s linear infinite;
+    /* animation: slide 150s linear infinite; */
     position: fixed;
 }
 
