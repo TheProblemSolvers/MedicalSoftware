@@ -36,6 +36,16 @@
                 <br>
             </form>
 
+            <div class="secondaryButtons">
+                <br>
+                <button style="float:left; width:165px;" class="Sbuttons" onclick="location.href = 'new_user.html'">
+                        New User?</button>
+                <button style="float:right; width:165px;" class="Sbuttons" onclick="document.location='test/test.html'">
+                        MySQL</button>
+                <br>
+                <br>
+            </div>
+
             <?php
             require("scripts.php"); 
             if ($_SERVER["REQUEST_METHOD"] == "POST"){    
@@ -43,20 +53,11 @@
                 switch($authorization){
                     case 'patient': header("Location: patient/patient_lander.html"); break;
                     case 'provider': header("Location: provider/provider_lander.html"); break;
-                    default: echo "Username or password is incorrect.";
+                    default: echo "Username or password is incorrect.<br><br>";
                 }
             }
             ?>
 
-                <div class="secondaryButtons">
-                    <br>
-                    <button style="float:left; width:165px;" class="Sbuttons" onclick="location.href = 'new_user.html'">
-                        New User?</button>
-                    <button style="float:right; width:165px;" class="Sbuttons" onclick="document.location='test/test.html'">
-                        MySQL</button>
-                    <br>
-                    <br>
-                </div>
         </div>
 </body>
 

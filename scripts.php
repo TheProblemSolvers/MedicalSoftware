@@ -1075,11 +1075,12 @@ function storeApptData($patientId, $apptType, $addtlInfo, $date, $time){
     #get table column names and store in $columns variable
     $result = $connection->prepare(
         "SELECT
-            COLUMN_NAME
+            COLUMN_NAME, ORDINAL_POSITION, DATA_TYPE
         FROM
             INFORMATION_SCHEMA.COLUMNS
         WHERE
-            TABLE_NAME = 'calendar';
+            TABLE_NAME = 'calendar'                
+        ORDER BY 2;
     ");
     $result->execute();
     $columns = $result->fetchAll(PDO::FETCH_ASSOC);
