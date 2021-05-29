@@ -309,7 +309,7 @@ function printCalendar(month, year, chungus) {
 
                 var container = document.createElement("span");
 
-                let cellText = document.createTextNode(date);
+                let dateText = document.createTextNode(date);
 
 
                 if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
@@ -320,9 +320,13 @@ function printCalendar(month, year, chungus) {
 
 
 
-                container.appendChild(cellText);
+                container.appendChild(dateText);
 
                 container.appendChild(document.createElement("br"));
+
+                const apptInfo = document.createElement('span');
+
+                apptInfo.classList = "smallFont";
 
 
                 for (const patientId in chungus) {
@@ -343,16 +347,20 @@ function printCalendar(month, year, chungus) {
                         let apptMonth = value[y][3];
                         let apptYear = value[y][4];
 
-                        if (date == apptDay) {
+                        if (date == apptDay && apptMonth == currentMonth + 1 && apptYear == currentYear) {
 
                             if (hour > 12) {
 
                                 hour = hour - 12;
+                                var oClock = "PM";
 
+                            } else {
+                                var oClock = "AM";
                             }
 
-                            apptTime = `${hour}:${minute}`;
-                            container.appendChild(document.createTextNode(apptTime));
+                            apptTime = `Appointment at ${hour}:${minute} ${oClock}`;
+                            apptInfo.appendChild(document.createTextNode(apptTime));
+                            container.appendChild(apptInfo);
                             break;
 
                         }
@@ -365,8 +373,7 @@ function printCalendar(month, year, chungus) {
 
                 if (!(containerContents.length > 6)) {
 
-                    cell.style.backgroundColor = "magenta";
-                    // container.appendChild(document.createTextNode(containerContents));
+                    // cell.style.backgroundColor = "magenta";
 
                 }
 
@@ -422,17 +429,26 @@ function shiftNav() {
 
         const navDiv = document.getElementById('navDiv');
         const navBtn = document.getElementById('navBtn');
-        navBtn.innerHTML = '🗙';
+        navBtn.innerHTML = '☰';
         navDiv.style.transition = "transform 0.5s ease-in-out"
-        navDiv.style.transform = "translateY(0px)";
+        navDiv.style.transform = "translateY(-46px)";
+
+        const footDiv = document.getElementById('footer');
+        footDiv.style.transition = "transform 0.5s ease-in-out"
+        footDiv.style.transform = "translateY(46px)";
+
         x = true;
 
     } else {
 
         const navDiv = document.getElementById('navDiv');
         const navBtn = document.getElementById('navBtn');
-        navBtn.innerHTML = '☰';
-        navDiv.style.transform = "translateY(-46px)";
+        navBtn.innerHTML = '🗙';
+        navDiv.style.transform = "translateY(-0px)";
+
+        const footDiv = document.getElementById('footer');
+        footDiv.style.transform = "translateY(0px)";
+
         x = false;
 
     }
@@ -447,28 +463,9 @@ function appleBottomJeans() {
 
     Array.from(indexElements).forEach(function(singleElement) {
 
-        // randNum = Math.random() * 10;
-        // pixelNum = Math.random() * 1000;
         singleElement.style.transition = `transform 1s ease-in-out`;
         singleElement.style.transform = `translateY(25px)`;
 
     });
 
 }
-
-// async function appleBottomJeans2() {
-
-//   for (i = 0; i < 10; i++) {
-//     setTimeout(() => {
-//       appleBottomJeans();
-//     }, Math.random() * 10000);
-//   }
-
-// }
-
-// function fontChan() {
-
-
-//   document.getElementById('bodyChan').style.fontSize = '25px';
-
-// }

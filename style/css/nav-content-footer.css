@@ -52,7 +52,7 @@
     position: absolute;
 }
 
-.footer {
+#footer {
     background-color: #ddd;
     height: 40px;
     width: 100%;
