@@ -17,7 +17,7 @@
 }
 
 #navDiv {
-    transform: translateY(-46px);
+    /* transform: translateY(-46px); */
     overflow: hidden;
     background: #3DA5D9;
     height: 40px;

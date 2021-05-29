@@ -1,67 +1,69 @@
 <!DOCTYPE html>
+
 <html lang="en-US">
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Software</title>
-    <script src="../scripts.js"></script>
     <link rel="stylesheet" type="text/css" href="../style/css/universal-style.css">
     <link rel="stylesheet" type="text/css" href="../style/css/nav-content-footer.css">
-    <link rel="stylesheet" type="text/css" href="../style/css/index-style.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/lander.css">
+    <script src="../scripts.js"></script>
 </head>
 
 <body>
-    <div class="topnav">
-        <a href="../index.html">Logout</a>
-        <a href="provider_lander.html">Home</a>
-        <a href="provider_checkin.html">Check-In</a>
-        <a href="provider_calendar.html">Calender</a>
-        <a href="provider_addNewPatient.html">Add New Patient</a>
-        <a href="provider_database.html">Database</a>
-        <!-- <a href="provider_singlePatientView.html">Michael IDK</a> -->
+
+    <div class="container">
+
+        <div class="sliding-background"></div>
+
     </div>
 
-    <div class="content">
-        <div class="landerInfo">
+    <div id="navDiv" class="topnav">
+        <a href="../index.html">Logout</a>
+    </div>
+
+    <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()">☰</button>
+
+    <div class="island">
+
+        <div class="greeting">
             <h1>
-                <?php require("../scripts.php"); echo "Welcome, " . userFullName($_COOKIE['userId']) . "!";?>
+                <?php require("../scripts.php"); echo "Get Started, " . userFullName($_COOKIE['userId']);?>
             </h1>
-
-            <p>Get started:</p>
-
-            <table id="landers">
-                <style>
-                    table,
-                    td {
-                        border: 1px solid black;
-                    }
-                </style>
-                <thead>
-                    <tr>
-                        <th colspan="2" scope="row">Directories</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <!-- gotta replace all the onclick events with the proper directory links (they're just placeholders) -->
-                        <td><a href="provider_calendar.html">Calendar</a></td>
-                        <td><a href="provider_textLogMenu.html">Text Logs</a></td>
-                    </tr>
-                    <tr>
-                        <td><a onclick="alert('This feature does not yet exist.')" href="#">Video Call</a></td>
-                        <td><a onclick="alert('This feature does not yet exist.')" href="#">Schedule App.</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="provider_database.html">Database</a></td>
-                        <td><a onclick="alert('This feature does not yet exist.')" href="#">Options</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="provider_checkin.html">Who's Here?</a></td>
-                        <td><a onclick="alert('This feature does not yet exist.')" href="#">Settings</a></td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
+
+        <table class="lander">
+
+            <thead>
+                <th class="landHead" colspan="2" scope="row">
+                    Directories:
+                </th>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td><a title="" href="provider_calendar.html">Calendar</a></td>
+                    <td><a title="" href="provider_textLogMenu.html">Text Logs</a></td>
+                </tr>
+                <tr>
+                    <td><a onclick="alert('This feature does not yet exist.')" href="#">Video Call</a></td>
+                    <td><a onclick="alert('This feature does not yet exist.')" href="#">Schedule App.</a></td>
+                </tr>
+                <tr>
+                    <td><a title="" href="provider_database.html">Database</a></td>
+                    <td><a title="" href="provider_addNewPatient.html">Add New Patient</a></td>
+                </tr>
+                <tr>
+                    <td><a title="" href="provider_checkin.html ">Check-In Log</a></td>
+                    <td><a onclick="alert( 'This feature does not yet exist.') " href="# ">Settings</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer ">
+        <p>Contact us at pltwmedicalsoftware@gmail.com</p>
     </div>
 </body>
 
