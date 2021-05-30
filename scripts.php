@@ -962,10 +962,12 @@ function displayTextLog($patientId, $userType){
 
         #compile text log if message string is present
         elseif($textData[0] == $patientId){
-            $html .= "<div class='patientMessage'><p class='patientTag'>$patientTag</p><p class='patientText'>$textData[1]</p></div>";
+            $message = html_entity_decode($textData[1]);
+            $html .= "<div class='patientMessage'><p class='patientTag'>$patientTag</p><p class='patientText'>$message</p></div>";
         }
         elseif($textData[0] == $providerId){
-            $html .= "<div class='providerMessage'><p class='providerTag'>$providerTag</p><p class='providerText'>$textData[1]</p></div>";
+            $message = html_entity_decode($textData[1]);
+            $html .= "<div class='providerMessage'><p class='providerTag'>$providerTag</p><p class='providerText'>$message</p></div>";
         }
     }
     #return completed html to browser
@@ -1000,6 +1002,7 @@ function addTextMessage($patientId, $userId, $message){
     $columns = $result->fetchAll(PDO::FETCH_ASSOC);
 
     #format message properly
+    $message = htmlentities($message);
     $message = "$userId>$message";
 
     #finds column where data is NULL, replaces it with sender's id and message
