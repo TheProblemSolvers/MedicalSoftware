@@ -176,12 +176,30 @@ function printCalendar(month, year, ApptsArray, userId) {
 
     //Declarations of month data for later use
 
-
     let firstDay = (new Date(year, month)).getDay();
 
     let daysInMonth = 32 - new Date(year, month, 32).getDate();
 
     var monthName = months[month];
+
+    //creation of seperate array that stores included patient's ids in a numerically indexed array
+
+    var stringArray = JSON.stringify(ApptsArray);
+    var w = 0;
+    var numberOfKeys = Object.keys(ApptsArray).length;
+    var patientIdArray = new Array();
+
+    for (var z = 1; z <= Object.keys(ApptsArray).length + 1; z++) {
+        var searchPattern = `"${z}":`;
+        if (stringArray.search(searchPattern) != -1) {
+            patientIdArray[w] = z;
+            w++;
+        } else {
+            continue;
+        }
+    }
+
+    //var stringPatientId = JSON.stringify(patientIdArray);
 
     //Creation of the body, table, table body and top row for headers
 
@@ -329,45 +347,57 @@ function printCalendar(month, year, ApptsArray, userId) {
                 apptInfo.classList = "smallFont";
 
 
-                for (const patientId in ApptsArray) {
+                for (i = 0; i < patientIdArray.length; i++) {
 
-                    const value = ApptsArray[patientId];
+                    if (userId == patientIdArray[i]) {
 
-                    if (!value) {
-                        break;
-                    }
+                        const value = ApptsArray[patientIdArray[i]];
 
-                    for (let y = 0; y < value.length; y++)
-
-                    {
-
-                        let minute = value[y][0];
-                        let hour = value[y][1];
-                        let apptDay = value[y][2];
-                        let apptMonth = value[y][3];
-                        let apptYear = value[y][4];
-
-                        if (date == apptDay && apptMonth == currentMonth + 1 && apptYear == currentYear) {
-
-                            if (hour > 12) {
-
-                                hour = hour - 12;
-                                var oClock = "PM";
-
-                            } else {
-                                var oClock = "AM";
-                            }
-
-                            apptTime = `Appointment at ${hour}:${minute} ${oClock}`;
-                            apptInfo.appendChild(document.createTextNode(apptTime));
-                            container.appendChild(apptInfo);
+                        if (!value) {
                             break;
+                        }
+
+                        if (value == userId) {
+                            break;
+                        }
+
+                        for (let y = 0; y < value.length; y++)
+
+                        {
+
+                            let minute = value[y][0];
+                            let hour = value[y][1];
+                            let apptDay = value[y][2];
+                            let apptMonth = value[y][3];
+                            let apptYear = value[y][4];
+
+                            if (date == apptDay && apptMonth == currentMonth + 1 && apptYear == currentYear) {
+
+                                if (hour > 12) {
+
+                                    hour = hour - 12;
+                                    var oClock = "PM";
+
+                                } else {
+                                    var oClock = "AM";
+                                }
+
+                                apptTime = `Appointment at ${hour}:${minute} ${oClock}`;
+                                apptInfo.appendChild(document.createTextNode(apptTime));
+                                container.appendChild(apptInfo);
+                                break;
+
+                            }
 
                         }
 
+                    } else {
+                        continue;
                     }
-
                 }
+
+
+
 
                 let containerContents = container.innerHTML;
 
