@@ -12,6 +12,13 @@
 </head>
 
 <body>
+
+    <div class="container">
+
+        <div class="sliding-background"></div>
+
+    </div>
+
     <div id="navDiv" class="topnav">
         <a href="../index.html">Logout</a>
         <a href="patient_lander.html">Home</a>
@@ -25,31 +32,31 @@
 
     <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()"><i class="fas fa-expand"></i></button>
 
-    <div class="container">
-
-        <div class="sliding-background"></div>
-
-    </div>
-
     <div class="island">
         <h1>
             <?php require("../scripts.php"); echo userFullName($_COOKIE['userId']) . "'s Text Log";?>
-        </h1><br>
+        </h1>
 
-        <?php 
+        <div class="textLog">
+            <?php 
             if(getSqlLinkedAccount($_COOKIE['userId']) == false){
                 echo "Please link a provider's account to access this feature.";
             } else{
                 echo displayTextLog($_COOKIE['userId'], "patient");
             }
-        ?>
+            ?>
 
-        <br><br>
-        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-            <label for="textContents">Send Message:</label>
-            <input type="textarea" id="textContents" name="textContents" placeholder="Write message here...">
-            <input type="submit" value="Send">
-        </form>
+            <div class="textInput">
+                <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+                    <label for="textContents">Message:</label>
+                    <input type="textarea" id="textContents" name="textContents" placeholder="Write message here...">
+                    <input type="submit" id="sendMessage" value="Send">
+                </form>
+            </div>
+        </div>
+
+
+
         <?php 
 				if($_SERVER["REQUEST_METHOD"] == "POST"){
 					$returnVal = addTextMessage($_COOKIE['userId'], $_COOKIE['userId'], $_POST['textContents']);
@@ -64,9 +71,8 @@
 			?>
     </div>
 
-    <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()">🗙</button>
-
 </body>
+
 <div id="footer">
     <p>Contact us at pltwmedicalsoftware@gmail.com</p>
 </div>
