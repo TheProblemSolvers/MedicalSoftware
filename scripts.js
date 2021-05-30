@@ -126,7 +126,7 @@ function nextMonth() {
 
     currentMonth = (currentMonth + 1) % 12;
 
-    printCalendar(currentMonth, currentYear, appointmentsArray);
+    printCalendar(currentMonth, currentYear, appointmentsArray, userId);
 
 }
 
@@ -138,7 +138,7 @@ function previousMonth() {
 
     currentMonth = (currentMonth === 0) ? 11 : (currentMonth - 1) % 12;
 
-    printCalendar(currentMonth, currentYear, appointmentsArray);
+    printCalendar(currentMonth, currentYear, appointmentsArray, userId);
 
 }
 
@@ -172,7 +172,7 @@ let monthAndYear = document.getElementById("monthAndYear");
 
 //Function that creates calendar
 
-function printCalendar(month, year, chungus) {
+function printCalendar(month, year, ApptsArray, userId) {
 
     //Declarations of month data for later use
 
@@ -329,11 +329,16 @@ function printCalendar(month, year, chungus) {
                 apptInfo.classList = "smallFont";
 
 
-                for (const patientId in chungus) {
+                for (const patientId in ApptsArray) {
 
-                    const value = chungus[patientId]
+                    const value = ApptsArray[patientId];
+
 
                     if (!value) {
+                        break;
+                    }
+
+                    if (value == userId) {
                         break;
                     }
 
