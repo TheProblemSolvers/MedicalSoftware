@@ -333,12 +333,7 @@ function printCalendar(month, year, ApptsArray, userId) {
 
                     const value = ApptsArray[patientId];
 
-
                     if (!value) {
-                        break;
-                    }
-
-                    if (value == userId) {
                         break;
                     }
 
