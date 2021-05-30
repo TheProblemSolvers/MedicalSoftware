@@ -9,8 +9,9 @@
     display: inline-block;
     font-size: 16px;
     position: absolute;
-    right: 0px;
-    padding: 8px;
+    top: 46px;
+    right: 2px;
+    padding: 4px;
     width: auto;
     height: auto;
     transform: translateY(-40px);
