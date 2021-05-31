@@ -134,18 +134,6 @@
     border-radius: 5px;
 }
 
-.sliding-background {
-    background: url("../images/indexBackground.jpg") repeat;
-    height: 100%;
-    width: 5076px;
-    animation: slide 150s linear infinite;
-    position: fixed;
-}
-
-.container {
-    overflow: hidden;
-}
-
 
 /*---------------------------------Animation Modifiers----------------------------------*/
 
@@ -161,33 +149,24 @@
 }
 
 .stdInput:focus {
-    border-bottom: 5px solid #FDC921;
+    border-bottom: 5px solid #FEC601;
     border-top: 5px solid white;
     height: 30px;
     outline: none;
 }
 
 .username:focus {
-    border-bottom: 5px solid #FDC921;
+    border-bottom: 5px solid #FEC601;
     border-top: 5px solid white;
     height: 30px;
     outline: none;
 }
 
 .password:focus {
-    border-bottom: 5px solid #FDC921;
+    border-bottom: 5px solid #FEC601;
     border-top: 5px solid white;
     height: 30px;
     outline: none;
-}
-
-@keyframes slide {
-    0% {
-        transform: translate3d(0, 0, 0);
-    }
-    100% {
-        transform: translate3d(-1692px, 0, 0);
-    }
 }
 
 @keyframes fade-in {
