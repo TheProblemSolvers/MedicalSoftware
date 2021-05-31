@@ -970,6 +970,12 @@ function displayTextLog($patientId, $userType){
             $html .= "<div class='providerMessage'><p class='providerTag'>$providerTag</p><p class='providerText'>$message</p></div>";
         }
     }
+
+    if($html == NULL){
+        $message = "No text history found.";
+        return "<div class='patientMessage'><p class='patientText'>$message</p></div>";
+    }
+
     #return completed html to browser
     return $html;
 }
