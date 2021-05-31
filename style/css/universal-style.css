@@ -66,3 +66,22 @@ body {
         transform: translate3d(-1692px, 0, 0);
     }
 }
+
+#testtest1 {
+    background: url("../images/TestPicture.jpg");
+    animation: slidetotheright 2s;
+    animation-fill-mode: forwards;
+    z-index: 12;
+    position: relative;
+    height: 2000px;
+    width: 2000px;
+}
+
+@keyframes slidetotheright {
+    0% {
+        transform: translateX(-2000px);
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}

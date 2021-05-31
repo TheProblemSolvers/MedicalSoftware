@@ -357,10 +357,6 @@ function printCalendar(month, year, ApptsArray, userId) {
                             break;
                         }
 
-                        if (value == userId) {
-                            break;
-                        }
-
                         for (let y = 0; y < value.length; y++)
 
                         {
@@ -499,3 +495,20 @@ function appleBottomJeans() {
     });
 
 }
+
+let keysPressed = {};
+
+document.addEventListener('keydown', (event) => {
+
+    keysPressed[event.key] = true;
+
+    if (event.key == 'a') {
+        var chungus = document.getElementById('testtest');
+        chungus.id = 'testtest1';
+        // alert(event.key);
+    }
+});
+
+// document.addEventListener('keyup', (event) => {
+//     delete keysPressed[event.key];
+// });
