@@ -38,13 +38,13 @@
 .smallLeft {
     float: left;
     margin-left: 3px;
-    width: 200px;
+    width: 250px;
 }
 
 .smallRight {
     text-align: left;
     float: right;
-    width: 150px;
+    width: 125px;
 }
 
 .returnMessage {

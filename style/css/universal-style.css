@@ -1,3 +1,21 @@
+/*-------------------------------Standard color scheme----------------------------*/
+
+
+/* 
+
+#32292F Black coffee
+
+#99E1D9 Middle blue green
+
+#F0F7F4 Mint cream
+
+#70ABAF cadet blue
+
+#705D56 umber 
+
+*/
+
+
 /*-------------------------------Sets up standard fonts across all pages----------------------------*/
 
 @font-face {
@@ -23,4 +41,28 @@ body {
     font-family: comfortaaStd;
     text-align: center;
     margin: 0;
+}
+
+
+/*-------------------------------Background----------------------------*/
+
+.sliding-background {
+    background: url("../images/indexBackground.jpg") repeat;
+    height: 100%;
+    width: 5076px;
+    animation: slide 150s linear infinite;
+    position: fixed;
+}
+
+.container {
+    overflow: hidden;
+}
+
+@keyframes slide {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-1692px, 0, 0);
+    }
 }

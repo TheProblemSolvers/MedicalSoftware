@@ -4,12 +4,20 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Software</title>
-    <link rel="stylesheet" type="text/css" href="../universal-style.css">
-    <link rel="stylesheet" type="text/css" href="../nav-content-footer.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/universal-style.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/nav-content-footer.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/check-in.css">
     <script src="../scripts.js"></script>
 </head>
 
 <body>
+    <div class="container">
+
+        <div class="sliding-background"></div>
+
+    </div>
+
+
     <div id="navDiv" class="topnav">
         <a href="../index.html">Logout</a>
         <a href="patient_lander.html">Home</a>
@@ -20,14 +28,21 @@
         <a href="patient_accountSync.html">Account Syncing</a>
         <a href="patient_settings.html">Settings</a>
     </div>
-    <div class="content">
-        <h1>
-            <?php require("../scripts.php"); echo "Check In, " . userFullName($_COOKIE['userId']) . ".";?>
-        </h1>
-        <form method="POST" style="display:inline" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-            <p>Click Ready if you have arrived for your in-person appointment. If not, navigate back to the lander page.</p>
-            <input type="submit" id="checkIn" value="Ready">
-        </form>
+
+    <div class="island">
+        <div class="greeting">
+            <h1>
+                <?php require("../scripts.php"); echo "Check In, " . userFullName($_COOKIE['userId']) . ".";?>
+            </h1>
+        </div>
+
+        <div class="form">
+            <form method="POST" style="display:inline" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+                <p>Click Ready if you have arrived for your in-person appointment. If not, navigate back to the lander page.</p>
+                <input type="submit" id="checkIn" value="Ready">
+            </form>
+        </div>
+
         <?php
 			if($_SERVER["REQUEST_METHOD"] == "POST"){
 				$returnVal = patientCheckIn($_COOKIE["userId"]);

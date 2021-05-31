@@ -1,0 +1,15 @@
+.island {
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #BBE6E4;
+    border: 5px solid #42BFDD;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.greeting {
+    text-align: left;
+}
