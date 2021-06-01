@@ -41,29 +41,47 @@
 
         <div class="form">
             <form method="POST" id="form" style="display:inline" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>"></form>
-            <p>Click Ready if you have arrived for your in-person appointment. If not, navigate back to the lander page.</p>
             <div class="returnVal">
                 <?php
-                        if($_SERVER["REQUEST_METHOD"] == "POST"){
-                            $returnVal = patientCheckIn($_COOKIE["userId"]);
-                            if($returnVal == 1){
-                                echo "<p id='message'>Provider has been notified of your arrival.</p>";
-                                echo <<<EOT
-                                <button id="returnToLander" onclick="location.href='patient_lander.html'">Back to Lander</button>
-                                EOT;
-                                
-                            }
-                            else{
-                                echo "<p id='message'>$returnVal</p>";
-                                echo <<<EOT
-                                <button id='returnToLander' onclick="location.href = 'patient_lander.html'">Back to Lander</button>
-                                EOT;
-                            }
+                    $flag = true;
+                    if(getSqlLinkedAccount($_COOKIE['userId']) == false){
+                        echo "Please link to a provider's account to access this feature.<br>";
+                        $flag = false;
+                    }
+
+                    if($_SERVER["REQUEST_METHOD"] == "POST"){
+                        $returnVal = patientCheckIn($_COOKIE["userId"]);
+                        if($returnVal == 1){
+                            echo <<<EOT
+                            <p>Click Ready if you have arrived for your in-person appointment. If not, navigate back to the lander page.
+                            </p>
+                            EOT;
+                            echo "<p id='message'>Provider has been notified of your arrival.</p>";
+                            echo <<<EOT
+                            <button id="returnToLander" onclick="location.href='patient_lander.html'">Back to Lander</button>
+                            EOT;
+                            
                         }
                         else{
-                            echo '<input form="form" type="submit" id="checkIn" value="Ready">';
+                            echo <<<EOT
+                            <p>Click Ready if you have arrived for your in-person appointment. If not, navigate back to the lander page.
+                            </p>
+                            EOT;
+                            echo "<p id='message'>$returnVal</p>";
+                            echo <<<EOT
+                            <button id='returnToLander' onclick="location.href = 'patient_lander.html'">Back to Lander</button>
+                            EOT;
                         }
-                    ?>
+                    }
+                    else{
+                        if($flag == true){
+                            echo <<<EOT
+                            <p>Click Ready if you have arrived for your in-person appointment. If not, navigate back to the lander page.
+                            </p><br><input form="form" type="submit" id="checkIn" value="Ready">
+                            EOT;
+                        }                       
+                    }
+                ?>
 
 
             </div>

@@ -699,7 +699,7 @@ function patientCheckIn($patientId){
     $providerId = getSqlLinkedAccount($patientId);
 
     #return an error if no linked account is found
-    if($providerId = false){
+    if($providerId == false){
         return "No linked provider account";
     }
 
