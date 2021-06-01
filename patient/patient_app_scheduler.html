@@ -5,49 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Software</title>
     <script src="../scripts.js"></script>
-    <link rel="stylesheet" type="text/css" href="../universal-style.css">
-    <link rel="stylesheet" type="text/css" href="../nav-content-footer.css">
-    <link rel="stylesheet" type="text/css" href="../calendar-style.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/universal-style.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/nav-content-footer.css">
+
+    <link rel="stylesheet" type="text/css" href="../style/css/appointment.css">
+
     <script src="https://kit.fontawesome.com/bca8145492.js" crossorigin="anonymous"></script>
 </head>
 
-<body id="filler">
+<div class="container">
+    <div class="sliding-background"></div>
+</div>
 
-    <div id="navDiv" class="topnav">
-        <a href="../index.html">Logout</a>
-        <a href="patient_lander.html">Home</a>
-        <a href="patient_checkin.html">Check-In</a>
-        <a href="patient_textLog.html">Text Log</a>
-        <a href="patient_calendar.html">Calender</a>
-        <a href="patient_app_scheduler.html">Scheduler</a>
-        <a href="patient_profile.html">Your Profile</a>
-        <a href="patient_accountSync.html">Account Syncing</a>
-        <a href="patient_settings.html">Settings</a>
+<div id="navDiv" class="topnav">
+    <a href="../index.html">Logout</a>
+    <a href="patient_lander.html">Home</a>
+    <a href="patient_checkin.html">Check-In</a>
+    <a href="patient_textLog.html">Text Log</a>
+    <a href="patient_calendar.html">Calender</a>
+    <a href="patient_app_scheduler.html">Scheduler</a>
+    <a href="patient_profile.html">Your Profile</a>
+    <a href="patient_accountSync.html">Account Syncing</a>
+    <a href="patient_settings.html">Settings</a>
+</div>
+
+<button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()"><i class="fas fa-expand"></i></button>
+
+<div class="island">
+
+    <div class="greeting">
+        <h1 id="patientCalendarHeader">Appointment Scheduling</h1>
     </div>
 
-    <section class="content">
+    <div class="schedule">
 
-        <h1 id="patientCalendarHeader">Appointment Scheduling</h1>
+        <?php 
+                require("../scripts.php");
+                if(getSqlLinkedAccount($_COOKIE['userId']) == false){
+                    echo "<p class='errorMessage'>No provider account linked. <br>Please link a providers account to continue.</p>";
+                }
+            ?>
 
-        <div id="appointment">
+        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
 
-            <?php 
-            require("../scripts.php");
-            if(getSqlLinkedAccount($_COOKIE['userId']) == false){
-                echo "<p class='errorMessage'>No provider account linked. <br>Please link a providers account to continue.</p>";
-            }
-        ?>
+            <label><em>Is This an Emergency?</em></label><br><br>
+            <input type="button" onclick="emergencyButton('Yes');" value="Yes">
+            <input type="button" onclick="emergencyButton('No');" value="No">
+            <p id="emergency" style="color: red;"></p>
 
-            <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+            <label for="Appointment Type"><em>Appointment Type:</em></label><br><br>
 
-                <label><em>Is This an Emergency?</em></label><br><br>
-                <input type="button" onclick="emergencyButton('Yes');" value="Yes">
-                <input type="button" onclick="emergencyButton('No');" value="No">
-                <p id="emergency" style="color: red;"></p>
-
-                <label for="Appointment Type"><em>Appointment Type:</em></label><br><br>
-
-                <select name="apptType" list="Appointment Types" value="Appointment Type" id="appType">
+            <select name="apptType" list="Appointment Types" value="Appointment Type" id="appType">
                     <option value="Well Visit">Well Visit</option>
                     <option value="Office Visit">Office Visit</option>
                     <option value="Physical">Physical</option>
@@ -56,66 +64,52 @@
                     <option value="Healthcare Visit">Healthcare Visit</option>
                 </select><br><br>
 
-                <!-- Input for selecting a time -->
-                <label for="timeInput">Appointment Time</label><br><br>
-                <input type="time" name="timeInput" id="timeInput" min="07:00:00" max="17:30:00" step="1800" required><br><br>
+            <!-- Input for selecting a time -->
+            <label for="timeInput">Appointment Time</label><br><br>
+            <input type="time" name="timeInput" id="timeInput" min="07:00:00" max="17:30:00" step="1800" required><br><br>
 
-                <!-- Input for selecting a date -->
-                <label for="calInput">Appointment Date</label><br><br>
-                <input type="date" name="calInput" id="calInput" required><br><br>
+            <!-- Input for selecting a date -->
+            <label for="calInput">Appointment Date</label><br><br>
+            <input type="date" name="calInput" id="calInput" required><br><br>
 
-                <!-- Input for adding text to cell -->
-                <label for="addInfo">Additional Information</label><br><br>
-                <input type="text" name="addInfo" id="addInfo" value="N/A" required><br><br>
+            <!-- Input for adding text to cell -->
+            <label for="addInfo">Additional Information</label><br><br>
+            <input type="text" name="addInfo" id="addInfo" value="N/A" required><br><br>
 
-                <!-- Function call for date input -->
-                <input type="submit" value="Schedule Appointment">
+            <!-- Function call for date input -->
+            <input type="submit" value="Schedule Appointment">
 
-            </form>
+        </form>
 
-            <?php
-            if($_SERVER['REQUEST_METHOD'] == "POST"){
-                echo "<br>" . storeApptData($_COOKIE['userId'], $_POST['apptType'], $_POST['addInfo'], 
-                    $_POST['calInput'], $_POST['timeInput']);
-                //header("Refresh:0; url=#");
-            }
-        ?>
+        <?php
+                if($_SERVER['REQUEST_METHOD'] == "POST"){
+                    echo "<br>" . storeApptData($_COOKIE['userId'], $_POST['apptType'], $_POST['addInfo'], 
+                        $_POST['calInput'], $_POST['timeInput']);
+                }
+                $appointmentsArray = getAllAppts($_COOKIE['userId']);
+            ?>
 
-                <!-- --------------------------data transfer testing---------------------------------- -->
+            <script type="text/javascript">
+                var appointmentsArray = <?php echo json_encode($appointmentsArray); ?>;
+                var userId = <?php echo $_COOKIE['userId']; ?>;
+            </script>
 
-                <p id="testing"></p>
-
-                <?php $appointmentsArray = getAllAppts($_COOKIE['userId']); ?>
-
-                <script type="text/javascript">
-                    var appointmentsArray = <?php echo json_encode($appointmentsArray); ?>;
-                </script>
-
-                <!-- --------------------------data transfer testing---------------------------------- -->
-                <br>
-
-                <style>
-                    #calendars {
-                        width: 65%;
-                        margin-left: 30%;
-                    }
-                </style>
-        </div>
-
-        <div>
-
-            <body id="" onload="printCalendar(currentMonth, currentYear, appointmentArray)"></body>
-        </div>
-
-    </section>
-
-    <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()">🗙</button>
-
-
-    <div id="footer">
-        <p>Contact us at pltwmedicalsoftware@gmail.com</p>
+            <style>
+                #calendars {
+                    width: 65%;
+                    margin-left: 30%;
+                }
+            </style>
     </div>
+</div>
 
-</body>
+<div class="calendar">
+
+    <body onload="printCalendar(currentMonth, currentYear, appointmentsArray, userId)"></body>
+</div>
+
+<div id="footer">
+    <p>Contact us at pltwmedicalsoftware@gmail.com</p>
+</div>
 
 </html>

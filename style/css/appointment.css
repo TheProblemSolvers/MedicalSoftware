@@ -1,0 +1,122 @@
+/*-------------------------------Divison Modifiers----------------------------*/
+
+.island {
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #99cfeb;
+    border: 5px solid #458cd9;
+    border-radius: 5px;
+    padding: 30px;
+    padding-top: 0px;
+    padding-bottom: 50px;
+    width: 90%;
+}
+
+.schedule {
+    float: left;
+    width: 20%;
+}
+
+
+/*-------------------------------Calendar Modifiers----------------------------*/
+
+#calendars {
+    position: absolute;
+    z-index: 5;
+    top: 20%;
+    left: 0%;
+    width: 90%;
+    height: 75%;
+    border: 1px solid black;
+    border-radius: 10px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-family: comfortaaStd;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
+}
+
+
+/* code for arrows */
+
+.arrow {
+    border: solid #458cd9;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+}
+
+
+/* code for left header arrow */
+
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+
+/* Centers both header arrows */
+
+#arrowRightHeader,
+#arrowLeftHeader {
+    text-align: center;
+}
+
+
+/* code for right header arrow */
+
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+th.calendarHeader {
+    /* border-bottom: 1px solid black;
+    border-top: 1px solid black; */
+    background-color: #458cd9;
+    font-size: 300%;
+    text-align: center;
+    color: white;
+}
+
+
+/* applies border and text alignment to table datas */
+
+td.calendarData {
+    border: 1px solid black;
+    font-size: x-large;
+    text-align: left;
+    vertical-align: top;
+    color: #458cd9;
+}
+
+
+/* applies font-size and elimination of white space */
+
+th.calendarHeader,
+td.calendarData {
+    padding: 12px 15px;
+}
+
+tr.calendarRow:nth-of-type(even) {
+    background-color: #dbdbdb;
+}
+
+tr.calendarRow {
+    background-color: white;
+}
+
+
+/* tr:last-of-type {
+ 
+    border-bottom: 20px solid #2980b9; 
+ 
+    } */
+
+.smallFont {
+    font-size: 12px;
+    color: brown;
+}
