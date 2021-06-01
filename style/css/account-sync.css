@@ -1,0 +1,49 @@
+/* ------------------------------------Division Modifiers------------------------------- */
+
+.island {
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #99cfeb;
+    border: 5px solid #458cd9;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+
+/* ------------------------------------Input Modifiers------------------------------- */
+
+.submit {
+    font-family: comfortaaStd;
+    background-color: #ddd;
+    border: 1px solid black;
+    border-radius: 5px;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    height: 25px;
+}
+
+.input {
+    font-family: comfortaaStd;
+    width: 80px;
+    font-size: 16px;
+}
+
+
+/* ------------------------------------Animation Modifiers------------------------------- */
+
+.submit:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+.submit:active {
+    background-color: #c9dfeb;
+    box-shadow: 0 2px #666;
+    transform: translate(2px, 2px);
+}
