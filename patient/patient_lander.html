@@ -26,26 +26,20 @@
 
     </div>
 
-    <div class="idNumber">
-        <?php 
-                require("../scripts.php");
-                echo  "ID:" . $_COOKIE['userId'];
-            ?>
-    </div>
-
-    <div class="greeting">
-        <h1>
-            <?php echo "Get Started, " . userFullName($_COOKIE['userId']);?>
-        </h1>
-    </div>
-
     <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()"><i class="fas fa-expand"></i></button>
 
     <div class="island">
 
+        <div class="idNumber">
+            <?php 
+                    require("../scripts.php");
+                    echo  "ID:" . $_COOKIE['userId'];
+                ?>
+        </div>
+
         <div class="greeting">
             <h1>
-                <?php require("../scripts.php"); echo "Get Started, " . userFullName($_COOKIE['userId']);?>
+                <?php echo "Get Started, " . userFullName($_COOKIE['userId']);?>
             </h1>
         </div>
 
