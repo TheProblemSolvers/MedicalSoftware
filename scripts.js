@@ -503,9 +503,21 @@ document.addEventListener('keydown', (event) => {
     keysPressed[event.key] = true;
 
     if (event.key == 'a') {
-        var chungus = document.getElementById('testtest');
-        chungus.id = 'testtest1';
-        // alert(event.key);
+        // var chungus = document.getElementById('testtest');
+        // chungus.id = 'testtest1';
+
+        function changeFontSize(fontvar) {
+            var div = document.getElementById("mega");
+            var currentFont = div.style.fontSize.replace("px", "");
+
+            // div.style.fontSize = parseInt(currentFont) + parseInt(fontvar) + "px";
+
+            currentFont = currentFont + fontvar;
+
+            div.style.fontSize = `${currentFont}px`
+        }
+
+        changeFontSize(2);
     }
 });
 
