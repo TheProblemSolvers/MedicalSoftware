@@ -17,68 +17,83 @@
     <div id="mega">
 
         <div class="container">
-
             <div class="sliding-background"></div>
-
         </div>
 
         <div id="navDiv" class="topnav">
             <a href="../index.html">Logout</a>
         </div>
 
-        <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()"><i class="fas fa-expand"></i></button>
+    </div>
 
-        <div class="island">
+    <div class="idNumber">
+        <?php 
+                require("../scripts.php");
+                echo  "ID:" . $_COOKIE['userId'];
+            ?>
+    </div>
 
-            <div class="greeting">
-                <h1>
-                    <?php require("../scripts.php"); echo "Get Started, " . userFullName($_COOKIE['userId']);?>
-                </h1>
-            </div>
+    <div class="greeting">
+        <h1>
+            <?php echo "Get Started, " . userFullName($_COOKIE['userId']);?>
+        </h1>
+    </div>
 
-            <table class="lander">
+    <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()"><i class="fas fa-expand"></i></button>
 
-                <thead>
-                    <th class="landHead" colspan="2" scope="row">
-                        Directories
-                    </th>
-                </thead>
+    <div class="island">
 
-                <tbody>
-                    <tr>
-                        <td><a title="View all of your scheduled appointments and visits" href="patient_calendar.html">Calendar</a></td>
-                        <td><a title="Enter text chat session with your healthcare provider" href="patient_textLog.html">Text Message</a></td>
-                    </tr>
-                    <tr>
-                        <td><a onclick="alert('This feature does not yet exist.')" href="#">Video Call</a></td>
-                        <td><a title="Schedule an appointment with your healthcare provider" href="patient_app_scheduler.html">Schedule Appointment</a></td>
-                    </tr>
-                    <tr>
-                        <td><a title="View your profile information, set up by your healthcare provider" href="patient_profile.html">My Profile</a></td>
-                        <td><a title="Let your healthcare provider know you have arrived for your appointment" href="patient_checkin.html">Remote Check In</a></td>
-                    </tr>
-                    <tr>
-                        <td><a title="Edit your profile information, personal preferences, and more" href="patient_settings.html" href="#">Settings</a></td>
-                        <td><a title="Link your account to a healthcare provider, which enables additional features" href="patient_accountSync.html">Link to Provider</a></td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="greeting">
+            <h1>
+                <?php require("../scripts.php"); echo "Get Started, " . userFullName($_COOKIE['userId']);?>
+            </h1>
+        </div>
 
-            <?php
+        <table class="lander">
+
+            <thead>
+                <th class="landHead" colspan="2" scope="row">
+                    Directories
+                </th>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td><a title="View all of your scheduled appointments and visits" href="patient_calendar.html">Calendar</a></td>
+                    <td><a title="Enter text chat session with your healthcare provider" href="patient_textLog.html">Text Message</a></td>
+                </tr>
+                <tr>
+                    <td><a onclick="alert('This feature does not yet exist.')" href="#">Video Call</a></td>
+                    <td><a title="Schedule an appointment with your healthcare provider" href="patient_app_scheduler.html">Schedule Appointment</a></td>
+                </tr>
+                <tr>
+                    <td><a title="View your profile information, set up by your healthcare provider" href="patient_profile.html">My Profile</a></td>
+                    <td><a title="Let your healthcare provider know you have arrived for your appointment" href="patient_checkin.html">Remote Check In</a></td>
+                </tr>
+                <tr>
+                    <td><a title="Edit your profile information, personal preferences, and more" href="patient_settings.html" href="#">Settings</a></td>
+                    <td><a title="Link your account to a healthcare provider, which enables additional features" href="patient_accountSync.html">Link to Provider</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <?php
         if(getSqlLinkedAccount($_COOKIE['userId']) == false){
             echo "<p class='errorMessage'>No provider account linked. Please link a provider's account to access all features.
                 </p><br><br>";
         }
         ?>
 
-        </div>
+    </div>
 
-        <div id="footer">
-            <p>Contact us at pltwmedicalsoftware@gmail.com</p>
-        </div>
+    <div id="footer">
+        <p>Contact us at pltwmedicalsoftware@gmail.com</p>
+    </div>
 
-        <div id="testtest">
-        </div>
+    <div id="testtest">
+    </div>
+    </div>
+
     </div>
 </body>
 

@@ -4,52 +4,87 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Software</title>
-    <link rel="stylesheet" type="text/css" href="../universal-style.css">
-    <link rel="stylesheet" type="text/css" href="../nav-content-footer.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/universal-style.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/nav-content-footer.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/account-sync.css">
+    <script src="https://kit.fontawesome.com/bca8145492.js" crossorigin="anonymous"></script>
     <script src="../scripts.js"></script>
 </head>
 
 <body>
+
+    <div class="container">
+        <div class="sliding-background"></div>
+    </div>
+
     <div id="navDiv" class="topnav">
         <a href="../index.html">Logout</a>
         <a href="patient_lander.html">Home</a>
         <a href="patient_checkin.html">Check-In</a>
+        <a href="patient_textLog.html">Text Log</a>
         <a href="patient_calendar.html">Calender</a>
         <a href="patient_app_scheduler.html">Scheduler</a>
         <a href="patient_profile.html">Your Profile</a>
         <a href="patient_accountSync.html">Account Syncing</a>
         <a href="patient_settings.html">Settings</a>
     </div>
-    <div class="content">
-        <h1>
-            <?php require("../scripts.php"); echo "Welcome, " . userFullName($_COOKIE['userId']) . "!";?>
-        </h1>
-        <p>Sync to a provider's account below:</p>
-        <p>
-            <?php echo "Your unique user ID: " . $_COOKIE['userId'];?>
-        </p>
-        <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-            <label for="providerId">Provider's ID:</label>
-            <input type="text" id="providerId" name="providerId">
-            <input type="submit" value="Sync Account">
-        </form>
-        <?php 
-		if($_SERVER["REQUEST_METHOD"] == "POST"){
-			$returnValue = linkToProvider($_COOKIE['userId'], $_POST['providerId']);
-			if($returnValue == 1){
-				header("Location: patient_lander.html");
-			}
-			else{echo $returnValue;}
-		}
-	?>
+
+    <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()"><i class="fas fa-expand"></i></button>
+
+    <div class="island">
+        <div class="greeting">
+            <h1>
+                <?php require("../scripts.php"); echo "Welcome, " . userFullName($_COOKIE['userId']) . "!";?>
+            </h1>
+        </div>
+
+        <div class="info">
+            <p>Sync to a provider's account below:</p>
+            <p>
+                <?php 
+                    echo "<b>Your unique user ID: </b>" . $_COOKIE['userId'];
+                    $providerId = getSqlLinkedAccount($_COOKIE['userId']);
+                    if($providerId != false){
+                        echo "<br><br>Currently linked to " . userFullName($providerId) . "'s account. " . 
+                            "(ID: " . $providerId . ")";
+                    }
+                    else{
+                        echo "<br><br>Not currently linked to a provider account";
+                    }
+                
+                ?>
+            </p>
+        </div>
+
+        <div class="form">
+            <form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+                <label for="providerId">Provider's ID:</label>
+                <input class="input" type="number" id="providerId" name="providerId">
+                <input class="submit" type="submit" value="Sync Account">
+            </form>
+        </div>
+
+        <div class="return">
+            <?php 
+                if($_SERVER["REQUEST_METHOD"] == "POST"){
+                    $returnValue = linkToProvider($_COOKIE['userId'], $_POST['providerId']);
+                    if($returnValue == 1){
+                        echo "Linked to " . userFullName($_POST['providerId']) . "'s account. (ID: " . 
+                            getSqlLinkedAccount($_COOKIE['userId']) . ")";
+                    }
+                    else{echo "<br>" . $returnValue;}
+                }
+            ?>
+        </div>
     </div>
 
-    <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()">🗙</button>
 
-    </div>
-    <div id="footer">
-        <p>Contact us at pltwmedicalsoftware@gmail.com</p>
+
     </div>
 </body>
+
+<div id="footer">
+    <p>Contact us at pltwmedicalsoftware@gmail.com</p>
+</div>
 
 </html>

@@ -14,22 +14,14 @@
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
 }
 
+.idNumber {
+    float: right;
+    margin: 5px;
+}
+
 .greeting {
+    clear: both;
     text-align: center;
-}
-
-.container {
-    overflow: hidden;
-}
-
-.sliding-background {
-    position: absolute;
-    z-index: -1;
-    background: url("../images/indexBackground.jpg") repeat;
-    height: 100%;
-    width: 5076px;
-    animation: slide 150s linear infinite;
-    position: fixed;
 }
 
 
@@ -69,13 +61,4 @@ td {
 .island a:hover {
     background-color: grey;
     color: white;
-}
-
-@keyframes slide {
-    0% {
-        transform: translate3d(0, 0, 0);
-    }
-    100% {
-        transform: translate3d(-1692px, 0, 0);
-    }
 }

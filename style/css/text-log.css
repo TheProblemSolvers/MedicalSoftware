@@ -14,18 +14,6 @@
     padding-bottom: 20px;
 }
 
-.sliding-background {
-    background: url("../images/indexBackground.jpg") repeat;
-    height: 100%;
-    width: 5076px;
-    animation: slide 150s linear infinite;
-    position: fixed;
-}
-
-.container {
-    overflow: hidden;
-}
-
 
 /* --------------------------Text Division Modifiers------------------------------ */
 
@@ -122,13 +110,4 @@
     background-color: #c9dfeb;
     box-shadow: 0 2px #666;
     transform: translate(2px, 2px);
-}
-
-@keyframes slide {
-    0% {
-        transform: translate3d(0, 0, 0);
-    }
-    100% {
-        transform: translate3d(-1692px, 0, 0);
-    }
 }

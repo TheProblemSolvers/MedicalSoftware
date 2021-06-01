@@ -4,44 +4,91 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Software</title>
-    <link rel="stylesheet" type="text/css" href="../universal-style.css">
-    <link rel="stylesheet" type="text/css" href="../nav-content-footer.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/universal-style.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/nav-content-footer.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/check-in.css">
+    <script src="https://kit.fontawesome.com/bca8145492.js" crossorigin="anonymous"></script>
     <script src="../scripts.js"></script>
 </head>
 
 <body>
+    <div class="container">
+
+        <div class="sliding-background"></div>
+
+    </div>
+
     <div id="navDiv" class="topnav">
         <a href="../index.html">Logout</a>
         <a href="patient_lander.html">Home</a>
         <a href="patient_checkin.html">Check-In</a>
+        <a href="patient_textLog.html">Text Log</a>
         <a href="patient_calendar.html">Calender</a>
         <a href="patient_app_scheduler.html">Scheduler</a>
         <a href="patient_profile.html">Your Profile</a>
         <a href="patient_accountSync.html">Account Syncing</a>
         <a href="patient_settings.html">Settings</a>
     </div>
-    <div class="content">
-        <h1>
-            <?php require("../scripts.php"); echo "Check In, " . userFullName($_COOKIE['userId']) . ".";?>
-        </h1>
-        <form method="POST" style="display:inline" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-            <p>Click Ready if you have arrived for your in-person appointment. If not, navigate back to the lander page.</p>
-            <input type="submit" id="checkIn" value="Ready">
-        </form>
-        <?php
-			if($_SERVER["REQUEST_METHOD"] == "POST"){
-				$returnVal = patientCheckIn($_COOKIE["userId"]);
-				if($returnVal == 1){
-					echo <<<EOT
-                    <button id='returnToLander' onclick="document.location.href='patient_lander.html';">Back to Lander</button>
-                    EOT;
-					echo "Provider has been notified of your arrival";
-				}
-				else{
-					echo $returnVal;
-				}
-			}
-		?>
+
+    <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()"><i class="fas fa-expand"></i></button>
+
+    <div class="island">
+        <div class="greeting">
+            <h1>
+                <?php require("../scripts.php"); echo "Check In, " . userFullName($_COOKIE['userId']) . ".";?>
+            </h1>
+        </div>
+
+        <div class="form">
+            <form method="POST" id="form" style="display:inline" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>"></form>
+            <div class="returnVal">
+                <?php
+                    $flag = true;
+                    if(getSqlLinkedAccount($_COOKIE['userId']) == false){
+                        echo "Please link to a provider's account to access this feature.<br>";
+                        $flag = false;
+                    }
+
+                    if($_SERVER["REQUEST_METHOD"] == "POST"){
+                        $returnVal = patientCheckIn($_COOKIE["userId"]);
+                        if($returnVal == 1){
+                            echo <<<EOT
+                            <p>Click Ready if you have arrived for your in-person appointment. If not, navigate back to the lander page.
+                            </p>
+                            EOT;
+                            echo "<p id='message'>Provider has been notified of your arrival.</p>";
+                            echo <<<EOT
+                            <button id="returnToLander" onclick="location.href='patient_lander.html'">Back to Lander</button>
+                            EOT;
+                            
+                        }
+                        else{
+                            echo <<<EOT
+                            <p>Click Ready if you have arrived for your in-person appointment. If not, navigate back to the lander page.
+                            </p>
+                            EOT;
+                            echo "<p id='message'>$returnVal</p>";
+                            echo <<<EOT
+                            <button id='returnToLander' onclick="location.href = 'patient_lander.html'">Back to Lander</button>
+                            EOT;
+                        }
+                    }
+                    else{
+                        if($flag == true){
+                            echo <<<EOT
+                            <p>Click Ready if you have arrived for your in-person appointment. If not, navigate back to the lander page.
+                            </p><br><input form="form" type="submit" id="checkIn" value="Ready">
+                            EOT;
+                        }                       
+                    }
+                ?>
+
+
+            </div>
+
+        </div>
+
+
 
     </div>
 

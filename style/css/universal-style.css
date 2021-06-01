@@ -1,3 +1,25 @@
+/*-------------------------------Standard color scheme----------------------------*/
+
+
+/* 
+
+#458cd9 dark blue
+
+#99cfeb light blue
+
+#73BFB8 blue-green
+
+#F5F5F5 almost white
+
+#FEC601 bright yellow
+
+#EA7317 orange
+
+lightgrey and grey are colors for buttons and shadows
+
+*/
+
+
 /*-------------------------------Sets up standard fonts across all pages----------------------------*/
 
 @font-face {
@@ -23,6 +45,30 @@ body {
     font-family: comfortaaStd;
     text-align: center;
     margin: 0;
+}
+
+
+/*-------------------------------Background----------------------------*/
+
+.sliding-background {
+    background: url("../images/indexBackground.jpg") repeat;
+    height: 100%;
+    width: 5076px;
+    animation: slide 150s linear infinite;
+    position: fixed;
+}
+
+.container {
+    overflow: hidden;
+}
+
+@keyframes slide {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-1692px, 0, 0);
+    }
 }
 
 #testtest1 {

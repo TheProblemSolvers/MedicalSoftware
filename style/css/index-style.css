@@ -39,14 +39,14 @@
 }
 
 #indexUsername:focus {
-    border-bottom: 5px solid #FDC921;
+    border-bottom: 5px solid #FEC601;
     border-top: 5px solid white;
     height: 40px;
     outline: none;
 }
 
 #indexPassword:focus {
-    border-bottom: 5px solid #FDC921;
+    border-bottom: 5px solid #FEC601;
     border-top: 5px solid white;
     height: 40px;
     outline: none;

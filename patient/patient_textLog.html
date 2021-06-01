@@ -37,6 +37,7 @@
         <a href="../index.html">Logout</a>
         <a href="patient_lander.html">Home</a>
         <a href="patient_checkin.html">Check-In</a>
+        <a href="patient_textLog.html">Text Log</a>
         <a href="patient_calendar.html">Calender</a>
         <a href="patient_app_scheduler.html">Scheduler</a>
         <a href="patient_profile.html">Your Profile</a>
@@ -54,7 +55,7 @@
         <div class="textLog">
             <?php 
             if(getSqlLinkedAccount($_COOKIE['userId']) == false){
-                echo "Please link a provider's account to access this feature.";
+                echo "<br>Please link a provider's account to access this feature.<br><br>";
             } else{
                 echo displayTextLog($_COOKIE['userId'], "patient");
             }

@@ -1,0 +1,92 @@
+/* ------------------------------------Division Modifiers------------------------------- */
+
+.island {
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #99cfeb;
+    border: 5px solid #458cd9;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.greeting {
+    text-align: left;
+}
+
+.form {
+    text-align: left;
+}
+
+.returnVal {
+    margin-right: auto;
+}
+
+
+/* ------------------------------------Element Modifiers------------------------------- */
+
+#message {
+    font-weight: 1000;
+}
+
+#returnToLander {
+    position: relative;
+    margin-left: auto;
+    margin-left: auto;
+}
+
+
+/* ------------------------------------Input Modifiers------------------------------- */
+
+#checkIn {
+    font-family: comfortaaStd;
+    background-color: #ddd;
+    border: 1px solid black;
+    border-radius: 5px;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    height: 25px;
+}
+
+#returnToLander {
+    font-family: comfortaaStd;
+    background-color: #ddd;
+    border: 1px solid black;
+    border-radius: 5px;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    height: 25px;
+}
+
+
+/* ------------------------------------Animation Modifiers------------------------------- */
+
+#returnToLander:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+#returnToLander:active {
+    background-color: #c9dfeb;
+    box-shadow: 0 2px #666;
+    transform: translate(2px, 2px);
+}
+
+#checkIn:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+#checkIn:active {
+    background-color: #c9dfeb;
+    box-shadow: 0 2px #666;
+    transform: translate(2px, 2px);
+}

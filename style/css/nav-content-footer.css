@@ -1,7 +1,7 @@
 #navBtn {
-    background-color: #4CAF50;
+    background-color: #FEC601;
     border: none;
-    border-radius: 10px;
+    border-radius: 3px;
     color: white;
     /* padding: 15px 32px; */
     text-align: center;
@@ -20,7 +20,7 @@
 #navDiv {
     /* transform: translateY(-46px); */
     overflow: hidden;
-    background: #3DA5D9;
+    background: #458cd9;
     height: 40px;
     z-index: 0;
     position: relative;
@@ -54,7 +54,7 @@
 }
 
 #footer {
-    background-color: #ddd;
+    background-color: #99cfeb;
     height: 40px;
     width: 100%;
     position: fixed;

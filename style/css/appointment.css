@@ -1,10 +1,6 @@
 /*-------------------------------Divison Modifiers----------------------------*/
 
-body {
-    background-color: white;
-}
-
-.phpReturn {
+.island {
     position: absolute;
     z-index: 5;
     top: 50%;
@@ -13,18 +9,25 @@ body {
     background-color: #99cfeb;
     border: 5px solid #458cd9;
     border-radius: 5px;
-    padding: 15px;
+    padding: 30px;
+    padding-top: 0px;
+    padding-bottom: 50px;
+    width: 90%;
+}
+
+.schedule {
+    float: left;
+    width: 20%;
 }
 
 
-/*-------------------------------JavaScript Calendar Modifiers----------------------------*/
+/*-------------------------------Calendar Modifiers----------------------------*/
 
 #calendars {
     position: absolute;
     z-index: 5;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 20%;
+    left: 0%;
     width: 90%;
     height: 75%;
     border: 1px solid black;

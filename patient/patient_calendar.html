@@ -8,53 +8,51 @@
     <link rel="stylesheet" type="text/css" href="../style/css/universal-style.css">
     <link rel="stylesheet" type="text/css" href="../style/css/nav-content-footer.css">
     <link rel="stylesheet" type="text/css" href="../style/css/calendar-style.css">
+    <script src="https://kit.fontawesome.com/bca8145492.js" crossorigin="anonymous"></script>
 
 </head>
+
+<div class="container">
+    <div class="sliding-background"></div>
+</div>
 
 <div id="navDiv" class="topnav">
     <a href="../index.html">Logout</a>
     <a href="patient_lander.html">Home</a>
     <a href="patient_checkin.html">Check-In</a>
+    <a href="patient_textLog.html">Text Log</a>
     <a href="patient_calendar.html">Calender</a>
     <a href="patient_app_scheduler.html">Scheduler</a>
     <a href="patient_profile.html">Your Profile</a>
     <a href="patient_accountSync.html">Account Syncing</a>
     <a href="patient_settings.html">Settings</a>
 </div>
-<p id="test"></p>
 
-<br>
-<br>
-<br>
+<button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()"><i class="fas fa-expand"></i></button>
 
-<?php 
-            require("../scripts.php");
-            $appointmentsArray = NULL;
-            if(getSqlLinkedAccount($_COOKIE['userId']) == false){
-                echo "<p class='errorMessage'>No provider account linked. Please link a provider's account to access this feature.
-                    </p><br><br>";
-            }
-            else{
-                $appointmentsArray = getAllAppts($_COOKIE['userId']);
-            }
-        ?>
-
-<!-- --------------------------data transfer testing---------------------------------- -->
+<div class="phpReturn">
+    <?php 
+        require("../scripts.php");
+        $appointmentsArray = NULL;
+        if(getSqlLinkedAccount($_COOKIE['userId']) == false){
+            echo "<p class='errorMessage'>No provider account linked. Please link a provider's account to access this feature.</p>";
+        }
+        else{
+            $appointmentsArray = getAllAppts($_COOKIE['userId']);
+        }
+    ?>
+</div>
 
 <script type="text/javascript">
     var appointmentsArray = <?php echo json_encode($appointmentsArray);?>;
     var userId = <?php echo $_COOKIE['userId'];?>;
 </script>
 
-<!-- -------------------------- End of do not touch line ---------------------------------- -->
-
-<div class="content">
+<div class="body">
 
     <body onload="printCalendar(currentMonth, currentYear, appointmentsArray, userId);"></body>
 
 </div>
-
-<button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()">🗙</button>
 
 <div id="footer">
     <p>Contact us at pltwmedicalsoftware@gmail.com</p>
