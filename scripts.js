@@ -378,7 +378,7 @@ function printCalendar(month, year, ApptsArray, userId) {
                                     var oClock = "AM";
                                 }
 
-                                apptTime = `Appointment at ${hour}:${minute} ${oClock}`;
+                                apptTime = `Appt. @ ${hour}:${minute} ${oClock}`;
                                 apptInfo.appendChild(document.createTextNode(apptTime));
                                 container.appendChild(apptInfo);
                                 break;
