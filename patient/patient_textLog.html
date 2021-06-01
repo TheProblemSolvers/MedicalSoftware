@@ -55,7 +55,7 @@
         <div class="textLog">
             <?php 
             if(getSqlLinkedAccount($_COOKIE['userId']) == false){
-                echo "Please link a provider's account to access this feature.";
+                echo "<br>Please link a provider's account to access this feature.<br><br>";
             } else{
                 echo displayTextLog($_COOKIE['userId'], "patient");
             }
