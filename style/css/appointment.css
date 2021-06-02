@@ -26,8 +26,9 @@
 #calendars {
     position: relative;
     z-index: 5;
-    margin-top: 10%;
-    height: 75%;
+    top: 23%;
+    left: 0%;
+    height: 65%;
     border: 1px solid black;
     border-radius: 10px;
     border-collapse: collapse;
