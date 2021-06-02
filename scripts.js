@@ -329,15 +329,14 @@ function printCalendar(month, year, ApptsArray, userId) {
 
                 // var dateSpan = document.createElement("span");
 
-                container.id = `${date}`;
+                container.id = date;
 
                 // container.appendChild(dateSpan);
 
-                // var currentDateSpan = document.getElementById(`cell${date}`)
+                // var currentDateSpan = document.getElementById(`cell${date}`);
 
                 container.addEventListener('click', function() {
-                    document.cookie = "dateClicked=" + container.id;
-                    alert(container.id);
+                    setDateCookie(this);
                 });
 
 
@@ -532,3 +531,8 @@ document.addEventListener('keydown', (event) => {
 // document.addEventListener('keyup', (event) => {
 //     delete keysPressed[event.key];
 // });
+
+function setDateCookie(element) {
+    alert(element.id);
+    document.cookie = "date=" + element.id;
+}
