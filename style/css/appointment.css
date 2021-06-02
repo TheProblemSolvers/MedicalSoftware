@@ -24,11 +24,9 @@
 /*-------------------------------Calendar Modifiers----------------------------*/
 
 #calendars {
-    position: absolute;
+    position: relative;
     z-index: 5;
-    top: 20%;
-    left: 0%;
-    width: 90%;
+    margin-top: 10%;
     height: 75%;
     border: 1px solid black;
     border-radius: 10px;

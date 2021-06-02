@@ -325,11 +325,20 @@ function printCalendar(month, year, ApptsArray, userId) {
 
                 cell.classList = "calendarData";
 
-                var container = document.createElement("span");
+                var container = document.createElement("p");
 
-                container.id = `cell${date}`
+                var dateSpan = document.createElement("span");
 
-                let dateText = document.createTextNode(date);
+                dateSpan.id = `cell${date}`;
+
+                container.appendChild(dateSpan);
+
+                var currentDateSpan = document.getElementById(`cell${date}`)
+
+                container.addEventListener('click', function() {
+                    document.cookie = "dateClicked=" + date;
+                    alert(dateSpan.id);
+                });
 
 
                 if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
@@ -338,7 +347,7 @@ function printCalendar(month, year, ApptsArray, userId) {
 
                 }
 
-
+                let dateText = document.createTextNode(date);
 
                 container.appendChild(dateText);
 
@@ -394,16 +403,13 @@ function printCalendar(month, year, ApptsArray, userId) {
                     }
                 }
 
-
-
-
                 let containerContents = container.innerHTML;
 
-                if (!(containerContents.length > 6)) {
+                // if (!(containerContents.length > 6)) {
 
-                    // cell.style.backgroundColor = "magenta";
+                //     // cell.style.backgroundColor = "magenta";
 
-                }
+                // }
 
                 cell.appendChild(container);
 
