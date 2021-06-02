@@ -327,17 +327,17 @@ function printCalendar(month, year, ApptsArray, userId) {
 
                 var container = document.createElement("p");
 
-                var dateSpan = document.createElement("span");
+                // var dateSpan = document.createElement("span");
 
-                dateSpan.id = `cell${date}`;
+                container.id = `${date}`;
 
-                container.appendChild(dateSpan);
+                // container.appendChild(dateSpan);
 
-                var currentDateSpan = document.getElementById(`cell${date}`)
+                // var currentDateSpan = document.getElementById(`cell${date}`)
 
                 container.addEventListener('click', function() {
-                    document.cookie = "dateClicked=" + date;
-                    alert(dateSpan.id);
+                    document.cookie = "dateClicked=" + container.id;
+                    alert(container.id);
                 });
 
 
@@ -389,7 +389,7 @@ function printCalendar(month, year, ApptsArray, userId) {
                                     var oClock = "AM";
                                 }
 
-                                apptTime = `Appt. @ ${hour}:${minute} ${oClock}`;
+                                apptTime = `Appt @ ${hour}:${minute} ${oClock}`;
                                 apptInfo.appendChild(document.createTextNode(apptTime));
                                 container.appendChild(apptInfo);
                                 break;
