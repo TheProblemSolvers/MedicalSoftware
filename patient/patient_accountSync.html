@@ -52,7 +52,7 @@
     <div class="island">
         <div class="greeting">
             <h1>
-                <?php require("../scripts.php"); echo "Welcome, " . userFullName($_COOKIE['userId']) . "!";?>
+                <?php require("../scripts.php"); echo "Welcome, " . userFullName($_COOKIE['userId'], false) . "!";?>
             </h1>
         </div>
 
@@ -63,7 +63,7 @@
                     echo "<b>Your unique user ID: </b>" . $_COOKIE['userId'];
                     $providerId = getSqlLinkedAccount($_COOKIE['userId']);
                     if($providerId != false){
-                        echo "<br><br>Currently linked to " . userFullName($providerId) . "'s account. " . 
+                        echo "<br><br>Currently linked to " . userFullName($providerId, false) . "'s account. " . 
                             "(ID: " . $providerId . ")";
                     }
                     else{

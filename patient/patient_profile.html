@@ -51,16 +51,19 @@
 
     <div class="island">
         <div class="greeting">
-            <h1>
-                Your Profile:
-            </h1>
+            <h1>Your Health Information:</h1>
         </div>
 
         <div class="patientData">
             <?php
                 require("../scripts.php");
                 echo generatePatientTable($_COOKIE['userId']);
+                $providerId = getSqlLinkedAccount($_COOKIE['userId']);
+                $providerEmail = getEmail($providerId);
+                echo "<div class='line'></div><div class='warning'>If any information displayed above is incorrect, " . 
+                    "please contact your medical provider <i>immediately</i> at " . $providerEmail . "</div>";
             ?>
+
         </div>
     </div>
 </body>

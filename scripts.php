@@ -582,22 +582,28 @@ function generatePatientTable($patientId){
     $columns = $result->fetchAll(PDO::FETCH_ASSOC);
 
     #define array storing data tags, makes it easy to loop the html composition
-    $infoLabels = ["Full Name", "DOB", "Height", "Weight", "Sex", "Current Health Conditions", "Current Medications", 
-        "Past Health Conditions", "Family Health History", "Additional Notes"];
+    $infoLabels = ["Full Name: ", "DOB: ", "Height: ", "Weight: ", "Sex: ", "Current Health Conditions: ", "Current Medications: ", 
+        "Past Health Conditions: ", "Family Health History: ", "Additional Notes: "];
     $html = "";
 
     #combine first, middle, and last names to one line of data
     $fullName = userFullName($patientId, true);
-    $html .= "<div class='data1'><p class='label'>$infoLabels[0]</p><p class='info'>$fullName</p></div>";
+    $html .= "<p>Basic Information:</p><div class='data' id='data1'><p class='label'>$infoLabels[0]" . "
+        </p><p class='info'>$fullName</p></div>";
 
     #loop through remaining data for patient and compile html elements
     for($i = 6; $i < count($patientData); $i++){
-        #set variable to increment division class and label array index for each element
+        #set variable to increment division class and label array index for each element, respectively
         $j = $i - 4;
         $k = $i - 5;
 
+        #if the sex data html division has been created, add in another div (turned into horizontal line in css)
+        if($i == 10){
+            $html .= "<div class='line'></div><p>Detailed Information:</p>";
+        }
+
         #compile html element for this particular data
-        $html .= "<div class='data$j'><p class='label'>$infoLabels[$k]</p><p class='info'>" . 
+        $html .= "<div class='data' id='data$j'><p class='label'>$infoLabels[$k]</p><p class='info'>" . 
             $patientData[$columns[$i]['COLUMN_NAME']] . "</p></div>";
     }
 
