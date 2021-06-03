@@ -1067,7 +1067,7 @@ function displayTextLogMenu($providerId){
     foreach($linkedAccounts as $patientId){
         if($patientId != NULL){
             $patientName = userFullName($patientId, false);
-            $html .= "<a href='provider_textLog.html' onclick='setPatientIdCookie($patientId)'>$patientName</a><br>";
+            $html .= "<a class='link' href='provider_textLog.html' onclick='setPatientIdCookie($patientId)'>$patientName</a><br>";
         }
     }
 

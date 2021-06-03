@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../style/css/universal-style.css">
     <link rel="stylesheet" type="text/css" href="../style/css/nav-content-footer.css">
     <link rel="stylesheet" type="text/css" href="../style/css/lander.css">
+    <script src="https://kit.fontawesome.com/bca8145492.js" crossorigin="anonymous"></script>
     <script src="../scripts.js"></script>
 </head>
 
@@ -20,17 +21,16 @@
     </div>
 
     <div id="navDiv" class="topnav">
-        <a href="../index.html">Logout</a>
+        <a href="../index.html" title="Logout of your account"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
-    <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()">☰</button>
+    <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()"><i class="fas fa-expand"></i></button>
 
     <div class="island">
-
         <div class="idNumber">
             <?php 
                 require("../scripts.php");
-                echo  "ID:" . $_COOKIE['userId'];
+                echo "ID:" . $_COOKIE['userId'];
             ?>
         </div>
 
@@ -54,8 +54,8 @@
                     <td><a title="View all text logs with your patients" href="provider_textLogMenu.html">Text Logs</a></td>
                 </tr>
                 <tr>
-                    <td><a onclick="alert('This feature does not yet exist.')" href="#">Video Call</a></td>
-                    <td><a onclick="alert('This feature does not yet exist.')" href="#">Schedule App.</a></td>
+                    <td><a onclick="alert('Unfortunately, this feature is still in development')" href="#">Video Call</a></td>
+                    <td><a title="Schedule an appointment for your patient" href="provider_schedule.html">Schedule App.</a></td>
                 </tr>
                 <tr>
                     <td><a title="View all of your patient's information" href="provider_database.html">Database</a></td>
@@ -68,10 +68,10 @@
             </tbody>
         </table>
     </div>
-
-    <div class="footer ">
-        <p>Contact us at pltwmedicalsoftware@gmail.com</p>
-    </div>
 </body>
+
+<div class="footer">
+    <p>Contact us at pltwmedicalsoftware@gmail.com</p>
+</div>
 
 </html>

@@ -4,12 +4,19 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Software</title>
-    <script src="../scripts.js"></script>
-    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/universal-style.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/nav-content-footer.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/settings.css">
     <script src="https://kit.fontawesome.com/bca8145492.js" crossorigin="anonymous"></script>
+    <script src="../scripts.js"></script>
 </head>
 
 <body>
+
+    <div class="container">
+        <div class="sliding-background"></div>
+    </div>
+
     <div id="navDiv" class="topnav">
         <a href="../index.html" title="Logout of your account">
             <i class="fas fa-sign-out-alt"></i> Logout
@@ -36,21 +43,14 @@
             <i class="fas fa-check-square"></i> Check-In
         </a>
         <!-- <a href="patient_settings.html" title="Edit your profile information, personal preferences, and more">
-				<i class="fas fa-cogs"></i> Settings
-			</a> -->
+            <i class="fas fa-cogs"></i> Settings
+        </a> -->
     </div>
 
     <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()"><i class="fas fa-expand"></i></button>
 
-    <div class="content">
-        <h1>Arrived Patients:</h1>
-        <?php
-				require("../scripts.php");
-				echo readCheckinFile($_COOKIE["userId"]);
-				if($_SERVER['REQUEST_METHOD'] == 'POST'){
-					echo checkInPatient($_COOKIE['userId'], $_POST['form']);
-				}
-			?>
+    <div class="island">
+        <p>Unfortunately, this feature has not been fully developed yet</p>
     </div>
 </body>
 
