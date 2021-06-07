@@ -14,9 +14,15 @@
 <body>
 
     <div class="container">
-
         <div class="sliding-background"></div>
+    </div>
 
+    <div id="cookieInfo">
+        <p id="message"><i id="cookie" class="fas fa-cookie-bite"></i>This website uses cookies to enhance your experience while using this site. We do not send your information to 3rd party services.</p>
+        <button id="closeCookie" class="Sbuttons" onclick="
+            var division = document.getElementById('cookieInfo');
+            division.id = 'close';
+        ">Close</button>
     </div>
 
     <div>

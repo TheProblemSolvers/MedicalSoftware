@@ -1,3 +1,83 @@
+/* ---------------------------Division Modifiers------------------------------ */
+
+.omega {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    background-color: #99cfeb;
+    border: 5px solid #458cd9;
+    width: 400px;
+    border-radius: 5px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
+}
+
+.container {
+    overflow: hidden;
+}
+
+.sliding-background {
+    background: url("../images/indexBackground.jpg") repeat;
+    height: 100%;
+    width: 5076px;
+    animation: slide 150s linear infinite;
+    position: fixed;
+}
+
+
+/* ---------------------------Cookie Pop-up Modifiers------------------------------ */
+
+#cookieInfo {
+    position: absolute;
+    bottom: 15px;
+    float: left;
+    margin-left: 15px;
+    z-index: 5;
+    background-color: #99cfeb;
+    border: 5px solid #458cd9;
+    border-radius: 5px;
+    animation: fade-in 1s;
+    animation-fill-mode: forwards;
+    width: 25%;
+}
+
+#message {
+    padding: 15px;
+    width: 90%;
+    text-align: left;
+}
+
+#cookie {
+    padding: 15px;
+    font-size: 300%;
+    color: rgb(70, 70, 70);
+    float: left;
+}
+
+#closeCookie {
+    clear: both;
+    width: 80%;
+    margin-bottom: 15px;
+}
+
+#close {
+    position: absolute;
+    bottom: 15px;
+    float: left;
+    margin-left: 15px;
+    z-index: 5;
+    background-color: #99cfeb;
+    border: 5px solid #458cd9;
+    border-radius: 5px;
+    animation: fade-out 1s;
+    animation-fill-mode: forwards;
+    width: 25%;
+}
+
+
+/* ---------------------------Input Modifiers------------------------------ */
+
 #indexUsername {
     border-bottom: 5px solid white;
     border-top: 5px solid white;
@@ -112,34 +192,19 @@
     width: 350px;
 }
 
-.omega {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 5;
-    background-color: #99cfeb;
-    border: 5px solid #458cd9;
-    width: 400px;
-    border-radius: 5px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
-    /* animation: appleBottomJeans 1.8s, fade-in 2.2s;
-    animation-fill-mode: forwards; */
-}
 
-.container {
-    overflow: hidden;
-}
-
-.sliding-background {
-    background: url("../images/indexBackground.jpg") repeat;
-    height: 100%;
-    width: 5076px;
-    animation: slide 150s linear infinite;
-    position: fixed;
-}
+/* ---------------------------Animation Modifiers------------------------------ */
 
 @keyframes slide {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-1692px, 0, 0);
+    }
+}
+
+@keyframes slideleft {
     0% {
         transform: translate3d(0, 0, 0);
     }
@@ -154,6 +219,15 @@
     }
     100% {
         opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
     }
 }
 
