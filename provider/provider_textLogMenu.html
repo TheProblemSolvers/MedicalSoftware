@@ -1,16 +1,75 @@
 <!DOCTYPE html>
 <html lang="en-US">
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Medical Software</title>
-		<link rel="stylesheet" type="text/css" href="../stylesheet.css">
-		<script src="../scripts.js"></script>
-	</head>
-	<body>
-        <h1><?php require("../scripts.php"); echo userFullName($_COOKIE['userId']) . "'s Text Log Menu";?></h1>
-        <?php 
-            echo displayTextLogMenu($_COOKIE['userId']);
-        ?><br>
-		<p>(Only patients who have linked their accounts are shown)</p>
-	</body>
-</html>	
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Software</title>
+    <link rel="stylesheet" type="text/css" href="../style/css/universal-style.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/nav-content-footer.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/text-log-menu.css">
+    <script src="https://kit.fontawesome.com/bca8145492.js" crossorigin="anonymous"></script>
+    <script src="../scripts.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="sliding-background"></div>
+    </div>
+
+    <div id="navDiv" class="topnav">
+        <a href="../index.html" title="Logout of your account">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+        <a href="provider_lander.html" title="Navigate back to the home page">
+            <i class="fas fa-home"></i> Home
+        </a>
+        <a href="provider_calendar.html" title="View all of your scheduled appointments and visits">
+            <i class="far fa-calendar-alt"></i> Calender
+        </a>
+        <a href="provider_textLogMenu.html" title="Enter text chat session with your patients with linked accounts">
+            <i class="fas fa-comments"></i> Text Log
+        </a>
+        <a href="provider_schedule.html" title="Schedule an appointment for your patient">
+            <i class="fas fa-clock"></i> Scheduling
+        </a>
+        <a href="provider_database.html" title="View all of your patient's health records">
+            <i class="fas fa-database"></i> Database
+        </a>
+        <a href="provider_addNewPatient.html" title="Let your healthcare provider know you have arrived for your appointment">
+            <i class="fas fa-plus"></i> New Patient
+        </a>
+        <a href="provider_checkin.html" title="Let patients know you are ready for them to enter the building">
+            <i class="fas fa-check-square"></i> Check-In
+        </a>
+        <!-- <a href="patient_settings.html" title="Edit your profile information, personal preferences, and more">
+            <i class="fas fa-cogs"></i> Settings
+        </a> -->
+    </div>
+
+    <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()"><i class="fas fa-expand"></i></button>
+
+    <div class="island">
+        <div class="greeting">
+            <h1>Text Log Menu</h1>
+            <p>Select a name below to enter a text conversation:</p>
+        </div>
+
+        <div class="menu">
+            <?php 
+                require("../scripts.php");
+                echo displayTextLogMenu($_COOKIE['userId']);
+            ?>
+        </div>
+
+        <div class="warning">
+            <p>(Only patients who have linked their accounts are shown)</p>
+        </div>
+    </div>
+</body>
+
+<div id="footer">
+    <p>Contact us at pltwmedicalsoftware@gmail.com</p>
+</div>
+
+</html>

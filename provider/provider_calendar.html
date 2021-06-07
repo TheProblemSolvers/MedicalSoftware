@@ -1,24 +1,47 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Medical Software</title>
-        <link rel="stylesheet" type="text/css" href="../stylesheet.css">
-    </head>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Software</title>
+    <link rel="stylesheet" type="text/css" href="../stylesheet.css">
+    <script src="https://kit.fontawesome.com/bca8145492.js" crossorigin="anonymous"></script>
+</head>
 
-    <body>
-        <div class="topnav">
-            <a href="../index.html">Logout</a>
-            <a href="provider_lander.html">Home</a>
-				<a href="provider_checkin.html">Check-In</a>
-				<a href="provider_calendar.html">Calender</a>
-				<a href="provider_addNewPatient.html">Add New Patient</a>
-            	<a href="provider_database.html">Database</a>
-            	<!-- <a href="provider_singlePatientView.html">Michael IDK</a> -->
-        </div>
+<body>
+    <div id="navDiv" class="topnav">
+        <a href="../index.html" title="Logout of your account">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+        <a href="provider_lander.html" title="Navigate back to the home page">
+            <i class="fas fa-home"></i> Home
+        </a>
+        <a href="provider_calendar.html" title="View all of your scheduled appointments and visits">
+            <i class="far fa-calendar-alt"></i> Calender
+        </a>
+        <a href="provider_textLogMenu.html" title="Enter text chat session with your patients with linked accounts">
+            <i class="fas fa-comments"></i> Text Log
+        </a>
+        <a href="provider_schedule.html" title="Schedule an appointment for your patient">
+            <i class="fas fa-clock"></i> Scheduling
+        </a>
+        <a href="provider_database.html" title="View all of your patient's health records">
+            <i class="fas fa-database"></i> Database
+        </a>
+        <a href="provider_addNewPatient.html" title="Let your healthcare provider know you have arrived for your appointment">
+            <i class="fas fa-plus"></i> New Patient
+        </a>
+        <a href="provider_checkin.html" title="Let patients know you are ready for them to enter the building">
+            <i class="fas fa-check-square"></i> Check-In
+        </a>
+        <!-- <a href="patient_settings.html" title="Edit your profile information, personal preferences, and more">
+                <i class="fas fa-cogs"></i> Settings
+            </a> -->
+    </div>
 
-        <div class="content">
+    <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()"><i class="fas fa-expand"></i></button>
+
+    <div class="content">
         <h1>
             Provider Calendar
         </h1>
@@ -26,21 +49,21 @@
 
             <!-- css code -->
             <style>
-
-            table, td, th {
-                width: 95%;
-                height: 130;
-                border: 1px solid black;
-                border-collapse: collapse;
-                font-size: x-large;
-                table-layout: fixed;
-            }
-            
-            td {
-                text-align: left;
-                vertical-align: top;
-            }
-
+                table,
+                td,
+                th {
+                    width: 95%;
+                    height: 130;
+                    border: 1px solid black;
+                    border-collapse: collapse;
+                    font-size: x-large;
+                    table-layout: fixed;
+                }
+                
+                td {
+                    text-align: left;
+                    vertical-align: top;
+                }
             </style>
             <!-- css code -->
 
@@ -48,10 +71,12 @@
                 <th colspan="7">
                     <p><span id="datetime"></span></p>
 
-                        <script>
-                            const today = new Date();
-                            document.getElementById("datetime").innerHTML = today.toLocaleString('default', { month: 'long' });
-                        </script>
+                    <script>
+                        const today = new Date();
+                        document.getElementById("datetime").innerHTML = today.toLocaleString('default', {
+                            month: 'long'
+                        });
+                    </script>
                 </th>
             </thead>
             <tbody>
@@ -98,7 +123,7 @@
                 <tr>
                     <td>
                         14
-                        
+
                         <br>
 
                         <ul>
@@ -120,7 +145,7 @@
                 <tr>
                     <td>
                         21
-                        
+
                         <br>
 
                         <ul>
@@ -142,7 +167,7 @@
                 <tr>
                     <td>
                         28
-                    
+
                         <br>
 
                         <ul>
@@ -164,5 +189,10 @@
             </tbody>
         </table>
     </div>
-    </body>
+</body>
+
+<div id="footer">
+    <p>Contact us at pltwmedicalsoftware@gmail.com</p>
+</div>
+
 </html>

@@ -32,19 +32,40 @@
     </div>
 
     <div id="navDiv" class="topnav">
-        <a href="../index.html">Logout</a>
-        <a href="provider_lander.html">Home</a>
-        <a href="provider_checkin.html">Check-In</a>
-        <a href="provider_calendar.html">Calender</a>
-        <a href="provider_addNewPatient.html">Add New Patient</a>
-        <a href="provider_database.html">Database</a>
+        <a href="../index.html" title="Logout of your account">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+        <a href="provider_lander.html" title="Navigate back to the home page">
+            <i class="fas fa-home"></i> Home
+        </a>
+        <a href="provider_calendar.html" title="View all of your scheduled appointments and visits">
+            <i class="far fa-calendar-alt"></i> Calender
+        </a>
+        <a href="provider_textLogMenu.html" title="Enter text chat session with your patients with linked accounts">
+            <i class="fas fa-comments"></i> Text Log
+        </a>
+        <a href="provider_schedule.html" title="Schedule an appointment for your patient">
+            <i class="fas fa-clock"></i> Scheduling
+        </a>
+        <a href="provider_database.html" title="View all of your patient's health records">
+            <i class="fas fa-database"></i> Database
+        </a>
+        <a href="provider_addNewPatient.html" title="Let your healthcare provider know you have arrived for your appointment">
+            <i class="fas fa-plus"></i> New Patient
+        </a>
+        <a href="provider_checkin.html" title="Let patients know you are ready for them to enter the building">
+            <i class="fas fa-check-square"></i> Check-In
+        </a>
+        <!-- <a href="patient_settings.html" title="Edit your profile information, personal preferences, and more">
+            <i class="fas fa-cogs"></i> Settings
+        </a> -->
     </div>
 
     <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()"><i class="fas fa-expand"></i></button>
 
     <div class="island">
         <h1>
-            <?php require("../scripts.php"); echo "Viewing " . userFullName($_COOKIE['patientId']) . "'s Text Log";?>
+            <?php require("../scripts.php"); echo "Viewing " . userFullName($_COOKIE['patientId'], false) . "'s Text Log";?>
         </h1>
 
         <div class="textLog">

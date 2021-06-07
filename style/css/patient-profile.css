@@ -1,0 +1,80 @@
+/*-------------------------------Divison Modifiers----------------------------*/
+
+.island {
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #99cfeb;
+    border: 5px solid #458cd9;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.greeting {
+    float: left;
+    text-align: left;
+}
+
+.patientData {
+    clear: both;
+    text-align: left;
+}
+
+.data {
+    padding: 3px;
+    margin: 3px;
+    width: fit-content;
+    border: 2px solid white;
+    border-radius: 1px;
+}
+
+.line {
+    width: 100%;
+    margin: 5px;
+    border-top: 3px solid #458cd9;
+}
+
+.warning {
+    margin: 5px;
+    margin-top: 10px;
+    padding: 3px;
+}
+
+
+/*-------------------------------Data/Label Modifiers----------------------------*/
+
+#data1 {
+    display: inline-block;
+}
+
+#data2 {
+    display: inline-block;
+}
+
+#data3 {
+    display: inline-block;
+}
+
+#data4 {
+    display: inline-block;
+}
+
+#data5 {
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+#data10 {
+    margin-bottom: 12px;
+}
+
+.label {
+    display: inline;
+    font-weight: 1000;
+}
+
+.info {
+    display: inline;
+}

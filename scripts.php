@@ -201,7 +201,7 @@ function checkLength($data){
 }
 
 #gets user's full name using their id from allusers table
-function userFullName($userId){
+function userFullName($userId, $indicator){
     #open config.ini.php file and get configuration
     $ini = parse_ini_file("config.ini.php");
 
@@ -210,7 +210,11 @@ function userFullName($userId){
     $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     #gathers results from searching table into an array
-    $contents = $connection->prepare("SELECT firstName, lastName FROM allusers WHERE id='$userId';");
+    if($indicator == true){
+        $contents = $connection->prepare("SELECT firstName, middleName, lastName FROM allusers WHERE id='$userId';");
+    } else{
+        $contents = $connection->prepare("SELECT firstName, lastName FROM allusers WHERE id='$userId';");
+    }
     $contents->execute();
     $fullName = $contents->fetch(PDO::FETCH_ASSOC);
     return implode(" ", $fullName);
@@ -467,7 +471,7 @@ function getDatabaseTable($providerId){
 #searches user's database for patients matching search parameter and 
 #returns first patient id that matches
 function searchDatabase($userId, $searchParameter){
-    return "You haven't rewritten me yet nimrod.";
+    return "Unfortunately, this feature has not been fully developed yet.";
 }
 
 #creates a new patient and adds their info to the patientdata table in medicalsoftware database
@@ -524,8 +528,8 @@ function createNewPatient($providerId, $fullName, $dob, $height, $weight, $sex, 
 
 #generates an html table with only patient's data from their linked provider's account
 function generatePatientTable($patientId){
-    #get provider's linked account and patient's full name
-    $fullName = explode(" ", userFullName($patientId));
+    #get provider's linked account and patients name
+    $fullName = explode(" ", userFullName($patientId, false));
     $firstName = $fullName[0];
     $lastName = $fullName[1];
     $providerId = getSqlLinkedAccount($patientId);
@@ -577,21 +581,34 @@ function generatePatientTable($patientId){
     $result->execute();
     $columns = $result->fetchAll(PDO::FETCH_ASSOC);
 
-    #defines the starting variables for the rest of the code to build the table off of
-    $htmlTable = "<div class='dbTable'><table><thead><tr><th>First Name</th><th>Middle Name</th><th>Last Name</th><th>DOB</th>
-        <th>Height</th><th>Weight</th><th>Sex</th><th>Current Health</th><th>Current Medications</th><th>Past Health</th>
-        <th>Family Health History</th><th>Additional Notes</th></thead><tbody><tr>";
-    $htmlEndTable = "</tr></tbody></table></div>";
-    $htmlRows = "<tr>";
+    #define array storing data tags, makes it easy to loop the html composition
+    $infoLabels = ["Full Name: ", "DOB: ", "Height: ", "Weight: ", "Sex: ", "Current Health Conditions: ", "Current Medications: ", 
+        "Past Health Conditions: ", "Family Health History: ", "Additional Notes: "];
+    $html = "";
 
-    #increment from first name until the end
-    for($i = 3; $i < count($patientData); $i++){
-        $htmlRows .= "<td>" . strval($patientData[$columns[$i]['COLUMN_NAME']]) . "</td>";
+    #combine first, middle, and last names to one line of data
+    $fullName = userFullName($patientId, true);
+    $html .= "<p>Basic Information:</p><div class='data' id='data1'><p class='label'>$infoLabels[0]" . "
+        </p><p class='info'>$fullName</p></div>";
+
+    #loop through remaining data for patient and compile html elements
+    for($i = 6; $i < count($patientData); $i++){
+        #set variable to increment division class and label array index for each element, respectively
+        $j = $i - 4;
+        $k = $i - 5;
+
+        #if the sex data html division has been created, add in another div (turned into horizontal line in css)
+        if($i == 10){
+            $html .= "<div class='line'></div><p>Detailed Information:</p>";
+        }
+
+        #compile html element for this particular data
+        $html .= "<div class='data' id='data$j'><p class='label'>$infoLabels[$k]</p><p class='info'>" . 
+            $patientData[$columns[$i]['COLUMN_NAME']] . "</p></div>";
     }
-    $htmlRows .= "</tr>";
 
-    #connects all HTML strings and returns to browser to display
-    return $htmlTable . $htmlRows . $htmlEndTable;
+    #returns html elements to browser to display
+    return $html;
 }
 
 /* -------------------------------------------------------------------------------------------------------------------------- */
@@ -784,7 +801,7 @@ function readCheckinFile($providerId){
             continue;
         }
         else{
-            $fullName = userFullName($patientId);
+            $fullName = userFullName($patientId, false);
             $readyPatientsHTML .= <<<EOD
             <p style='display:inline'>$fullName </p>
             <form method="POST" action="$serverVar" style="display: inline;">
@@ -850,9 +867,9 @@ function checkInPatient($providerId, $patientId){
 
     #send notification email to patient
     $subject = "We are ready for your appointment!";
-    $body = 'Dr. ' . userFullName($providerId) . " is ready for you. Please enter the building and 
+    $body = 'Dr. ' . userFullName($providerId, false) . " is ready for you. Please enter the building and 
         navigate to the check-in desk.<br><br>Thank you, <br>Management";
-    $altBody = 'Dr. ' . userFullName($providerId) . " is ready for you. Please enter the building and 
+    $altBody = 'Dr. ' . userFullName($providerId, false) . " is ready for you. Please enter the building and 
         navigate to the check-in desk. Thank you, Management";
     sendEmail($patientId, $subject, $body, $altBody);
     header("Location: provider_lander.html");
@@ -873,12 +890,12 @@ function sendEmail($patientId, $subject, $body, $altBody){
     #<------------------------gathers necessary info to send email------------------------->
 
     #runs through patient's data file and gets full name and email
-    $patientFullName = userFullName($patientId);
+    $patientFullName = userFullName($patientId, false);
     $patientEmail = getEmail($patientId);
 
     #runs through provider's data file and gets full name and email
     $providerId = getSqlLinkedAccount($patientId);
-    $providerFullName = userFullName($providerId);
+    $providerFullName = userFullName($providerId, false);
     $providerEmail = getEmail($providerId);
 
     #<------------------------------sends email------------------------------------->
@@ -940,13 +957,13 @@ function displayTextLog($patientId, $userType){
     
     #sets html element id's based on whether viewer is patient or provider
     if($userType == "provider"){
-        $patientTag = userFullName($patientId) . " Said: ";
+        $patientTag = userFullName($patientId, false) . " Said: ";
         $providerTag = "You Said: ";
     }
     if($userType == "patient"){
         $providerId = getSqlLinkedAccount($patientId);
         $patientTag = "You Said: ";
-        $providerTag = "Dr. " . userFullName($providerId) . " Said: ";
+        $providerTag = "Dr. " . userFullName($providerId, false) . " Said: ";
     }
 
     #compiles text log string to send to browser
@@ -1049,8 +1066,8 @@ function displayTextLogMenu($providerId){
     array_shift($linkedAccounts);
     foreach($linkedAccounts as $patientId){
         if($patientId != NULL){
-            $patientName = userFullName($patientId);
-            $html .= "<a href='provider_textLog.html' onclick='setPatientIdCookie($patientId)'>$patientName</a><br>";
+            $patientName = userFullName($patientId, false);
+            $html .= "<a class='link' href='provider_textLog.html' onclick='setPatientIdCookie($patientId)'>$patientName</a><br>";
         }
     }
 
@@ -1116,7 +1133,7 @@ function storeApptData($patientId, $apptType, $addtlInfo, $date, $time){
             }
 
             #compiles confirmation message to email to patient
-            $confirmationMessage = "Appointment has been made for " . userFullName($patientId) . " on " . $date[1] . 
+            $confirmationMessage = "Appointment has been made for " . userFullName($patientId, false) . " on " . $date[1] . 
                 "/" . $date[2] . "/" . $date[0] . " at " . $time[0] . ":" . $time[1] . " " . $timeTag;
             sendEmail($patientId, "Appointment Confirmation", $confirmationMessage, $confirmationMessage);
 
