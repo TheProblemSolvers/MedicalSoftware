@@ -327,16 +327,12 @@ function printCalendar(month, year, ApptsArray, userId) {
 
                 var container = document.createElement("p");
 
-                // var dateSpan = document.createElement("span");
-
                 container.id = date;
 
-                // container.appendChild(dateSpan);
-
-                // var currentDateSpan = document.getElementById(`cell${date}`);
-
                 container.addEventListener('click', function() {
-                    setDateCookie(this);
+                    alert(this.id);
+                    document.cookie = "date=" + this.id;
+                    magicDivision(this.id);
                 });
 
 
@@ -528,11 +524,37 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-// document.addEventListener('keyup', (event) => {
-//     delete keysPressed[event.key];
-// });
+function magicDivision(dayOfApp) {
 
-function setDateCookie(element) {
-    alert(element.id);
-    document.cookie = "date=" + element.id;
+    var div = document.getElementById('magiDiv');
+
+    var magTable = document.createElement('table');
+
+    var magTableBody = document.createElement('tbody');
+
+    for (let z = 0; z < 3; z++) {
+
+        var magRow = document.createElement('tr');
+
+        for (let q = 0; q < 3; q++) {
+
+            var magData = document.createElement('td');
+
+            var par = document.createElement('p')
+
+            par.appendChild(document.createTextNode(dayOfApp))
+
+            magData.appendChild(par);
+
+            magRow.appendChild(magData);
+
+        }
+
+        magTableBody.appendChild(magRow);
+    }
+
+    magTable.appendChild(magTableBody);
+
+    div.appendChild(magTable);
+
 }
