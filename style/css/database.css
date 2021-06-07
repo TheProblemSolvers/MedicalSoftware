@@ -1,3 +1,134 @@
+/*-------------------------------Divison Modifiers----------------------------*/
+
+.island {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 5;
+    transform: translate(-50%, -50%);
+    background-color: #99cfeb;
+    border: 5px solid #458cd9;
+    border-radius: 5px;
+    padding: 15px;
+    width: 60%;
+}
+
+.greeting {
+    float: left;
+}
+
+.searchForm {
+    margin-top: 25px;
+    float: right;
+}
+
+#patientSearch {
+    display: inline;
+}
+
+.database {
+    clear: both;
+    align-self: center;
+}
+
+.searchReturn {
+    clear: both;
+}
+
+
+/*-------------------------------Modifies database table----------------------------*/
+
+table {
+    width: 100%;
+    background-color: white;
+}
+
+th {
+    background-color: #FEC601;
+}
+
+table,
+td,
+th {
+    border: 3px solid #458cd9;
+    border-radius: 5px;
+    border-collapse: collapse;
+    text-align: left;
+    padding: 5px;
+}
+
+.edit {
+    width: 100%;
+}
+
+.editData {
+    width: 75px;
+}
+
+.evenRow {
+    background-color: white;
+}
+
+.oddRow {
+    background-color: lightgrey;
+}
+
+
+/*-------------------------------Modifies input elements on page----------------------------*/
+
+button {
+    font-family: comfortaaStd;
+    background-color: #ddd;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    height: 25px;
+}
+
+#submitSearch {
+    font-family: comfortaaStd;
+    background-color: #ddd;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    height: 25px;
+}
+
+input[type=text] {
+    font-size: 16px;
+}
+
+#submitSearch:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+#submitSearch:active {
+    background-color: #c9dfeb;
+    box-shadow: 0 2px #666;
+    transform: translate(2px, 2px);
+}
+
+button:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+button:active {
+    background-color: #c9dfeb;
+    box-shadow: 0 2px #666;
+    transform: translate(2px, 2px);
+}
+
+
 /*-------------------------------Modifies form of provider_addNewPatient.html----------------------------*/
 
 .textarea {

@@ -444,24 +444,35 @@ function getDatabaseTable($providerId){
     $columns = $result->fetchAll(PDO::FETCH_ASSOC);
 
     #defines the starting variables for the rest of the code to build the table off of
-    $htmlTable = "<div class='dbTable'><table><thead><tr><th>First Name</th><th>Middle Name</th><th>Last Name</th>
+    $htmlTable = "<div class='dbTable'><table><thead><tr><th>Edit/View</th><th>First Name</th><th>Middle Name</th><th>Last Name</th>
         <th>DOB</th><th>Height</th><th>Weight</th><th>Sex</th></thead><tbody><tr>";
     $htmlEndTable = "</tr></tbody></table></div>";
-    $htmlRows = "<tr>";
+    $htmlRows = "";
+
+    #define variable to increment as each row is generated
+    $j = 0;
 
     #generates HTML page from patient data recieved from SQL query
     foreach($patientData as $rowData){
+        #set class of each row to either even or odd to create various colors for each row
+        if($j % 2 == 0){
+            $class = "evenRow";
+        }else{
+            $class = "oddRow";
+        }
+
         #only increment up to gender column, then go to next patient
-        for($i = 3; $i < 10; $i++){
-            if($columns[$i]['COLUMN_NAME'] == 'firstname'){
-                $htmlRows .= "<td>" . "<button onclick='setPatientIdCookie(" . $rowData['relid'] . ")'>View</button>" . 
-                    strval($rowData[$columns[$i]['COLUMN_NAME']]) . "</td>";
+        for($i = 2; $i < 10; $i++){
+            if($i == 2){
+                $htmlRows .= "<tr class='$class'><td class='editData'>" . "<button class='edit' onclick='setPatientIdCookie(" . 
+                    $rowData['relid'] . ")'><i class='fas fa-user-edit'></i></button></td>";
             }
             else{
                 $htmlRows .= "<td>" . strval($rowData[$columns[$i]['COLUMN_NAME']]) . "</td>";
             }
         }
         $htmlRows .= "</tr>";
+        $j++;
     }
 
     #connects all HTML strings and returns to browser to display

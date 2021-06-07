@@ -7,13 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Software</title>
     <script src="../scripts.js"></script>
-    <link rel="stylesheet" type="text/css" href="../universal-style.css">
-    <link rel="stylesheet" type="text/css" href="../nav-content-footer.css">
-    <link rel="stylesheet" type="text/css" href="../database.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/universal-style.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/nav-content-footer.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/database.css">
     <script src="https://kit.fontawesome.com/bca8145492.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
+    <div class="container">
+        <div class="sliding-background"></div>
+    </div>
+
     <div id="navDiv" class="topnav">
         <a href="../index.html" title="Logout of your account">
             <i class="fas fa-sign-out-alt"></i> Logout
@@ -48,34 +52,40 @@
 
     <?php setcookie("patientId", "", time() - 3600); setcookie('updated', 'false');?>
 
-    <div class="content">
-        <style>
-            table,
-            th,
-            td {
-                border: 1px solid white;
-                border-collapse: collapse;
-                padding: 5px;
-            }
-        </style>
+    <div class="island">
+        <div class="heading">
+            <div class="greeting">
+                <h1>Patient Records</h1>
+            </div>
 
-        <h1>Patient Records</h1>
-        <button onclick="document.location='provider_addNewPatient.html'">Add a new patient</button><br><br>
-        <form id="patientSearch" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-            <label for="patientSearch">Search Database:</label>
-            <input type="text" id="patientSearch" name="patientSearch" required>
-            <input type="submit" value="Search">
-        </form>
-        <?php 
-        require("../scripts.php");
-        if($_SERVER["REQUEST_METHOD"] == "POST"){
-            echo searchDatabase($_COOKIE["userId"], $_POST["patientSearch"]);
-        }?>
+            <div class="searchForm">
+                <button onclick="document.location='provider_addNewPatient.html'">Add a new patient</button>
+                <form id="patientSearch" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+                    <input type="text" id="patientSearch" name="patientSearch" placeholder="Search DB..." required>
+                    <input id="submitSearch" type="submit" value="Search">
+                </form>
+            </div>
+            <div class="searchReturn">
+                <?php 
+                    require("../scripts.php");
+                    if($_SERVER["REQUEST_METHOD"] == "POST"){
+                        echo searchDatabase($_COOKIE["userId"], $_POST["patientSearch"]);
+                    }
+                ?>
+            </div>
+        </div>
+
         <br>
-        <?php
-        echo getDatabaseTable($_COOKIE["userId"]);
-        ?><br>
-            <button onclick="document.location='#patientSearch'">Back to top</button>
+
+        <div class="database">
+            <?php
+                echo getDatabaseTable($_COOKIE["userId"]);
+            ?>
+        </div>
+
+        <br>
+
+        <button onclick="document.location='#patientSearch'">Back to top</button>
     </div>
 </body>
 
