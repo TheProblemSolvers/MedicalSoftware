@@ -4,13 +4,19 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Software</title>
-    <link rel="stylesheet" type="text/css" href="../universal-style.css">
-    <link rel="stylesheet" type="text/css" href="../nav-content-footer.css">
-    <link rel="stylesheet" type="text/css" href="../database.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/universal-style.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/nav-content-footer.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/new-patient.css">
     <script src="https://kit.fontawesome.com/bca8145492.js" crossorigin="anonymous"></script>
+    <script src="../scripts.js"></script>
 </head>
 
 <body>
+
+    <div class="container">
+        <div class="sliding-background"></div>
+    </div>
+
     <div id="navDiv" class="topnav">
         <a href="../index.html" title="Logout of your account">
             <i class="fas fa-sign-out-alt"></i> Logout
@@ -43,7 +49,7 @@
 
     <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()"><i class="fas fa-expand"></i></button>
 
-    <div class="content">
+    <div class="island">
         <div class="newPatientForm">
 
             <h1>
@@ -61,38 +67,42 @@
                 }
             </script>
 
-            <form style='display:inline' method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-                <?php echo createInduvidualTable($_COOKIE["patientId"]); ?>
-                <input type="submit" value="Submit Changes">
-            </form>
+            <div class="phpReturn">
+                <?php
+                    
+                    #if the form is not pending an update, display redirect button with save data warning
+                    if($_COOKIE['updated'] == 'false'){
+                        echo <<<EOT
+                        <button id='returnToDatabase' class='buttons' onclick="changeWarning();">Back to Database</button>
+                        EOT;
+                    } 
 
-            <?php setcookie('updated', 'false');
-                
-                #if the form is not pending an update, display redirect button with save data warning
-                if($_COOKIE['updated'] == 'false'){
-                    echo <<<EOT
-                    <button id='returnToDatabase' onclick="changeWarning();">Back to Database</button>
-                    EOT;
-                } 
-
-                #when form is submitted, set updated cookie to true, then refresh page
-                if($_SERVER["REQUEST_METHOD"] == "POST"){
-                    $success = modifyPatientData($_COOKIE['patientId'], $_POST['height'], $_POST['weight'], $_POST['currMeds'], 
-                        $_POST['currHealth'], $_POST['pastHealth'], $_POST['familyHealth'], $_POST['notes']); 
-                    if($success == true){
-                        setcookie('updated','true');
-                        header("Refresh:0; url=#");
+                    #when form is submitted, set updated cookie to true, then refresh page
+                    if($_SERVER["REQUEST_METHOD"] == "POST"){
+                        $success = modifyPatientData($_COOKIE['patientId'], $_POST['height'], $_POST['weight'], $_POST['currMeds'], 
+                            $_POST['currHealth'], $_POST['pastHealth'], $_POST['familyHealth'], $_POST['notes']); 
+                        if($success == true){
+                            setcookie('updated', 'true');
+                            header("Refresh:0");
+                        }
                     }
-                }
 
-                #if updated cookie is true, then display success message and make redirect button not display warning
-                if($_COOKIE['updated'] == 'true'){
-                    setcookie('updated', 'false');
-                    echo "<button onclick='window.location.href = `provider_database.html`'>Back to database</button><br><br>" . 
-                        relIdName($_COOKIE["patientId"]) . "'s file successfully updated";
-                }
+                    #if updated cookie is true, then display success message and make redirect button not display warning
+                    if($_COOKIE['updated'] == 'true'){
+                        setcookie('updated', 'false');
+                        echo "<button class='buttons' onclick='window.location.href = `provider_database.html`'>Back to database</button>" . 
+                            " " . relIdName($_COOKIE["patientId"]) . "'s file successfully updated";
+                    }
 
                 ?>
+            </div>
+
+            <div class="phpTable">
+                <form style='display:inline' method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+                    <?php echo createInduvidualTable($_COOKIE["patientId"]); ?>
+                    <input id="submitChanges" class="buttons" type="submit" value="Submit Changes">
+                </form>
+            </div>
         </div>
     </div>
 </body>

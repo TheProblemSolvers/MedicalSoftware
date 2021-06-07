@@ -127,29 +127,3 @@ button:active {
     box-shadow: 0 2px #666;
     transform: translate(2px, 2px);
 }
-
-
-/*-------------------------------Modifies form of provider_addNewPatient.html----------------------------*/
-
-.textarea {
-    width: 90%;
-    height: 40px;
-    display: block;
-}
-
-.inputText {
-    width: 80px;
-}
-
-.inputNumber {
-    width: 40px;
-}
-
-.textLabel {
-    width: 5%;
-}
-
-.newPatientForm {
-    text-align: left;
-    margin-left: 5%;
-}

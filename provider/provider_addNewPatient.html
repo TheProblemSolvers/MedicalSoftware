@@ -4,13 +4,17 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Software</title>
-    <link rel="stylesheet" type="text/css" href="../database.css">
-    <link rel="stylesheet" type="text/css" href="../universal-style.css">
-    <link rel="stylesheet" type="text/css" href="../nav-content-footer.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/new-patient.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/universal-style.css">
+    <link rel="stylesheet" type="text/css" href="../style/css/nav-content-footer.css">
     <script src="https://kit.fontawesome.com/bca8145492.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
+    <div class="container">
+        <div class="sliding-background"></div>
+    </div>
+
     <div id="navDiv" class="topnav">
         <a href="../index.html" title="Logout of your account">
             <i class="fas fa-sign-out-alt"></i> Logout
@@ -43,22 +47,22 @@
 
     <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()"><i class="fas fa-expand"></i></button>
 
-    <div class="content">
+    <div class="island">
         <div class="newPatientForm">
             <h1>Create New Patient</h1>
             <form method="POST" style="display:inline" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
                 <label for="fullName">Full Name: </label>
-                <input class="inputText" style="width:300px" type="text" id="fullName" name="fullName" required>
+                <input class="ipt" class="inputText" style="width:300px" type="text" id="fullName" name="fullName" required>
 
                 <label for="dob">DOB: </label>
-                <input type="date" id="dob" name="dob" required>
+                <input class="ipt" type="date" id="dob" name="dob" required>
 
                 <label for="height"> Height: </label>
-                <input class="inputNumber" type="number" id="height" name="height" required>
+                <input class="ipt" type="number" id="height" name="height" required>
                 <label for="height">in.</label>
 
                 <label for="weight"> Weight: </label>
-                <input class="inputNumber" type="number" id="weight" name="weight" required>
+                <input class="ipt" type="number" id="weight" name="weight" required>
                 <label for="weight">lbs.</label>
 
                 <label for="male"><small>Male</small></label>
@@ -81,7 +85,7 @@
                 <label class="textLabel" for="notes">Patient Notes:</label>
                 <textarea class="textarea" id="notes" name="notes"></textarea><br>
 
-                <input type="submit" value="Create new patient">
+                <input type="submit" class='buttons' value="Create new patient">
             </form>
             <?php
                 require("../scripts.php");

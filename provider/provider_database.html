@@ -1,4 +1,4 @@
-<?php setcookie("patientId", "", time() - 3600);?>
+<?php setcookie("patientId", "", time() - 3600); setcookie('updated', 'false');?>
 
 <!DOCTYPE html>
 <html lang="en-US">
@@ -6,11 +6,11 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Software</title>
-    <script src="../scripts.js"></script>
     <link rel="stylesheet" type="text/css" href="../style/css/universal-style.css">
     <link rel="stylesheet" type="text/css" href="../style/css/nav-content-footer.css">
     <link rel="stylesheet" type="text/css" href="../style/css/database.css">
     <script src="https://kit.fontawesome.com/bca8145492.js" crossorigin="anonymous"></script>
+    <script src="../scripts.js"></script>
 </head>
 
 <body>
@@ -49,8 +49,6 @@
     </div>
 
     <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()"><i class="fas fa-expand"></i></button>
-
-    <?php setcookie("patientId", "", time() - 3600); setcookie('updated', 'false');?>
 
     <div class="island">
         <div class="heading">

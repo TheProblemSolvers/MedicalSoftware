@@ -352,24 +352,24 @@ function createInduvidualTable($relId){
     #format name and dob data
     $i = 0;
     $j = 3;
-    $HTML[$i] = "<label for='name'>Name: </label><input type='text' id='name' name='name' style='width:250px' value='" . 
+    $HTML[$i] = "<label for='name'>Name: </label><input class='ipt' type='text' id='name' name='name' style='width:250px' value='" . 
         $patientData[$columns[$j]['COLUMN_NAME']] . " " . $patientData[$columns[$j + 1]['COLUMN_NAME']] . " " .
         $patientData[$columns[$j + 2]['COLUMN_NAME']] . "'readonly>";
     $i++;
     $j += 3;
-    $HTML[$i] = "<label for='dob'>DOB: </label><input type='date' id='dob' name='dob' value='" . 
+    $HTML[$i] = "<label for='dob'>DOB: </label><input class='ipt' type='date' id='dob' name='dob' value='" . 
         $patientData[$columns[$j]['COLUMN_NAME']] . "'readonly>";
     $i++;
     $j++;
-    $HTML[$i] = "<label for='height'>Height: </label><input class='inputNumber' type='number' id='height' name='height' value='" . 
+    $HTML[$i] = "<label for='height'>Height: </label><input class='ipt' type='number' id='height' name='height' value='" . 
         $patientData[$columns[$j]['COLUMN_NAME']] . "'required><label for='height'>in.</label>";
     $i++;
     $j++;
-    $HTML[$i] = "<label for='weight'>Weight: </label><input class='inputNumber' type='number' id='weight' name='weight' value='" . 
+    $HTML[$i] = "<label for='weight'>Weight: </label><input class='ipt' type='number' id='weight' name='weight' value='" . 
         $patientData[$columns[$j]['COLUMN_NAME']] . "'required><label for='weight'>lbs.</label>";
     $i++;
     $j++;
-    $HTML[$i] = "<label for='sex'>Sex: </label><input type='text' id='sex' name='sex' value='" . 
+    $HTML[$i] = "<label for='sex'>Sex: </label><input class='ipt' type='text' id='sex' name='sex' value='" . 
         $patientData[$columns[$j]['COLUMN_NAME']] . "'readonly><br><br>";
     $i++;
     $j++;
@@ -446,7 +446,7 @@ function getDatabaseTable($providerId){
     #defines the starting variables for the rest of the code to build the table off of
     $htmlTable = "<div class='dbTable'><table><thead><tr><th>Edit/View</th><th>First Name</th><th>Middle Name</th><th>Last Name</th>
         <th>DOB</th><th>Height</th><th>Weight</th><th>Sex</th></thead><tbody><tr>";
-    $htmlEndTable = "</tr></tbody></table></div>";
+    $htmlEndTable = "</tr></tbody></table></div><br>";
     $htmlRows = "";
 
     #define variable to increment as each row is generated

@@ -1,0 +1,95 @@
+/*-------------------------------Divison Modifiers----------------------------*/
+
+.island {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 5;
+    transform: translate(-50%, -50%);
+    background-color: #99cfeb;
+    border: 5px solid #458cd9;
+    border-radius: 5px;
+    padding: 15px;
+    width: 95%;
+}
+
+.phpReturn {
+    position: absolute;
+    bottom: 10px;
+    margin-left: 135px;
+    margin-top: 15px;
+    display: inline;
+}
+
+.dbTable {
+    width: 95%;
+    margin-bottom: 15px;
+}
+
+#submitChanges {
+    position: absolute;
+    bottom: 10px;
+    margin-top: 100px;
+    font-family: comfortaaStd;
+}
+
+.buttons {
+    font-family: comfortaaStd;
+}
+
+
+/*-------------------------------Modifies form of provider_addNewPatient.html----------------------------*/
+
+.ipt {
+    border-bottom: 5px solid white;
+    border-top: 5px solid white;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    font-family: comfortaaStd;
+    border: 0px;
+    height: 25px;
+    border-radius: 3px;
+}
+
+.ipt:focus {
+    border-bottom: 2.5px solid #FEC601;
+    border-top: 2.5px solid white;
+    height: 20px;
+    outline: none;
+}
+
+.textarea {
+    border-bottom: 5px solid white;
+    border-top: 5px solid white;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    font-family: comfortaaStd;
+    width: 92%;
+    height: 40px;
+    display: block;
+    border-radius: 3px;
+}
+
+.textarea:focus {
+    border-bottom: 5px solid #FEC601;
+    border-top: 5px solid white;
+    height: 40px;
+    outline: none;
+}
+
+.inputText {
+    width: 80px;
+}
+
+.inputNumber {
+    width: 40px;
+}
+
+.textLabel {
+    width: 5%;
+}
+
+.newPatientForm {
+    text-align: left;
+    margin-left: 5%;
+}
