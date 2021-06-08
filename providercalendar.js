@@ -1,3 +1,32 @@
+//shifts nav bar/footer up and down
+let x = false;
+
+function shiftNav() {
+    if (!x) {
+        const navDiv = document.getElementById('navDiv');
+        const navBtn = document.getElementById('navBtn');
+        navBtn.innerHTML = '<i class="fas fa-compress"></i>';
+        navDiv.style.transition = "transform 0.5s ease-in-out"
+        navDiv.style.transform = "translateY(-46px)";
+
+        const footDiv = document.getElementById('footer');
+        footDiv.style.transition = "transform 0.5s ease-in-out"
+        footDiv.style.transform = "translateY(46px)";
+
+        x = true;
+    } else {
+        const navDiv = document.getElementById('navDiv');
+        const navBtn = document.getElementById('navBtn');
+        navBtn.innerHTML = '<i class="fas fa-expand"></i>';
+        navDiv.style.transform = "translateY(-0px)";
+
+        const footDiv = document.getElementById('footer');
+        footDiv.style.transform = "translateY(0px)";
+
+        x = false;
+    }
+}
+
 //function for retrieving a date from the date input and then adding it's value to a cell.
 function dateRec() {
     var par = document.getElementById("testData");
