@@ -330,7 +330,7 @@ function printCalendar(month, year, ApptsArray, userId) {
                 container.id = date;
 
                 container.addEventListener('click', function() {
-                    alert(this.id);
+                    // alert(this.id);
                     document.cookie = "date=" + this.id;
                     magicDivision(this.id);
                 });
@@ -526,27 +526,131 @@ document.addEventListener('keydown', (event) => {
 
 function magicDivision(dayOfApp) {
 
+    let userId = 1;
+
+    let ApptsArray = {
+        "1": [
+            ["30", "15", "05", "05", "2021", "Well Visit", "N/A"],
+            ["30", "07", "09", "06", "2021", "Well Visit", "N/A"]
+        ],
+        "3": [
+            ["30", "12", "19", "05", "2021", "Well Visit", "N/A"],
+            ["30", "16", "16", "05", "2021", "Well Visit", "N/A"]
+        ]
+    };
+
+    var stringArray = JSON.stringify(ApptsArray);
+    var w = 0;
+    var numberOfKeys = Object.keys(ApptsArray).length;
+    var patientIdArray = new Array();
+
+    for (var z = 1; z <= Object.keys(ApptsArray).length + 1; z++) {
+        var searchPattern = `"${z}":`;
+        if (stringArray.search(searchPattern) != -1) {
+            patientIdArray[w] = z;
+            w++;
+        } else {
+            continue;
+        }
+    }
+
     var div = document.getElementById('magiDiv');
 
     var magTable = document.createElement('table');
 
+    magTable.id = "magTable";
+
     var magTableBody = document.createElement('tbody');
 
-    for (let z = 0; z < 3; z++) {
+    for (let z = 7; z < 18; z += 0.5) {
 
         var magRow = document.createElement('tr');
 
-        for (let q = 0; q < 3; q++) {
+        let flag = true;
 
-            var magData = document.createElement('td');
+        for (let o = 0; o < 2; o++) {
 
-            var par = document.createElement('p')
+            if (flag) {
 
-            par.appendChild(document.createTextNode(dayOfApp))
+                var magData1 = document.createElement('td');
 
-            magData.appendChild(par);
+                var parpar1 = document.createElement('p');
 
-            magRow.appendChild(magData);
+                if (z > 12) {
+
+                    var time = z - 12;
+                    oClock = 'pm';
+                } else {
+                    var time = z;
+                    oClock = 'am';
+                }
+
+                if (time % 1 == 0) {
+
+                    parpar1.appendChild(document.createTextNode(`${time}${oClock}`));
+
+                } else {
+
+                    time = time - 0.5;
+                    parpar1.appendChild(document.createTextNode(`${time}:30${oClock}`));
+
+                }
+
+                magData1.appendChild(parpar1);
+
+                magRow.appendChild(magData1);
+
+                flag = false;
+
+            } else if (!flag) {
+
+                var magData2 = document.createElement('td');
+
+                var parpar2 = document.createElement('p');
+
+                parpar2.appendChild(document.createTextNode('omega'));
+
+                magData2.appendChild(parpar2);
+
+                magRow.appendChild(magData2);
+
+                for (i = 0; i < patientIdArray.length; i++) {
+
+                    if (userId == patientIdArray[i]) {
+
+                        const value = ApptsArray[patientIdArray[i]];
+
+                        if (!value) {
+                            break;
+                        }
+
+                        for (let y = 0; y < value.length; y++) {
+
+                            let minute = value[y][0];
+                            let hour = value[y][1];
+                            let apptDay = value[y][2];
+
+
+                            if (dayOfApp == apptDay && hour == z) {
+
+                                magData2.classList = "apptCellRed";
+
+                                break;
+
+                            } else {
+
+                                magData2.classList = "apptCellGreen";
+
+                            }
+
+                        }
+
+                    } else {
+                        continue;
+                    }
+                }
+
+            }
 
         }
 
