@@ -883,7 +883,11 @@ function checkInPatient($providerId, $patientId){
     $altBody = 'Dr. ' . userFullName($providerId, false) . " is ready for you. Please enter the building and 
         navigate to the check-in desk. Thank you, Management";
     sendEmail($patientId, $subject, $body, $altBody);
-    header("Location: provider_lander.html");
+
+    #refresh page and send success message
+    // header("Refresh:0");
+    $patientName = userFullname($patientId, false);
+    return "$patientName has been checked in and notified to enter the building.";
 }
 
 /* -------------------------------------------------------------------------------------------------------------------------- */

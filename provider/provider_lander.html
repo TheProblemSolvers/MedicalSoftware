@@ -28,6 +28,7 @@
         <div class="idNumber">
             <?php 
                 require("../scripts.php");
+                setcookie("updated", "false");
                 echo "ID:" . $_COOKIE['userId'];
             ?>
         </div>
