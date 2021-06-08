@@ -4,18 +4,6 @@ body {
     background-color: white;
 }
 
-.phpReturn {
-    position: absolute;
-    z-index: 5;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #99cfeb;
-    border: 5px solid #458cd9;
-    border-radius: 5px;
-    padding: 15px;
-}
-
 
 /*-------------------------------JavaScript Calendar Modifiers----------------------------*/
 
@@ -25,8 +13,6 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90%;
-    height: 75%;
     border: 1px solid black;
     border-radius: 10px;
     border-collapse: collapse;
@@ -93,9 +79,14 @@ td.calendarData {
 
 /* applies font-size and elimination of white space */
 
-th.calendarHeader,
-td.calendarData {
+th.calendarHeader {
     padding: 12px 15px;
+}
+
+td.calendarData {
+    padding: 0px;
+    padding-left: 12px;
+    width: 125px;
 }
 
 tr.calendarRow:nth-of-type(even) {

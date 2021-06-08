@@ -4,11 +4,11 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Software</title>
-    <script src="../scripts.js"></script>
     <link rel="stylesheet" type="text/css" href="../style/css/universal-style.css">
     <link rel="stylesheet" type="text/css" href="../style/css/nav-content-footer.css">
     <link rel="stylesheet" type="text/css" href="../style/css/calendar-style.css">
     <script src="https://kit.fontawesome.com/bca8145492.js" crossorigin="anonymous"></script>
+    <script src="../providercalendar.js"></script>
 </head>
 
 <div class="container">
@@ -47,11 +47,24 @@
 
 <button id="navBtn" title="Toggle Fullscreen Mode" onclick="shiftNav()"><i class="fas fa-expand"></i></button>
 
+<div class="phpReturn">
+    <?php 
+        require("../scripts.php");
+        $appointmentsArray = getAllAppts($_COOKIE['userId']);
+    ?>
+</div>
+
+<script type="text/javascript">
+    var appointmentsArray = <?php echo json_encode($appointmentsArray);?>;
+</script>
+
 <div class="body">
 
-    <body onload="printCalendar(currentMonth, currentYear, appointmentsArray, userId);"></body>
+    <body onload="printProviderCalendar(currentMonth, currentYear, appointmentsArray);"></body>
 
 </div>
+
+<div id="magiDiv"></div>
 
 <div id="footer">
     <p>Contact us at pltwmedicalsoftware@gmail.com</p>

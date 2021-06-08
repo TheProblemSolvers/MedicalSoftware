@@ -24,11 +24,11 @@
 /*-------------------------------Calendar Modifiers----------------------------*/
 
 #calendars {
-    position: relative;
+    position: absolute;
     z-index: 5;
-    top: 23%;
+    top: 25%;
     left: 0%;
-    height: 65%;
+    height: 40%;
     border: 1px solid black;
     border-radius: 10px;
     border-collapse: collapse;
@@ -95,9 +95,18 @@ td.calendarData {
 
 /* applies font-size and elimination of white space */
 
-th.calendarHeader,
-td.calendarData {
+th.calendarHeader {
     padding: 12px 15px;
+}
+
+td.calendarData {
+    padding: 0px;
+    padding-left: 12px;
+    width: 130px;
+}
+
+p {
+    margin: 10px;
 }
 
 tr.calendarRow:nth-of-type(even) {
