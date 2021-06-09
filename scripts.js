@@ -9,33 +9,6 @@ function setCheckInCookie(id) {
     return null;
 }
 
-
-
-function authenticateLogin(validate) {
-    var providerUsername = "Username";
-    var providerPassword = "password"; //Feel free to change username/password
-    var patientUsername = "Username"; //for each user at will
-    var patientPassword = "password";
-    var username, password;
-    username = document.getElementById("username").value;
-    password = document.getElementById("password").value;
-
-    validate == 1 ? //provider login parsing code
-        username == providerUsername && password == providerPassword ?
-        window.location.href = "provider/provider_lander.html" :
-        document.getElementById("authenticationErrors").innerHTML = "Credentials are incorrect." :
-
-        validate == 2 ? //patient login parsing code
-        username == patientUsername && password == patientPassword ?
-        window.location.href = "provider/provider_lander.html" :
-        document.getElementById("authenticationErrors").innerHTML = "Credentials are incorrect." :
-
-        validate == 3 ? //admin login code
-        window.location.href = "admin_index.html" :
-
-        document.getElementById("authenticationErrors").innerHTML = "Invalid Authorization Code: " + validate;
-}
-
 //collects stored patient data files and converts it to html data displayed by the provider_database.html table
 function displayPatientRecord() {
     var patient1 = ["John Doe", "Male", "46", "5'11&quot", "165"];
@@ -83,18 +56,6 @@ function emergencyButton(buttonNumber) {
     }
 }
 
-
-//function for adding words to a cell
-// function cellChanger(wordsToAdd) {
-
-//   var par = document.getElementById("testData");
-//   var t = document.createTextNode(wordsToAdd);
-//   par.appendChild(t);
-//   var br = document.createElement('br');
-//   par.appendChild(br);
-
-// }
-
 //function for retrieving a date from the date input and then adding it's value to a cell.
 
 function dateRec() {
@@ -107,16 +68,6 @@ function dateRec() {
     par.appendChild(br);
 
 }
-
-//function for modifying an attribute of all elements in a class
-
-// const indexElements = document.getElementsByClassName('random_test');
-
-// Array.from(indexElements).forEach(function (singleElement) {
-
-//     singleElement.style.transform = 'translateY(50%)';
-
-//   });
 
 //function for cycling to the next month
 
@@ -153,6 +104,25 @@ function removeTable() {
     parentEl.removeChild(affTable);
 
 }
+
+//function to remove magic table from page
+
+function removeMagicTable() {
+
+    var affTable = document.getElementById('magTable');
+
+    var affBtn = document.getElementById('closeDiv');
+
+    var parentEl = affTable.parentElement;
+
+    var parentElBtn = affBtn.parentElement;
+
+    parentEl.removeChild(affTable);
+
+    parentElBtn.removeChild(affBtn);
+
+}
+
 
 function addAppData() {
 
@@ -200,7 +170,6 @@ function printCalendar(month, year, ApptsArray, userId) {
             continue;
         }
     }
-    //var stringPatientId = JSON.stringify(patientIdArray);
 
     //Creation of the body, table, table body and top row for headers
 
@@ -229,6 +198,7 @@ function printCalendar(month, year, ApptsArray, userId) {
 
         removeTable();
         previousMonth();
+        removeMagicTable();
 
     };
 
@@ -265,6 +235,7 @@ function printCalendar(month, year, ApptsArray, userId) {
 
         removeTable();
         nextMonth();
+        removeMagicTable();
 
     };
 
@@ -328,12 +299,10 @@ function printCalendar(month, year, ApptsArray, userId) {
 
                 var container = document.createElement("p");
 
-                container.id = date;
+                cell.id = date;
 
-                container.addEventListener('click', function() {
-                    // alert(this.id);
-                    document.cookie = "date=" + this.id;
-                    magicDivision(this.id, ApptsArray);
+                cell.addEventListener('click', function() {
+                    magicDivision(this.id, currentMonth, ApptsArray);
                 });
 
 
@@ -525,8 +494,8 @@ function shiftNav() {
 //     }
 // });
 
-function magicDivision(dayOfApp, ApptsArray) {
-
+function magicDivision(dayOfApp, monthPassed, ApptsArray) {
+    monthPassed += 1;
     var stringArray = JSON.stringify(ApptsArray);
     var w = 0;
     var numberOfKeys = Object.keys(ApptsArray).length;
@@ -559,6 +528,7 @@ function magicDivision(dayOfApp, ApptsArray) {
                 let minute = value[y][0];
                 let hour = value[y][1];
                 var apptDay = value[y][2];
+                var apptMonth = value[y][3];
 
                 var firstChar = apptDay[0];
 
@@ -566,7 +536,7 @@ function magicDivision(dayOfApp, ApptsArray) {
                     apptDay = apptDay[1]
                 }
 
-                if (apptDay == dayOfApp) {
+                if (apptDay == dayOfApp && apptMonth == monthPassed) {
 
                     if (hour > 12) {
 
@@ -598,6 +568,24 @@ function magicDivision(dayOfApp, ApptsArray) {
     }
 
     var div = document.getElementById('magiDiv');
+
+    var magBtn = document.createElement('button');
+
+    var magBtnIcon = document.createElement('i');
+
+    magBtnIcon.classList = "far fa-times-circle";
+
+    magBtn.appendChild(magBtnIcon);
+
+    magBtn.id = 'closeDiv';
+
+    magBtn.onclick = function() {
+
+        removeMagicTable();
+
+    };
+
+    div.appendChild(magBtn);
 
     var magTable = document.createElement('table');
 
@@ -686,28 +674,6 @@ function magicDivision(dayOfApp, ApptsArray) {
         }
 
         magTableBody.appendChild(magRow);
-
-        if (z == 17.5) {
-
-            var magRow3 = document.createElement('tr');
-
-            var magData3 = document.createElement('td');
-
-            magData3.setAttribute('colspan', '2')
-
-            magData3.id = "closeCell";
-
-            var parpar3 = document.createElement('p');
-
-            parpar3.appendChild(document.createTextNode('Close'));
-
-            magData3.appendChild(parpar3);
-
-            magRow3.appendChild(magData3);
-
-            magTableBody.appendChild(magRow3);
-
-        }
 
     }
 

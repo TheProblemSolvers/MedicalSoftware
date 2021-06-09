@@ -97,49 +97,62 @@ tr.calendarRow {
     background-color: white;
 }
 
-
-/* tr:last-of-type {
- 
-    border-bottom: 20px solid #2980b9; 
- 
-    } */
-
 .smallFont {
     font-size: 12px;
     color: brown;
 }
 
+#closeDiv {
+    position: sticky;
+    float: left;
+    top: 0;
+    z-index: 11;
+}
+
+.apptList {
+    position: relative;
+    z-index: 10;
+}
+
 #magiDiv {
-    height: 750px;
-    overflow-x: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    height: 60%;
     overflow-y: auto;
 }
 
 #magTable {
-    top: 20%;
-    background-color: ivory;
-    width: 25%;
+    background-color: white;
     position: relative;
     z-index: 10;
-    margin-right: auto;
-    margin-left: auto;
+    width: 100%;
     font-size: 16px;
-    border: 1px solid black;
-    border-radius: 10px;
+    border-radius: 10px 0px 0px 10px;
     border-collapse: collapse;
     table-layout: fixed;
     font-family: comfortaaStd;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
 }
 
+td {
+    border-top: 1px solid black;
+}
+
 .apptCellRed {
     color: red;
     font-size: x-large;
+    padding: 0px;
+    margin: 0px;
 }
 
 .apptCellGreen {
     color: green;
     font-size: x-large;
+    padding: 0px;
+    margin: 0px;
 }
 
 #closeCell {
