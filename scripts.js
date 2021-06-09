@@ -170,6 +170,8 @@ let months = ["January", "February", "March", "April", "May", "June", "July", "A
 
 let monthAndYear = document.getElementById("monthAndYear");
 
+
+
 //Function that creates calendar
 
 function printCalendar(month, year, ApptsArray, userId) {
@@ -198,7 +200,6 @@ function printCalendar(month, year, ApptsArray, userId) {
             continue;
         }
     }
-
     //var stringPatientId = JSON.stringify(patientIdArray);
 
     //Creation of the body, table, table body and top row for headers
@@ -332,7 +333,7 @@ function printCalendar(month, year, ApptsArray, userId) {
                 container.addEventListener('click', function() {
                     // alert(this.id);
                     document.cookie = "date=" + this.id;
-                    magicDivision(this.id);
+                    magicDivision(this.id, ApptsArray);
                 });
 
 
@@ -484,60 +485,47 @@ function shiftNav() {
 
 }
 
-function appleBottomJeans() {
+// function appleBottomJeans() {
 
-    const indexElements = document.getElementsByClassName('omega');
+//     const indexElements = document.getElementsByClassName('omega');
 
 
 
-    Array.from(indexElements).forEach(function(singleElement) {
+//     Array.from(indexElements).forEach(function(singleElement) {
 
-        singleElement.style.transition = `transform 1s ease-in-out`;
-        singleElement.style.transform = `translateY(25px)`;
+//         singleElement.style.transition = `transform 1s ease-in-out`;
+//         singleElement.style.transform = `translateY(25px)`;
 
-    });
+//     });
 
-}
+// }
 
-let keysPressed = {};
+// let keysPressed = {};
 
-document.addEventListener('keydown', (event) => {
+// document.addEventListener('keydown', (event) => {
 
-    keysPressed[event.key] = true;
+//     keysPressed[event.key] = true;
 
-    if (event.key == 'a') {
-        // var chungus = document.getElementById('testtest');
-        // chungus.id = 'testtest1';
+//     if (event.key == 'a') {
+//         // var chungus = document.getElementById('testtest');
+//         // chungus.id = 'testtest1';
 
-        function changeFontSize(fontvar) {
-            var div = document.getElementById("mega");
-            var currentFont = div.style.fontSize.replace("px", "");
+//         function changeFontSize(fontvar) {
+//             var div = document.getElementById("mega");
+//             var currentFont = div.style.fontSize.replace("px", "");
 
-            // div.style.fontSize = parseInt(currentFont) + parseInt(fontvar) + "px";
+//             // div.style.fontSize = parseInt(currentFont) + parseInt(fontvar) + "px";
 
-            currentFont = currentFont + fontvar;
+//             currentFont = currentFont + fontvar;
 
-            div.style.fontSize = `${currentFont}px`
-        }
+//             div.style.fontSize = `${currentFont}px`
+//         }
 
-        changeFontSize(2);
-    }
-});
+//         changeFontSize(2);
+//     }
+// });
 
-function magicDivision(dayOfApp) {
-
-    let userId = 1;
-
-    let ApptsArray = {
-        "1": [
-            ["30", "15", "05", "05", "2021", "Well Visit", "N/A"],
-            ["30", "07", "09", "06", "2021", "Well Visit", "N/A"]
-        ],
-        "3": [
-            ["30", "12", "19", "05", "2021", "Well Visit", "N/A"],
-            ["30", "16", "16", "05", "2021", "Well Visit", "N/A"]
-        ]
-    };
+function magicDivision(dayOfApp, ApptsArray) {
 
     var stringArray = JSON.stringify(ApptsArray);
     var w = 0;
@@ -549,6 +537,61 @@ function magicDivision(dayOfApp) {
         if (stringArray.search(searchPattern) != -1) {
             patientIdArray[w] = z;
             w++;
+        } else {
+            continue;
+        }
+    }
+
+    var magArray = []
+
+    for (i = 0; i < patientIdArray.length; i++) {
+
+        if (userId == patientIdArray[i]) {
+
+            const value = ApptsArray[patientIdArray[i]];
+
+            if (!value) {
+                break;
+            }
+
+            for (let y = 0; y < value.length; y++) {
+
+                let minute = value[y][0];
+                let hour = value[y][1];
+                var apptDay = value[y][2];
+
+                var firstChar = apptDay[0];
+
+                if (firstChar == 0) {
+                    apptDay = apptDay[1]
+                }
+
+                if (apptDay == dayOfApp) {
+
+                    if (hour > 12) {
+
+                        hour = hour - 12;
+
+                        oClo = 'pm';
+
+                    } else {
+                        oClo = 'am';
+                    }
+
+                    var firstChar2 = hour[0]
+
+                    if (firstChar2 == 0) {
+                        hour = hour[1]
+                    }
+
+                    var magTime = `${hour}:${minute}${oClo}`;
+                    magArray.push(magTime);
+                    break;
+
+                }
+
+            }
+
         } else {
             continue;
         }
@@ -566,11 +609,9 @@ function magicDivision(dayOfApp) {
 
         var magRow = document.createElement('tr');
 
-        let flag = true;
+        for (let o = 0; o < 3; o++) {
 
-        for (let o = 0; o < 2; o++) {
-
-            if (flag) {
+            if (o == 0) {
 
                 var magData1 = document.createElement('td');
 
@@ -579,82 +620,95 @@ function magicDivision(dayOfApp) {
                 if (z > 12) {
 
                     var time = z - 12;
+
                     oClock = 'pm';
+
+                } else if (z == 12) {
+
+                    var time = z
+
+                    oClock = 'pm';
+
                 } else {
+
                     var time = z;
+
                     oClock = 'am';
+
                 }
 
                 if (time % 1 == 0) {
 
-                    parpar1.appendChild(document.createTextNode(`${time}${oClock}`));
+                    var acTime = `${time}:00${oClock}`;
 
                 } else {
 
                     time = time - 0.5;
-                    parpar1.appendChild(document.createTextNode(`${time}:30${oClock}`));
+
+                    var acTime = `${time}:30${oClock}`;
 
                 }
+
+                if (acTime[0] == 0) {
+                    acTime = `12:30pm`;
+                }
+
+                parpar1.appendChild(document.createTextNode(acTime));
 
                 magData1.appendChild(parpar1);
 
                 magRow.appendChild(magData1);
 
-                flag = false;
-
-            } else if (!flag) {
+            } else if (o == 1) {
 
                 var magData2 = document.createElement('td');
 
                 var parpar2 = document.createElement('p');
 
-                parpar2.appendChild(document.createTextNode('omega'));
+                if (magArray == acTime) {
+
+                    parpar2.classList = "apptCellRed";
+                    availibility = 'Unavailible';
+
+                } else {
+                    parpar2.classList = "apptCellGreen";
+                    availibility = 'Availible';
+                }
+
+                parpar2.appendChild(document.createTextNode(availibility));
 
                 magData2.appendChild(parpar2);
 
                 magRow.appendChild(magData2);
-
-                for (i = 0; i < patientIdArray.length; i++) {
-
-                    if (userId == patientIdArray[i]) {
-
-                        const value = ApptsArray[patientIdArray[i]];
-
-                        if (!value) {
-                            break;
-                        }
-
-                        for (let y = 0; y < value.length; y++) {
-
-                            let minute = value[y][0];
-                            let hour = value[y][1];
-                            let apptDay = value[y][2];
-
-
-                            if (dayOfApp == apptDay && hour == z) {
-
-                                magData2.classList = "apptCellRed";
-
-                                break;
-
-                            } else {
-
-                                magData2.classList = "apptCellGreen";
-
-                            }
-
-                        }
-
-                    } else {
-                        continue;
-                    }
-                }
 
             }
 
         }
 
         magTableBody.appendChild(magRow);
+
+        if (z == 17.5) {
+
+            var magRow3 = document.createElement('tr');
+
+            var magData3 = document.createElement('td');
+
+            magData3.setAttribute('colspan', '2')
+
+            magData3.id = "closeCell";
+
+            var parpar3 = document.createElement('p');
+
+            parpar3.appendChild(document.createTextNode('Close'));
+
+            magData3.appendChild(parpar3);
+
+            magRow3.appendChild(magData3);
+
+            magTableBody.appendChild(magRow3);
+
+        }
+
     }
 
     magTable.appendChild(magTableBody);

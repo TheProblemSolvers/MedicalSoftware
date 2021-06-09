@@ -110,10 +110,40 @@ tr.calendarRow {
 }
 
 #magiDiv {
+    height: 750px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#magTable {
+    top: 20%;
+    background-color: ivory;
+    width: 25%;
     position: relative;
-    z-index: 7;
-    font-size: 30px;
+    z-index: 10;
     margin-right: auto;
     margin-left: auto;
-    transform: translateY(500px);
+    font-size: 16px;
+    border: 1px solid black;
+    border-radius: 10px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-family: comfortaaStd;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
+}
+
+.apptCellRed {
+    color: red;
+    font-size: x-large;
+}
+
+.apptCellGreen {
+    color: green;
+    font-size: x-large;
+}
+
+#closeCell {
+    text-align: center;
+    font-size: 30px;
+    column-span: 2;
 }
