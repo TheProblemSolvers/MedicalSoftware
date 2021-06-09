@@ -1,71 +1,26 @@
-//sets a cookie for a page based on what link is clicked
-function setPatientIdCookie(id) {
-    document.cookie = "patientId=" + id;
-    window.location.href = "provider_singlePatientView.html";
+function removeMagicTable() {
+
+    var affTable = document.getElementById('magTable');
+
+    var affBtn = document.getElementById('closeDiv');
+
+    var parentEl = affTable.parentElement;
+
+    var parentElBtn = affBtn.parentElement;
+
+    parentEl.removeChild(affTable);
+
+    parentElBtn.removeChild(affBtn);
+
+    divClickator('none');
+
 }
 
-function setCheckInCookie(id) {
-    document.cookie = "patientId=" + id;
-    return null;
-}
+function divClickator(onOff) {
 
-//collects stored patient data files and converts it to html data displayed by the provider_database.html table
-function displayPatientRecord() {
-    var patient1 = ["John Doe", "Male", "46", "5'11&quot", "165"];
-    var patient2 = []; //eventually replace with php script to get data from sql server
-    var txt = "<tr>"
-    var i;
-    //patient arrays will be replaced by php database reading code to avoid manual entry
-    for (i = 0; i < patient1.length; i++) {
-        txt = txt + "<td>" + patient1[i] + " </td>"; //cycles trhough each array element and makes each a table cell
-    }
-    txt = txt + "</tr>"
-    document.getElementById("patientDatabase").innerHTML = txt;
-}
+    const magicDiv = document.getElementById('magiDiv');
 
-//function that writes a message based on the emergency question input
-function emergencyButton(buttonNumber) {
-
-    switch (buttonNumber) {
-
-        case 'Yes':
-
-            document.getElementById("emergency").innerHTML = "Please contact your local emergency " +
-                "services if immediate medical attention is required.";
-            var par = document.getElementById("emergency");
-            var t = document.innerHTML("Please contact your local emergency services if immediate medical attention is required.");
-            par.appendChild(t);
-            var br = document.createElement('br');
-            par.appendChild(br);
-            break;
-
-        case 'No':
-
-            document.getElementById("emergency").innerHTML = "Please continue.";
-            var par = document.getElementById("emergencyYes");
-            var t = document.innerHTML("Please continue.");
-            par.appendChild(t);
-            var br = document.createElement('br');
-            par.appendChild(br);
-            break;
-
-        default:
-
-            return false;
-
-    }
-}
-
-//function for retrieving a date from the date input and then adding it's value to a cell.
-
-function dateRec() {
-
-    var par = document.getElementById("testData");
-    var dateControl = document.getElementById("calendarInput").value;
-    var t = document.createTextNode(dateControl);
-    par.appendChild(t);
-    var br = document.createElement('br');
-    par.appendChild(br);
+    magicDiv.style.pointerEvents = onOff;
 
 }
 
@@ -105,34 +60,6 @@ function removeTable() {
 
 }
 
-//function to remove magic table from page
-
-function removeMagicTable() {
-
-    var affTable = document.getElementById('magTable');
-
-    var affBtn = document.getElementById('closeDiv');
-
-    var parentEl = affTable.parentElement;
-
-    var parentElBtn = affBtn.parentElement;
-
-    parentEl.removeChild(affTable);
-
-    parentElBtn.removeChild(affBtn);
-
-    divClickator('none');
-
-}
-
-function divClickator(onOff) {
-
-    const magicDiv = document.getElementById('magiDiv');
-
-    magicDiv.style.pointerEvents = onOff;
-
-}
-
 //Global declarations for the printCalendar function
 
 let today = new Date();
@@ -144,8 +71,6 @@ let selectMonth = document.getElementById("month");
 let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 let monthAndYear = document.getElementById("monthAndYear");
-
-
 
 //Function that creates calendar
 
@@ -326,52 +251,6 @@ function printCalendar(month, year, ApptsArray, userId) {
                 const apptInfo = document.createElement('span');
 
                 apptInfo.classList = "smallFont";
-
-
-                for (i = 0; i < patientIdArray.length; i++) {
-
-                    if (userId == patientIdArray[i]) {
-
-                        const value = ApptsArray[patientIdArray[i]];
-
-                        if (!value) {
-                            break;
-                        }
-
-                        for (let y = 0; y < value.length; y++)
-
-                        {
-
-                            let minute = value[y][0];
-                            let hour = value[y][1];
-                            let apptDay = value[y][2];
-                            let apptMonth = value[y][3];
-                            let apptYear = value[y][4];
-
-                            if (date == apptDay && apptMonth == currentMonth + 1 && apptYear == currentYear) {
-
-                                if (hour > 12) {
-
-                                    hour = hour - 12;
-                                    var oClock = "PM";
-
-                                } else {
-                                    var oClock = "AM";
-                                }
-
-                                apptTime = `Appt @ ${hour}:${minute} ${oClock}`;
-                                apptInfo.appendChild(document.createTextNode(apptTime));
-                                container.appendChild(apptInfo);
-                                break;
-
-                            }
-
-                        }
-
-                    } else {
-                        continue;
-                    }
-                }
 
                 let containerContents = container.innerHTML;
 
@@ -665,43 +544,3 @@ function magicDivision(dayOfApp, monthPassed, ApptsArray) {
     div.appendChild(magTable);
 
 }
-
-// function appleBottomJeans() {
-
-//     const indexElements = document.getElementsByClassName('omega');
-
-
-
-//     Array.from(indexElements).forEach(function(singleElement) {
-
-//         singleElement.style.transition = `transform 1s ease-in-out`;
-//         singleElement.style.transform = `translateY(25px)`;
-
-//     });
-
-// }
-
-// let keysPressed = {};
-
-// document.addEventListener('keydown', (event) => {
-
-//     keysPressed[event.key] = true;
-
-//     if (event.key == 'a') {
-//         // var chungus = document.getElementById('testtest');
-//         // chungus.id = 'testtest1';
-
-//         function changeFontSize(fontvar) {
-//             var div = document.getElementById("mega");
-//             var currentFont = div.style.fontSize.replace("px", "");
-
-//             // div.style.fontSize = parseInt(currentFont) + parseInt(fontvar) + "px";
-
-//             currentFont = currentFont + fontvar;
-
-//             div.style.fontSize = `${currentFont}px`
-//         }
-
-//         changeFontSize(2);
-//     }
-// });
