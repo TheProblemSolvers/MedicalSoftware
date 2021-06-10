@@ -9,63 +9,31 @@ function setCheckInCookie(id) {
     return null;
 }
 
-//collects stored patient data files and converts it to html data displayed by the provider_database.html table
-function displayPatientRecord() {
-    var patient1 = ["John Doe", "Male", "46", "5'11&quot", "165"];
-    var patient2 = []; //eventually replace with php script to get data from sql server
-    var txt = "<tr>"
-    var i;
-    //patient arrays will be replaced by php database reading code to avoid manual entry
-    for (i = 0; i < patient1.length; i++) {
-        txt = txt + "<td>" + patient1[i] + " </td>"; //cycles trhough each array element and makes each a table cell
-    }
-    txt = txt + "</tr>"
-    document.getElementById("patientDatabase").innerHTML = txt;
+//function to remove magic table from page
+
+function removeMagicTable() {
+
+    var affTable = document.getElementById('magTable');
+
+    var affBtn = document.getElementById('closeDiv');
+
+    var parentEl = affTable.parentElement;
+
+    var parentElBtn = affBtn.parentElement;
+
+    parentEl.removeChild(affTable);
+
+    parentElBtn.removeChild(affBtn);
+
+    divClickator('none');
+
 }
 
-//function that writes a message based on the emergency question input
-function emergencyButton(buttonNumber) {
+function divClickator(onOff) {
 
-    switch (buttonNumber) {
+    const magicDiv = document.getElementById('magiDiv');
 
-        case 'Yes':
-
-            document.getElementById("emergency").innerHTML = "Please contact your local emergency " +
-                "services if immediate medical attention is required.";
-            var par = document.getElementById("emergency");
-            var t = document.innerHTML("Please contact your local emergency services if immediate medical attention is required.");
-            par.appendChild(t);
-            var br = document.createElement('br');
-            par.appendChild(br);
-            break;
-
-        case 'No':
-
-            document.getElementById("emergency").innerHTML = "Please continue.";
-            var par = document.getElementById("emergencyYes");
-            var t = document.innerHTML("Please continue.");
-            par.appendChild(t);
-            var br = document.createElement('br');
-            par.appendChild(br);
-            break;
-
-        default:
-
-            return false;
-
-    }
-}
-
-//function for retrieving a date from the date input and then adding it's value to a cell.
-
-function dateRec() {
-
-    var par = document.getElementById("testData");
-    var dateControl = document.getElementById("calendarInput").value;
-    var t = document.createTextNode(dateControl);
-    par.appendChild(t);
-    var br = document.createElement('br');
-    par.appendChild(br);
+    magicDiv.style.pointerEvents = onOff;
 
 }
 
@@ -105,34 +73,6 @@ function removeTable() {
 
 }
 
-//function to remove magic table from page
-
-function removeMagicTable() {
-
-    var affTable = document.getElementById('magTable');
-
-    var affBtn = document.getElementById('closeDiv');
-
-    var parentEl = affTable.parentElement;
-
-    var parentElBtn = affBtn.parentElement;
-
-    parentEl.removeChild(affTable);
-
-    parentElBtn.removeChild(affBtn);
-
-    divClickator('none');
-
-}
-
-function divClickator(onOff) {
-
-    const magicDiv = document.getElementById('magiDiv');
-
-    magicDiv.style.pointerEvents = onOff;
-
-}
-
 //Global declarations for the printCalendar function
 
 let today = new Date();
@@ -144,8 +84,6 @@ let selectMonth = document.getElementById("month");
 let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 let monthAndYear = document.getElementById("monthAndYear");
-
-
 
 //Function that creates calendar
 
