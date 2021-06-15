@@ -1230,3 +1230,22 @@ function getAllAppts($userId){
     #return multidimenstional array w following syntax: array[patientId][apptNumber][apptDataType]
     return $allAppts;
 }
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------------Global Settings---------------------------------------------------------- */
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+#returns accessability type of a given user
+function checkDisability(){
+    #open config.ini.php file and get configuration
+    $ini = parse_ini_file("config.ini.php");
+
+    #open connection to medicalsoftware database and set error mode to exception
+    $connection = new PDO("mysql:host=$ini[host];dbname=$ini[dbname]", $ini['dbusername'], $ini['dbpassword']);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    #grab all appointment dates for given patient
+    $result = $connection->prepare("SELECT * FROM calendar WHERE patientid=$patientId;");
+    $result->execute();
+    $rowData = $result->fetch(PDO::FETCH_NUM);
+}
